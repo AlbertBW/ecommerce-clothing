@@ -1,14 +1,5 @@
-import { signOut } from "@/server/auth";
+import Link from "next/link";
 
 export function SignOut() {
-  return (
-    <form
-      action={async () => {
-        "use server";
-        await signOut();
-      }}
-    >
-      <button type="submit">Sign Out</button>
-    </form>
-  );
+  return <Link href={"/logout"}>Sign Out</Link>;
 }

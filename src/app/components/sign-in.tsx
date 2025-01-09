@@ -1,14 +1,5 @@
-import { signIn } from "@/server/auth";
+import Link from "next/link";
 
 export default function SignIn() {
-  return (
-    <form
-      action={async () => {
-        "use server";
-        await signIn();
-      }}
-    >
-      <button type="submit">Signin with GitHub</button>
-    </form>
-  );
+  return <Link href={"/login"}>Signin with GitHub</Link>;
 }

@@ -1,6 +1,6 @@
 import { auth } from "@/server/auth";
 
-const allowedRoutes = ["/", "/test"];
+const allowedRoutes = ["/", "/test", "/login", "/logout"];
 
 export default auth((req) => {
   if (!req.auth && !allowedRoutes.includes(req.nextUrl.pathname)) {
