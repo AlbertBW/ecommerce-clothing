@@ -1,11 +1,14 @@
-import { db } from "@/db";
-import { usersTable } from "@/db/schema";
+import { db } from "@/server/db";
+import { usersTable } from "@/server/db/schema";
 import { revalidatePath } from "next/cache";
+import SignIn from "./components/sign-in";
+import { auth } from "@/server/auth";
 
 export default async function Home() {
   const users = await db.select().from(usersTable);
+  const session = await auth();
 
-  console.log(users);
+  console.log(session);
 
   async function createUser(formData: FormData) {
     "use server";
@@ -21,6 +24,7 @@ export default async function Home() {
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+        <SignIn />
         <form action={createUser}>
           <div className="flex flex-col gap-4">
             <label>
