@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "./../globals.css";
 import Header from "./_components/_layout/header";
 import Footer from "./_components/_layout/footer";
+import { COMPANY_NAME } from "@/lib/config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Clothing E-Commerce",
+  title: `${COMPANY_NAME} - E-Commerce`,
   description: "An e-commerce store for clothes",
   authors: [{ name: "Albert Wales" }],
 };
@@ -28,10 +29,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} font-mono antialiased min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} font-mono antialiased min-h-dvh`}
       >
         <Header />
-        <main className="min-h-[calc(100vh-3rem)]">{children}</main>
+        <main className="min-h-[calc(100dvh-6.75rem)]">{children}</main>
         <Footer />
       </body>
     </html>
