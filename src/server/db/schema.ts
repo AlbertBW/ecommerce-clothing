@@ -1,12 +1,16 @@
 import {
   boolean,
   timestamp,
-  pgTable,
   text,
   primaryKey,
   integer,
+  pgTableCreator,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
+
+const pgTable = pgTableCreator((name) => `clothing_${name}`);
+
+// const roles = pgEnum("roles", ["admin", "basic"]);
 
 export const users = pgTable("user", {
   id: text("id")
@@ -16,6 +20,7 @@ export const users = pgTable("user", {
   email: text("email").unique(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
+  // role: roles().default("basic"),
 });
 
 export const accounts = pgTable(
@@ -90,3 +95,6 @@ export const authenticators = pgTable(
     },
   ]
 );
+
+export type SelectUser = typeof users.$inferSelect;
+export type InsertUser = typeof users.$inferInsert;
