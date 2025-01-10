@@ -12,12 +12,12 @@ export default async function Header() {
   console.log(session);
   console.log(session?.user);
   return (
-    <header className="flex px-24 mx-auto justify-between items-center h-16 gap-2 max-w-screen-[1920px]">
+    <header className="flex px-4 md:px-12 lg:px-18 mx-auto justify-between items-center h-16 gap-2 max-w-screen-[1920px]">
       <Link href={"/"}>
-        <h1 className="font-bold text-2xl">{COMPANY_NAME}</h1>
+        <h1 className="font-bold lg:text-2xl">{COMPANY_NAME}</h1>
       </Link>
       <SearchBox />
-      <div className="flex gap-12 h-full items-center">
+      <div className="flex gap-4 md:gap-8 lg:gap-12 h-full items-center min-w-24">
         <ShoppingCart />
         {session?.user && <UserAccount />}
         {!session?.user && <SignIn />}

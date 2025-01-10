@@ -7,15 +7,13 @@ export default async function UserAvatar() {
   if (!session?.user?.image) return null;
 
   return (
-    <div>
-      <Image
-        src={session.user.image}
-        alt="User Avatar"
-        width={40}
-        height={40}
-        className="rounded-full border-2"
-        priority
-      />
-    </div>
+    <Image
+      src={session.user.image}
+      alt="User Avatar"
+      width={40}
+      height={40}
+      className="rounded-full border-2"
+      priority
+    />
   );
 }

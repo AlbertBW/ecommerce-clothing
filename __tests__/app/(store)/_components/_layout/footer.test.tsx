@@ -3,10 +3,6 @@ import { render } from "@testing-library/react";
 import Footer from "@/app/(store)/_components/_layout/footer";
 
 describe("Footer", () => {
-  it("Renders Footer", () => {
-    render(<Footer />);
-  });
-
   it("displays the copyright notice", () => {
     const { getByText } = render(<Footer />);
     const copyrightNotice = getByText(/©/i);
