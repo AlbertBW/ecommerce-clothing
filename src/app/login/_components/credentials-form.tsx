@@ -6,6 +6,7 @@ import { SIGNIN_ERROR_URL } from "@/config";
 export default function CredentialsForm() {
   return (
     <form
+      className="flex flex-col justify-center items-center"
       action={async (formData) => {
         "use server";
         try {

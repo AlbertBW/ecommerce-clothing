@@ -28,13 +28,11 @@ export default function Footer() {
           <Image
             src={githubWhite}
             alt="GitHub Logo White"
-            priority
             className="hidden dark:block"
           />
           <Image
             src={githubBlack}
             alt="GitHub Logo Black"
-            priority
             className="block dark:hidden"
           />
         </div>

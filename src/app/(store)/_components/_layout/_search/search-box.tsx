@@ -20,6 +20,7 @@ export default function SearchBox() {
     document.startViewTransition(() => {
       setInputOpen((prev) => !prev);
     });
+    console.log("1");
   }, []);
 
   useEffect(() => {
