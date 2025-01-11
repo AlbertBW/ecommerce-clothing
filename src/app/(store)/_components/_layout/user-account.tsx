@@ -4,7 +4,7 @@ import UserAvatar from "../_auth/user-avatar";
 export default function UserAccount() {
   return (
     <div>
-      <Link href={"/account"} className="hover:opacity-80">
+      <Link href={"/account"} className="hover:opacity-80 transition-opacity">
         <UserAvatar />
       </Link>
     </div>

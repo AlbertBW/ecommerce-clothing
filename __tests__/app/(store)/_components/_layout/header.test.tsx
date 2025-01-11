@@ -1,21 +1,19 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import Header from "@/app/(store)/_components/_layout/header";
-import { COMPANY_NAME } from "@/lib/config";
+import { COMPANY_NAME } from "@/config";
 import { auth } from "../../../../../src/server/auth";
-
-jest.mock("../../../../../src/server/auth", () => ({
-  auth: jest.fn(),
-}));
+import UserAccount from "../../../../../src/app/(store)/_components/_layout/user-account";
+import SearchBox from "../../../../../src/app/(store)/_components/_layout/_search/search-box";
+import ShoppingCart from "../../../../../src/app/(store)/_components/_layout/shopping-cart";
+import SignIn from "../../../../../src/app/(store)/_components/_auth/sign-in";
 
 jest.mock(
-  "../../../../../src/app/(store)/_components/_layout/user-account",
-  () => {
-    const UserAccountMock = () => <div>User Account Mock</div>;
-    UserAccountMock.displayName = "UserAccountMock";
-    return UserAccountMock;
-  }
+  "../../../../../src/app/(store)/_components/_layout/_search/search-box"
 );
+jest.mock("../../../../../src/app/(store)/_components/_layout/shopping-cart");
+jest.mock("../../../../../src/app/(store)/_components/_layout/user-account");
+jest.mock("../../../../../src/app/(store)/_components/_auth/sign-in");
 
 describe("Header", () => {
   it("Renders the company name and home link", async () => {
@@ -28,19 +26,19 @@ describe("Header", () => {
   it("renders the search box", async () => {
     (auth as jest.Mock).mockResolvedValueOnce(null);
     render(await Header());
-    expect(screen.getByPlaceholderText("Search")).toBeInTheDocument();
+    expect(SearchBox).toHaveBeenCalled();
   });
 
   it("renders the shopping cart", async () => {
     (auth as jest.Mock).mockResolvedValueOnce(null);
     render(await Header());
-    expect(screen.getByRole("button")).toBeInTheDocument();
+    expect(ShoppingCart).toHaveBeenCalled();
   });
 
   it("renders the sign-in link when no user is logged in", async () => {
     (auth as jest.Mock).mockResolvedValueOnce(null);
     render(await Header());
-    expect(screen.getByText("Sign In")).toBeInTheDocument();
+    expect(SignIn).toHaveBeenCalled();
   });
 
   it("renders the user account when a user is logged in", async () => {
@@ -48,6 +46,6 @@ describe("Header", () => {
 
     render(await Header());
 
-    expect(await screen.findByText("User Account Mock")).toBeInTheDocument();
+    expect(UserAccount).toHaveBeenCalled();
   });
 });

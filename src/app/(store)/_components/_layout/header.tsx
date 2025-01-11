@@ -1,6 +1,6 @@
-import { COMPANY_NAME } from "@/lib/config";
+import { COMPANY_NAME } from "@/config";
 import Link from "next/link";
-import SearchBox from "./search-box";
+import SearchBox from "./_search/search-box";
 import ShoppingCart from "./shopping-cart";
 import UserAccount from "./user-account";
 import { auth } from "@/server/auth";
@@ -9,8 +9,6 @@ import SignIn from "../_auth/sign-in";
 export default async function Header() {
   const session = await auth();
 
-  console.log(session);
-  console.log(session?.user);
   return (
     <header className="flex px-4 md:px-12 lg:px-18 mx-auto justify-between items-center h-16 gap-2 max-w-screen-[1920px]">
       <Link href={"/"}>

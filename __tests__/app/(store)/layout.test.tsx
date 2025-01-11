@@ -1,21 +1,21 @@
 import "@testing-library/jest-dom";
-import { render } from "@testing-library/react";
-import RootLayout from "@/app/(store)/layout";
+import { render, screen } from "@testing-library/react";
+import RootLayout from "../../../src/app/(store)/layout";
 import Header from "../../../src/app/(store)/_components/_layout/header";
 import Footer from "../../../src/app/(store)/_components/_layout/footer";
 
-jest.mock("../../src/app/(store)/_components/_layout/header");
-jest.mock("../../src/app/(store)/_components/_layout/footer");
+jest.mock("../../../src/app/(store)/_components/_layout/header");
+jest.mock("../../../src/app/(store)/_components/_layout/footer");
 
-describe.skip("RootLayout", () => {
+describe("RootLayout", () => {
   it("renders the layout with children", () => {
-    const { getByText } = render(
+    render(
       <RootLayout>
         <div>Test Child</div>
       </RootLayout>
     );
 
-    expect(getByText("Test Child")).toBeInTheDocument();
+    expect(screen.getByText("Test Child")).toBeInTheDocument();
   });
 
   it("renders the Header component", () => {
@@ -46,6 +46,6 @@ describe.skip("RootLayout", () => {
     );
 
     const body = document.querySelector("body");
-    expect(body).toHaveClass("font-mono antialiased min-h-screen");
+    expect(body).toHaveClass("font-mono antialiased min-h-dvh");
   });
 });

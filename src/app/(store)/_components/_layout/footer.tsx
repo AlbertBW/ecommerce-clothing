@@ -1,6 +1,7 @@
 import Image from "next/image";
 import githubWhite from "../../../../../public/github-mark-white.svg";
 import githubBlack from "../../../../../public/github-mark.svg";
+import { AUTHOR_GITHUB, PROJECT_REPO } from "@/config";
 
 export default function Footer() {
   return (
@@ -8,7 +9,7 @@ export default function Footer() {
       <p className="flex gap-1">
         &copy; {new Date().getFullYear()}{" "}
         <a
-          href="https://github.com/AlbertBW"
+          href={AUTHOR_GITHUB}
           target="_blank"
           rel="noopener noreferrer"
           className="hover:underline"
@@ -18,7 +19,7 @@ export default function Footer() {
         <span className="hidden md:block">All rights reserved.</span>
       </p>
       <a
-        href="https://github.com/AlbertBW/ecommerce-clothing"
+        href={PROJECT_REPO}
         target="_blank"
         rel="noopener noreferrer"
         className="flex gap-2 justify-center items-center group"

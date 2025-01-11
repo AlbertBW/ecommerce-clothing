@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom";
-import { render } from "@testing-library/react";
-import Footer from "@/app/(store)/_components/_layout/footer";
+import { render, screen } from "@testing-library/react";
+import Footer from "../../../../../src/app/(store)/_components/_layout/footer";
+import { AUTHOR_GITHUB } from "@/config";
 
 describe("Footer", () => {
   it("displays the copyright notice", () => {
@@ -12,13 +13,10 @@ describe("Footer", () => {
   });
 
   it("renders author GitHub link with correct href", () => {
-    const { getByText } = render(<Footer />);
-    const copyrightAuthor = getByText(/Albert Wales/i);
+    render(<Footer />);
+    const copyrightAuthor = screen.getByText(/Albert Wales/i);
 
-    expect(copyrightAuthor.closest("a")).toHaveAttribute(
-      "href",
-      "https://github.com/AlbertBW"
-    );
+    expect(copyrightAuthor.closest("a")).toHaveAttribute("href", AUTHOR_GITHUB);
   });
 
   it("renders GitHub logos with correct classes for themes", () => {
