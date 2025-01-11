@@ -19,9 +19,9 @@ export default function HoverDropdown({
 
   return (
     <div ref={ref} className="relative">
-      <div className="relative z-50">{children}</div>
+      <div className="relative z-10">{children}</div>
       <div
-        className={`absolute transition-opacity z-40 duration-300 ${
+        className={`absolute transition-opacity z-0 duration-300 ${
           dropdownOpen ? "opacity-100" : "opacity-0"
         } -top-2 -right-2`}
       >

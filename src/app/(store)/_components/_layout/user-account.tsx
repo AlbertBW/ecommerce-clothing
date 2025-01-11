@@ -5,36 +5,29 @@ import { SignOut } from "../_auth/sign-out";
 
 export default function UserAccount() {
   return (
-    <HoverDropdown dropdown={<UserAccountDropdown />}>
-      <div>
-        <Link
-          href={"/account"}
-          className="hover:opacity-80 transition-opacity group"
-        >
-          <UserAvatar />
-        </Link>
+    <HoverDropdown
+      dropdown={
+        <ul className="flex flex-col gap-2 border border-zinc-600 shadow-lg dark:bg-zinc-900 bg-zinc-100 w-52 p-4 text-right rounded-xl">
+          <p className="text-left">Albert Wales</p>
+          <div className="h-4" />
+          <li className="hover:opacity-75">
+            <Link href={"/account"}>Your account</Link>
+          </li>
+          <li className="hover:opacity-75">
+            <Link href={"/orders"}>Your Orders</Link>
+          </li>
+          <li className="hover:opacity-75">
+            <Link href={"/account/settings"}>Settings</Link>
+          </li>
+          <li className="hover:opacity-75">
+            <SignOut />
+          </li>
+        </ul>
+      }
+    >
+      <div className="hover:opacity-80 transition-opacity group flex justify-center items-center">
+        <UserAvatar />
       </div>
     </HoverDropdown>
-  );
-}
-
-function UserAccountDropdown() {
-  return (
-    <ul className="flex flex-col gap-2 border border-zinc-600 bg-zinc-900 w-52 p-4 text-right rounded-xl">
-      <p className="text-left">Albert Wales</p>
-      <div className="h-4" />
-      <li>
-        <Link href={"/account"}>Your account</Link>
-      </li>
-      <li>
-        <Link href={"/orders"}>Your Orders</Link>
-      </li>
-      <li>
-        <Link href={"/account/settings"}>Settings</Link>
-      </li>
-      <li>
-        <SignOut />
-      </li>
-    </ul>
   );
 }
