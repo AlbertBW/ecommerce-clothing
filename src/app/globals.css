@@ -23,7 +23,7 @@ body {
 }
 
 /* Animation for landing page products */
-.container {
+/* .container {
   position: relative;
   min-width: 100%;
   height: 20vh;
@@ -66,7 +66,7 @@ body {
 }
 
 /* Delays to space out the squares */
-.delay-0 {
+/* .delay-0 {
   animation-delay: calc(-1 * (var(--animation-duration) / 3 * 2));
 }
 
@@ -79,6 +79,6 @@ body {
 }
 
 /* Pause animation on hover */
-.container:hover .moving-square {
+/* .container:hover .moving-square {
   animation-play-state: paused;
-}
+}   */

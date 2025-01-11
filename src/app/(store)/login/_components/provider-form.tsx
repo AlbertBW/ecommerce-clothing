@@ -6,12 +6,10 @@ import { redirect } from "next/navigation";
 
 export default function ProviderForm({
   provider,
-  props,
+  searchParams,
 }: {
   provider: ProviderInfo;
-  props: {
-    searchParams: { callbackUrl: string | undefined };
-  };
+  searchParams: { callbackUrl: string | undefined };
 }) {
   return (
     <form
@@ -20,7 +18,7 @@ export default function ProviderForm({
         "use server";
         try {
           await signIn(provider.id, {
-            redirectTo: props.searchParams?.callbackUrl ?? "",
+            redirectTo: searchParams?.callbackUrl ?? "",
           });
         } catch (error) {
           // Signin can fail for a number of reasons, such as the user
