@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./../globals.css";
-import Header from "./_components/_layout/header";
+import Header from "./_components/_layout/_header/header";
 import Footer from "./_components/_layout/footer";
 import { AUTHOR_GITHUB, COMPANY_NAME } from "@/config";
 

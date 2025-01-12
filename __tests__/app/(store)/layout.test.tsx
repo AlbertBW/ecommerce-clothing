@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import RootLayout from "../../../src/app/(store)/layout";
-import Header from "../../../src/app/(store)/_components/_layout/header";
+import Header from "../../../src/app/(store)/_components/_layout/_header/header";
 import Footer from "../../../src/app/(store)/_components/_layout/footer";
 
 jest.mock("../../../src/app/(store)/_components/_layout/header");

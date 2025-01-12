@@ -4,10 +4,10 @@ import useHover from "@/hooks/useHover";
 import { useEffect, useState } from "react";
 
 export default function HoverDropdown({
-  children,
+  trigger,
   dropdown,
 }: Readonly<{
-  children: React.ReactNode;
+  trigger: React.ReactNode;
   dropdown: React.ReactNode;
 }>) {
   const [ref, hovering] = useHover();
@@ -18,12 +18,13 @@ export default function HoverDropdown({
   }, [hovering]);
 
   return (
-    <div ref={ref} className="relative">
-      <div className="relative z-10">{children}</div>
+    <div ref={ref} className="relative group">
+      {trigger}
+
       <div
-        className={`absolute transition-opacity z-0 duration-300 ${
+        className={`transition-opacity duration-300 ${
           dropdownOpen ? "opacity-100" : "opacity-0"
-        } -top-2 -right-2`}
+        }`}
       >
         {dropdownOpen && dropdown}
       </div>

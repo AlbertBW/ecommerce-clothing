@@ -1,11 +1,11 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import Header from "@/app/(store)/_components/_layout/header";
+import Header from "@/app/(store)/_components/_layout/_header/header";
 import { COMPANY_NAME } from "@/config";
 import { auth } from "../../../../../src/server/auth";
-import UserAccount from "../../../../../src/app/(store)/_components/_layout/user-account";
+import UserAccount from "../../../../../src/app/(store)/_components/_layout/_header/user-account";
 import SearchBox from "../../../../../src/app/(store)/_components/_layout/_search/search-box";
-import ShoppingCart from "../../../../../src/app/(store)/_components/_layout/shopping-cart";
+import ShoppingCart from "../../../../../src/app/(store)/_components/_layout/_header/shopping-cart";
 import SignIn from "../../../../../src/app/(store)/_components/_auth/sign-in";
 
 jest.mock(
