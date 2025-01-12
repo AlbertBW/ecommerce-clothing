@@ -17,13 +17,13 @@ export default function SearchInput({
   const errorStyle =
     "focus-within:ring-2 focus-within:ring-red-500 focus-within:border-red-500 dark:focus-within:bg-red-950/40  focus-within:bg-red-50/40";
 
-  const noErrorStyle =
+  const regularStyle =
     "focus-within:ring-2 focus-within:ring-sky-500 focus-within:border-sky-500 dark:focus-within:bg-sky-950/40  focus-within:bg-sky-50/40";
 
   return (
     <div
       className={`group flex justify-end w-full mx-auto max-w-screen-md border border-zinc-700 rounded-md ${
-        error ? errorStyle : noErrorStyle
+        error ? errorStyle : regularStyle
       } transition-all`}
     >
       <input

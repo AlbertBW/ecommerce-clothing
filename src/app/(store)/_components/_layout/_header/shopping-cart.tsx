@@ -22,13 +22,9 @@ export default function ShoppingCart() {
   return (
     <HoverDropdown
       trigger={
-        <div className="group flex justify-center items-center">
-          <div className="relative group-hover:z-10">
-            <Link href={"/cart"}>
-              <ShoppingBagIcon className="size-9 dark:hover:text-zinc-200/70 hover:text-zinc-600/70 transition-colors group-hover:z-10" />
-            </Link>
-          </div>
-        </div>
+        <Link href={"/cart"}>
+          <ShoppingBagIcon className="size-9 dark:hover:text-zinc-200/70 hover:text-zinc-600/70 transition-colors group-hover:z-10" />
+        </Link>
       }
       dropdown={
         <DropdownMenu

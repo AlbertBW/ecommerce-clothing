@@ -24,18 +24,12 @@ export default function UserAccount() {
 
   return (
     <HoverDropdown
-      trigger={
-        <div className="group flex justify-center items-center">
-          <div className="relative group-hover:z-10">
-            <UserAvatar />
-          </div>
-        </div>
-      }
+      trigger={<UserAvatar />}
       dropdown={
         <DropdownMenu
-          listClassName="flex flex-col text-right gap-2"
-          title="Albert Wales"
+          title="User's Name"
           listItems={menuItems}
+          listClassName="flex flex-col text-right gap-2"
         />
       }
     />
