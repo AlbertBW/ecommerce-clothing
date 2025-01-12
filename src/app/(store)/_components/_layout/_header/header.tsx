@@ -1,6 +1,6 @@
 import { COMPANY_NAME } from "@/config";
 import Link from "next/link";
-import SearchBox from "../_search/search-box";
+import SearchBox from "./_search/search-box";
 import ShoppingCart from "./shopping-cart";
 import UserAccount from "./user-account";
 import { auth } from "@/server/auth";

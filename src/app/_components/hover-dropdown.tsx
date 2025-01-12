@@ -18,7 +18,7 @@ export default function HoverDropdown({
   }, [hovering]);
 
   return (
-    <div ref={ref} className="relative group">
+    <div data-testid={"hover-trigger"} ref={ref} className="relative group">
       {trigger}
 
       <div

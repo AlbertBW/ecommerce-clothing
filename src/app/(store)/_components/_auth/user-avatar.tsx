@@ -12,8 +12,7 @@ export default async function UserAvatar() {
       alt="User Avatar"
       width={40}
       height={40}
-      className="rounded-full shadow-md border"
-      priority
+      className="rounded-full group-hover:shadow-md shadow-sm border"
     />
   );
 }

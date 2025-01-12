@@ -4,7 +4,7 @@ import RootLayout from "../../../src/app/(store)/layout";
 import Header from "../../../src/app/(store)/_components/_layout/_header/header";
 import Footer from "../../../src/app/(store)/_components/_layout/footer";
 
-jest.mock("../../../src/app/(store)/_components/_layout/header");
+jest.mock("../../../src/app/(store)/_components/_layout/_header/header");
 jest.mock("../../../src/app/(store)/_components/_layout/footer");
 
 describe("RootLayout", () => {
