@@ -18,9 +18,10 @@ export const users = pgTable("user", {
   role: roles().default("customer"),
 });
 
-export type SelectUser = typeof users.$inferSelect;
-export type InsertUser = typeof users.$inferInsert;
-export type UpdateUser = Partial<Omit<InsertUser, "id">>;
+export type User = typeof users.$inferSelect;
+export type NewUser = typeof users.$inferInsert;
+export type UpdatedUser = Partial<Omit<NewUser, "id">>;
+export type UserId = User["id"];
 
 export const userSelectSchema = createSelectSchema(users);
 export const userInsertSchema = createInsertSchema(users);

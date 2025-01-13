@@ -15,9 +15,9 @@ export const sessions = pgTable("session", {
   expires: timestamp("expires", { mode: "date" }).notNull(),
 });
 
-export type SelectSession = typeof sessions.$inferSelect;
-export type InsertSession = typeof sessions.$inferInsert;
-export type UpdateSession = Partial<Omit<InsertSession, "id">>;
+export type Session = typeof sessions.$inferSelect;
+export type NewSession = typeof sessions.$inferInsert;
+export type UpdatedSession = Partial<Omit<NewSession, "id">>;
 
 export const sessionSelectSchema = createSelectSchema(sessions);
 export const sessionInsertSchema = createInsertSchema(sessions);

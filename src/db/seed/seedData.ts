@@ -1,13 +1,13 @@
 import {
-  InsertCategory,
-  InsertColour,
-  InsertProduct,
-  InsertSize,
-  InsertProductVariant,
-  InsertProductRating,
+  NewCategory,
+  NewColour,
+  NewProduct,
+  NewSize,
+  NewProductVariant,
+  NewProductRating,
 } from "../schema";
 
-export const categorySeedData: InsertCategory[] = [
+export const categorySeedData: NewCategory[] = [
   // Clothing
   { id: 100, name: "Clothing" },
   { id: 101, name: "T-shirts", parentId: 100 },
@@ -40,7 +40,7 @@ export const categorySeedData: InsertCategory[] = [
   { id: 405, name: "Belts", parentId: 400 },
 ];
 
-export const productSeedData: InsertProduct[] = [
+export const productSeedData: NewProduct[] = [
   // T-shirts
   {
     title: "Classic T-shirt",
@@ -134,7 +134,7 @@ export const productSeedData: InsertProduct[] = [
   },
 ];
 
-export const colourSeedData: InsertColour[] = [
+export const colourSeedData: NewColour[] = [
   { name: "white" },
   { name: "black" },
   { name: "red" },
@@ -152,7 +152,7 @@ export const colourSeedData: InsertColour[] = [
   { name: "teal" },
 ];
 
-export const sizeSeedData: InsertSize[] = [
+export const sizeSeedData: NewSize[] = [
   { name: "xs", displayOrder: 0 },
   { name: "small", displayOrder: 1 },
   { name: "medium", displayOrder: 2 },
@@ -161,7 +161,7 @@ export const sizeSeedData: InsertSize[] = [
   { name: "XXL", displayOrder: 5 },
 ];
 
-export const productVariantSeedData: InsertProductVariant[] = [
+export const productVariantSeedData: NewProductVariant[] = [
   {
     stock: 0,
     price: 0,
@@ -169,7 +169,7 @@ export const productVariantSeedData: InsertProductVariant[] = [
   },
 ];
 
-export const productRatingSeedData: InsertProductRating[] = [
+export const productRatingSeedData: NewProductRating[] = [
   {
     productId: 0,
     rate: "",

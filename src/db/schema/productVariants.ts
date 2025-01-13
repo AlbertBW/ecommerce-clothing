@@ -40,9 +40,10 @@ export const productVariantRelations = relations(
   })
 );
 
-export type SelectProductVariant = typeof productVariants.$inferSelect;
-export type InsertProductVariant = typeof productVariants.$inferInsert;
-export type UpdateProductVariant = Partial<Omit<InsertProductVariant, "id">>;
+export type ProductVariant = typeof productVariants.$inferSelect;
+export type NewProductVariant = typeof productVariants.$inferInsert;
+export type UpdatedProductVariant = Partial<Omit<NewProductVariant, "id">>;
+export type ProductVariantId = ProductVariant["id"];
 
 export const productVariantSelectSchema = createSelectSchema(productVariants);
 export const productVariantInsertSchema = createInsertSchema(productVariants);

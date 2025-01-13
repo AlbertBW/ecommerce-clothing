@@ -17,9 +17,9 @@ export const colourRelations = relations(colours, ({ many }) => ({
   productVariants: many(productVariants),
 }));
 
-export type SelectColour = typeof colours.$inferSelect;
-export type InsertColour = typeof colours.$inferInsert;
-export type UpdateColour = Partial<Omit<InsertColour, "id">>;
+export type Colour = typeof colours.$inferSelect;
+export type NewColour = typeof colours.$inferInsert;
+export type UpdatedColour = Partial<Omit<NewColour, "id">>;
 
 export const colourSelectSchema = createSelectSchema(colours);
 export const colourInsertSchema = createInsertSchema(colours);

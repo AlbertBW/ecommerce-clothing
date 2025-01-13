@@ -3,7 +3,7 @@ import { pgTable } from "../utils/pgTableCreator";
 import { genderEnum } from "../utils/enums";
 import { relations } from "drizzle-orm";
 import { categories } from "./categories";
-import { productVariants } from "../schema";
+import { Colour, ProductVariant, productVariants, Size } from "../schema";
 import {
   createSelectSchema,
   createInsertSchema,
@@ -34,9 +34,17 @@ export const productRelations = relations(products, ({ one, many }) => ({
   productVariants: many(productVariants),
 }));
 
-export type SelectProduct = typeof products.$inferSelect;
-export type InsertProduct = typeof products.$inferInsert;
-export type UpdateProduct = Partial<Omit<InsertProduct, "id">>;
+export type Product = typeof products.$inferSelect;
+export type NewProduct = typeof products.$inferInsert;
+export type UpdatedProduct = Partial<Omit<NewProduct, "id">>;
+export type ProductId = Product["id"];
+
+export type ProductDetails = Product & {
+  productVariants: (ProductVariant & {
+    colour: Colour | null;
+    size: Size | null;
+  })[];
+};
 
 export const productSelectSchema = createSelectSchema(products);
 export const productInsertSchema = createInsertSchema(products);

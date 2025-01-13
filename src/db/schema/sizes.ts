@@ -18,9 +18,10 @@ export const sizeRelations = relations(sizes, ({ many }) => ({
   productVariants: many(productVariants),
 }));
 
-export type SelectSize = typeof sizes.$inferSelect;
-export type InsertSize = typeof sizes.$inferInsert;
-export type UpdateSize = Partial<Omit<InsertSize, "id">>;
+export type Size = typeof sizes.$inferSelect;
+export type NewSize = typeof sizes.$inferInsert;
+export type UpdatedSize = Partial<Omit<NewSize, "id">>;
+export type SizeId = Size["id"];
 
 export const sizeSelectSchema = createSelectSchema(sizes);
 export const sizeInsertSchema = createInsertSchema(sizes);
