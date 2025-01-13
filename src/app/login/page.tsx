@@ -1,4 +1,4 @@
-import { providerMap } from "@/server/auth";
+import { providerMap } from "@/auth";
 import CredentialsForm from "./_components/credentials-form";
 import ProviderForm from "./_components/provider-form";
 import { use } from "react";

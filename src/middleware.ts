@@ -1,4 +1,4 @@
-import { auth } from "@/server/auth";
+import { auth } from "@/auth";
 
 const allowedRoutes = ["/", "/test", "/error", "/login", "/logout", "/result"];
 

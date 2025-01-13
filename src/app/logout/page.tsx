@@ -1,4 +1,4 @@
-import { signOut } from "@/server/auth";
+import { signOut } from "@/auth";
 import BackButton from "../_components/back-button";
 
 export default function SignOutPage() {

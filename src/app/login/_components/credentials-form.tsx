@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { signIn } from "@/server/auth";
+import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import { SIGNIN_ERROR_URL } from "@/config";
 
