@@ -36,6 +36,7 @@ export const productRelations = relations(products, ({ one, many }) => ({
 
 export type SelectProduct = typeof products.$inferSelect;
 export type InsertProduct = typeof products.$inferInsert;
+export type UpdateProduct = Partial<Omit<InsertProduct, "id">>;
 
 export const productSelectSchema = createSelectSchema(products);
 export const productInsertSchema = createInsertSchema(products);

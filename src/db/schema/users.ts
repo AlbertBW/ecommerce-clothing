@@ -20,6 +20,7 @@ export const users = pgTable("user", {
 
 export type SelectUser = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
+export type UpdateUser = Partial<Omit<InsertUser, "id">>;
 
 export const userSelectSchema = createSelectSchema(users);
 export const userInsertSchema = createInsertSchema(users);

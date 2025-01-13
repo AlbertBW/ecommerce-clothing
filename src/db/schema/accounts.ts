@@ -36,6 +36,7 @@ export const accounts = pgTable(
 
 export type SelectAccount = typeof accounts.$inferSelect;
 export type InsertAccount = typeof accounts.$inferInsert;
+export type UpdateAccount = Partial<Omit<InsertAccount, "id">>;
 
 export const accountSelectSchema = createSelectSchema(accounts);
 export const accountInsertSchema = createInsertSchema(accounts);

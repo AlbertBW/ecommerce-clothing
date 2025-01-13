@@ -19,6 +19,7 @@ export const colourRelations = relations(colours, ({ many }) => ({
 
 export type SelectColour = typeof colours.$inferSelect;
 export type InsertColour = typeof colours.$inferInsert;
+export type UpdateColour = Partial<Omit<InsertColour, "id">>;
 
 export const colourSelectSchema = createSelectSchema(colours);
 export const colourInsertSchema = createInsertSchema(colours);

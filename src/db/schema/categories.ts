@@ -23,6 +23,7 @@ export const categoryRelations = relations(categories, ({ many }) => ({
 
 export type SelectCategory = typeof categories.$inferSelect;
 export type InsertCategory = typeof categories.$inferInsert;
+export type UpdateCategory = Partial<Omit<InsertCategory, "id">>;
 
 export const categorySelectSchema = createSelectSchema(categories);
 export const categoryInsertSchema = createInsertSchema(categories);

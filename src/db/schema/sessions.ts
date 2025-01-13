@@ -17,6 +17,7 @@ export const sessions = pgTable("session", {
 
 export type SelectSession = typeof sessions.$inferSelect;
 export type InsertSession = typeof sessions.$inferInsert;
+export type UpdateSession = Partial<Omit<InsertSession, "id">>;
 
 export const sessionSelectSchema = createSelectSchema(sessions);
 export const sessionInsertSchema = createInsertSchema(sessions);

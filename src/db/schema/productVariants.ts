@@ -42,6 +42,7 @@ export const productVariantRelations = relations(
 
 export type SelectProductVariant = typeof productVariants.$inferSelect;
 export type InsertProductVariant = typeof productVariants.$inferInsert;
+export type UpdateProductVariant = Partial<Omit<InsertProductVariant, "id">>;
 
 export const productVariantSelectSchema = createSelectSchema(productVariants);
 export const productVariantInsertSchema = createInsertSchema(productVariants);

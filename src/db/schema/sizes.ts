@@ -20,6 +20,7 @@ export const sizeRelations = relations(sizes, ({ many }) => ({
 
 export type SelectSize = typeof sizes.$inferSelect;
 export type InsertSize = typeof sizes.$inferInsert;
+export type UpdateSize = Partial<Omit<InsertSize, "id">>;
 
 export const sizeSelectSchema = createSelectSchema(sizes);
 export const sizeInsertSchema = createInsertSchema(sizes);

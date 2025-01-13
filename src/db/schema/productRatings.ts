@@ -17,6 +17,7 @@ export const productRatings = pgTable("product_rating", {
 
 export type SelectProductRating = typeof productRatings.$inferSelect;
 export type InsertProductRating = typeof productRatings.$inferInsert;
+export type UpdateProductRating = Partial<Omit<InsertProductRating, "id">>;
 
 export const productRatingSelectSchema = createSelectSchema(productRatings);
 export const productRatingInsertSchema = createInsertSchema(productRatings);
