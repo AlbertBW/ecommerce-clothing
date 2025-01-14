@@ -1,23 +1,10 @@
-import { redirect } from "next/navigation";
-import { signIn } from "@/auth";
-import { AuthError } from "next-auth";
-import { SIGNIN_ERROR_URL } from "@/config";
+import { signInCredentials } from "@/app/actions/signin.action";
 
 export default function CredentialsForm() {
   return (
     <form
       className="flex flex-col justify-center items-center"
-      action={async (formData) => {
-        "use server";
-        try {
-          await signIn("credentials", formData);
-        } catch (error) {
-          if (error instanceof AuthError) {
-            return redirect(`${SIGNIN_ERROR_URL}?error=${error.type}`);
-          }
-          throw error;
-        }
-      }}
+      action={signInCredentials}
     >
       <label htmlFor="email">
         Email
