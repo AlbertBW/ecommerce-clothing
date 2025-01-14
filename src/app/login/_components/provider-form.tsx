@@ -1,16 +1,12 @@
 "use client";
-import { ProviderInfo } from "@/lib/types";
-import { signInProvider } from "@/app/actions/signin.action";
-import { useActionState } from "react";
 
-export type ProviderForm = {
-  provider: ProviderInfo;
-  searchParams: { callbackUrl: string | undefined };
-};
+import { signInWithProviderAction } from "@/actions/sign-in.action";
+import { useActionState } from "react";
+import type { ProviderForm } from "@/lib/types";
 
 export default function ProviderForm({ provider, searchParams }: ProviderForm) {
   const [state, formAction, pending] = useActionState<ProviderForm>(
-    signInProvider,
+    signInWithProviderAction,
     {
       provider,
       searchParams,

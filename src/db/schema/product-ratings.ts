@@ -1,6 +1,6 @@
 import { integer, numeric } from "drizzle-orm/pg-core";
 import { products } from "./products";
-import { pgTable } from "../utils/pgTableCreator";
+import { pgTable } from "../utils/pg-table-creator";
 import { createSelectSchema, createUpdateSchema } from "drizzle-zod";
 import { createInsertSchema } from "drizzle-zod";
 

@@ -1,6 +1,6 @@
 import { text, primaryKey, integer } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
-import { pgTable } from "../utils/pgTableCreator";
+import { pgTable } from "../utils/pg-table-creator";
 import { users } from "./users";
 import {
   createSelectSchema,

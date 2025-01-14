@@ -1,5 +1,5 @@
 import { text, timestamp } from "drizzle-orm/pg-core";
-import { pgTable } from "../utils/pgTableCreator";
+import { pgTable } from "../utils/pg-table-creator";
 import { roles } from "../utils/enums";
 import {
   createSelectSchema,
@@ -15,7 +15,7 @@ export const users = pgTable("user", {
   email: text("email").unique(),
   emailVerified: timestamp("email_verified", { mode: "date" }),
   image: text("image"),
-  role: roles().default("customer"),
+  role: roles("role").default("customer"),
 });
 
 export type User = typeof users.$inferSelect;

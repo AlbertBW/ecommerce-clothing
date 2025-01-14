@@ -1,6 +1,6 @@
 import { relations } from "drizzle-orm";
 import { text, integer } from "drizzle-orm/pg-core";
-import { pgTable } from "../utils/pgTableCreator";
+import { pgTable } from "../utils/pg-table-creator";
 import { colours } from "./colours";
 import { products } from "./products";
 import { sizes } from "./sizes";
@@ -15,8 +15,12 @@ export const productVariants = pgTable("product_variants", {
   productId: integer("product_id").references(() => products.id, {
     onDelete: "cascade",
   }),
-  colourId: integer("colour_id").references(() => colours.id),
-  sizeId: integer("size_id").references(() => sizes.id),
+  colourId: integer("colour_id").references(() => colours.id, {
+    onDelete: "set null",
+  }),
+  sizeId: integer("size_id").references(() => sizes.id, {
+    onDelete: "set null",
+  }),
   stock: integer("stock").notNull(),
   price: integer().notNull(),
   sku: text("sku").unique().notNull(),

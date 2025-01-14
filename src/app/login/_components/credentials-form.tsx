@@ -1,10 +1,10 @@
-import { signInCredentials } from "@/app/actions/signin.action";
+import { signInWithCredentialsAction } from "@/actions/sign-in.action";
 
 export default function CredentialsForm() {
   return (
     <form
       className="flex flex-col justify-center items-center"
-      action={signInCredentials}
+      action={signInWithCredentialsAction}
     >
       <label htmlFor="email">
         Email

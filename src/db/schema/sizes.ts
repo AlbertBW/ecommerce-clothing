@@ -1,7 +1,7 @@
 import { relations } from "drizzle-orm";
 import { text, integer } from "drizzle-orm/pg-core";
-import { pgTable } from "../utils/pgTableCreator";
-import { productVariants } from "./productVariants";
+import { pgTable } from "../utils/pg-table-creator";
+import { productVariants } from "./product-variants";
 import {
   createSelectSchema,
   createInsertSchema,

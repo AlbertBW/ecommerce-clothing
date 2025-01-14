@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState, useRef, useCallback, useEffect, RefObject } from "react";
-import useQueryString from "./useQueryString";
+import useQueryString from "./use-query-string";
 
 export default function useSearchBox(): [
   RefObject<HTMLInputElement | null>,

@@ -3,7 +3,8 @@
 import Modal from "@/app/_components/modal";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import SearchInput from "./search-input";
-import useSearchBox from "@/hooks/useSearchBox";
+import useSearchBox from "@/hooks/use-search-box";
+import React from "react";
 
 export default function SearchBox() {
   const [

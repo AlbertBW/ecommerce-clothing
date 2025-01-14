@@ -1,6 +1,6 @@
 "use client";
 
-import useHover from "@/hooks/useHover";
+import useHover from "@/hooks/use-hover";
 import { useEffect, useState } from "react";
 
 export default function HoverDropdown({

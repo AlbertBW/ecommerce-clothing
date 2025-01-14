@@ -1,13 +1,13 @@
-"use server";
-
 import { signIn } from "@/auth";
 import { SIGNIN_ERROR_URL } from "@/config";
 import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
-import { ProviderForm } from "../login/_components/provider-form";
+import type { ProviderForm } from "@/lib/types";
 
-export async function signInCredentials(formData: FormData) {
+export async function signInWithCredentials(formData: FormData) {
   try {
+    // TODO: Validate formData
+
     await signIn("credentials", formData);
   } catch (error) {
     if (error instanceof AuthError) {
@@ -17,10 +17,7 @@ export async function signInCredentials(formData: FormData) {
   }
 }
 
-export async function signInProvider(
-  state: ProviderForm
-): Promise<ProviderForm> {
-  console.log(state);
+export async function signInWithProvider(state: ProviderForm) {
   try {
     await signIn(state.provider.id, {
       redirectTo: state.searchParams?.callbackUrl ?? "",

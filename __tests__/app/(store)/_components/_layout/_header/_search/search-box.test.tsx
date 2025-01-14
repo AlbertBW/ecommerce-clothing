@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import SearchBox from "@/app/(store)/_components/_layout/_header/_search/search-box";
-import useSearchBox from "../../../../../../../src/hooks/useSearchBox";
+import useSearchBox from "../../../../../../../src/hooks/use-search-box";
 import SearchInput from "../../../../../../../src/app/(store)/_components/_layout/_header/_search/search-input";
 import Modal from "../../../../../../../src/app/_components/modal";
 

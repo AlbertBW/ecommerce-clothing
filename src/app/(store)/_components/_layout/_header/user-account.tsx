@@ -37,7 +37,7 @@ export default function UserAccount() {
       trigger={<UserAvatar image={session.user?.image} />}
       dropdown={
         <DropdownMenu
-          title="User's Name"
+          title={session.user?.name || "Your account"}
           listItems={menuItems}
           listClassName="flex flex-col text-right gap-2"
         />
