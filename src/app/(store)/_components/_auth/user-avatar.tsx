@@ -1,18 +1,22 @@
 import Image from "next/image";
-import { auth } from "@/auth";
+import { UserCircleIcon } from "@heroicons/react/24/outline";
 
-export default async function UserAvatar() {
-  const session = await auth();
-
-  if (!session?.user?.image) return null;
+export default function UserAvatar({ image }: { image?: string | null }) {
+  if (!image) return <UserCircleIcon width={43} height={43} />;
 
   return (
-    <Image
-      src={session.user.image}
-      alt="User Avatar"
-      width={40}
-      height={40}
-      className="rounded-full group-hover:shadow-md shadow-sm border"
-    />
+    <div className="w-[43px] h-[43px] flex justify-center items-center">
+      <Image
+        src={image}
+        alt="User Avatar"
+        width={40}
+        height={40}
+        className="rounded-full group-hover:shadow-md shadow-sm border"
+      />
+    </div>
   );
+}
+
+export function UserAvatarSkeleton() {
+  return <div className="w-[43px] h-[43px]" />;
 }

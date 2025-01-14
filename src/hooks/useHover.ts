@@ -26,7 +26,6 @@ export default function useHover(): [
       return () => {
         node.removeEventListener("mouseenter", handleMouseEnter);
         node.removeEventListener("mouseleave", handleMouseLeave);
-        console.log("RETURNED");
       };
     }
   }, []);
