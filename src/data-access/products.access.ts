@@ -1,5 +1,6 @@
 import { db } from "@/db";
-import { NewProduct, ProductId, products, UpdatedProduct } from "@/db/schema";
+import { NewProduct, products, UpdatedProduct } from "@/db/schema";
+import { ProductId } from "@/lib/types";
 import { eq } from "drizzle-orm";
 
 export async function getProduct(productId: ProductId) {
@@ -11,7 +12,10 @@ export async function getProduct(productId: ProductId) {
 export async function getProductDetails(productId: ProductId) {
   return await db.query.products.findFirst({
     where: eq(products.id, productId),
-    with: { productVariants: { with: { colour: true, size: true } } },
+    with: {
+      productVariants: { with: { colour: true, size: true } },
+      productRating: true,
+    },
   });
 }
 

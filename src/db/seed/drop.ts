@@ -13,6 +13,14 @@ import {
   sizes,
   users,
   verificationTokens,
+  addresses,
+  brands,
+  cartItems,
+  carts,
+  orders,
+  orderItems,
+  wishlistItems,
+  wishlists,
 } from "../schema";
 
 async function drop() {
@@ -27,6 +35,14 @@ async function drop() {
   await db.execute(sql`DROP TABLE IF EXISTS ${colours} CASCADE`);
   await db.execute(sql`DROP TABLE IF EXISTS ${sizes} CASCADE`);
   await db.execute(sql`DROP TABLE IF EXISTS ${productRatings} CASCADE`);
+  await db.execute(sql`DROP TABLE IF EXISTS ${addresses} CASCADE`);
+  await db.execute(sql`DROP TABLE IF EXISTS ${brands} CASCADE`);
+  await db.execute(sql`DROP TABLE IF EXISTS ${cartItems} CASCADE`);
+  await db.execute(sql`DROP TABLE IF EXISTS ${carts} CASCADE`);
+  await db.execute(sql`DROP TABLE IF EXISTS ${orders} CASCADE`);
+  await db.execute(sql`DROP TABLE IF EXISTS ${orderItems} CASCADE`);
+  await db.execute(sql`DROP TABLE IF EXISTS ${wishlistItems} CASCADE`);
+  await db.execute(sql`DROP TABLE IF EXISTS ${wishlists} CASCADE`);
 }
 
 drop();
