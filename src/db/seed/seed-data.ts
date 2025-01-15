@@ -1,3 +1,4 @@
+import { createBrandSlug } from "@/utils/create-brand-slug";
 import {
   NewCategory,
   NewColour,
@@ -5,6 +6,7 @@ import {
   NewSize,
   NewProductVariant,
   NewProductRating,
+  NewBrand,
 } from "../schema";
 
 export const categorySeedData: NewCategory[] = [
@@ -40,51 +42,82 @@ export const categorySeedData: NewCategory[] = [
   { id: 405, name: "Belts", parentId: 400 },
 ];
 
+export const brandSeedData: NewBrand[] = [
+  {
+    brand: "Solace",
+    slug: createBrandSlug("Solace"),
+  },
+  {
+    brand: "Urban Threads",
+    slug: createBrandSlug("Urban Threads"),
+  },
+  {
+    brand: "ComfortWear",
+    slug: createBrandSlug("ComfortWear"),
+  },
+  {
+    brand: "WinterFit",
+    slug: createBrandSlug("WinterFit"),
+  },
+  {
+    brand: "Breeze",
+    slug: createBrandSlug("Breeze"),
+  },
+  {
+    brand: "Elegance",
+    slug: createBrandSlug("Elegance"),
+  },
+  {
+    brand: "PartyTime",
+    slug: createBrandSlug("PartyTime"),
+  },
+];
+
 export const productSeedData: NewProduct[] = [
   // T-shirts
   {
     title: "Classic T-shirt",
     description: "A classic short sleeve t-shirt",
     categoryId: 101,
-    brand: "Solace",
-    brandSlug: "solace",
+    brandId: 1,
     image: "",
     gender: "men",
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     title: "Graphic T-shirt",
     description: "A t-shirt with a cool graphic design",
     categoryId: 101,
-    brand: "Urban Threads",
-    brandSlug: "urban-threads",
+    brandId: 2,
     image: "",
     gender: "women",
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     title: "V-neck T-shirt",
     description: "A comfortable V-neck t-shirt",
     categoryId: 101,
-    brand: "ComfortWear",
-    brandSlug: "comfortwear",
+    brandId: 3,
     image: "",
     gender: "unisex",
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     title: "Long Sleeve T-shirt",
     description: "A long sleeve t-shirt for cooler weather",
     categoryId: 101,
-    brand: "WinterFit",
-    brandSlug: "winterfit",
+    brandId: 4,
     image: "",
     gender: "men",
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
 
   // Dresses
@@ -92,45 +125,45 @@ export const productSeedData: NewProduct[] = [
     title: "Summer Dress",
     description: "A light and airy summer dress",
     categoryId: 102,
-    brand: "Breeze",
-    brandSlug: "breeze",
+    brandId: 5,
     image: "",
     gender: "women",
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     title: "Evening Gown",
     description: "An elegant evening gown for special occasions",
     categoryId: 102,
-    brand: "Elegance",
-    brandSlug: "elegance",
+    brandId: 6,
     image: "",
     gender: "women",
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     title: "Casual Dress",
     description: "A comfortable dress for everyday wear",
     categoryId: 102,
-    brand: "ComfortWear",
-    brandSlug: "comfortwear",
+    brandId: 3,
     image: "",
     gender: "women",
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     title: "Party Dress",
     description: "A fun and stylish dress for parties",
     categoryId: 102,
-    brand: "PartyTime",
-    brandSlug: "partytime",
+    brandId: 7,
     image: "",
     gender: "women",
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
 ];
 
@@ -166,6 +199,8 @@ export const productVariantSeedData: NewProductVariant[] = [
     stock: 0,
     price: 0,
     sku: "",
+    createdAt: undefined,
+    updatedAt: undefined,
   },
 ];
 

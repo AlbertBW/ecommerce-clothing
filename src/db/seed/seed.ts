@@ -1,8 +1,8 @@
 import "dotenv/config";
-
 import { db } from "..";
-import { categories, colours, products, sizes } from "../schema";
+import { brands, categories, colours, products, sizes } from "../schema";
 import {
+  brandSeedData,
   categorySeedData,
   colourSeedData,
   productSeedData,
@@ -14,6 +14,7 @@ async function seed() {
   await db.insert(categories).values(categorySeedData);
   await db.insert(colours).values(colourSeedData);
   await db.insert(sizes).values(sizeSeedData);
+  await db.insert(brands).values(brandSeedData);
 
   productSeedData.forEach(async (product) => {
     const newProduct = await db.insert(products).values(product).returning();

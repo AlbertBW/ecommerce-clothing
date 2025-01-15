@@ -1,5 +1,6 @@
 import { db } from "@/db";
-import { NewSize, SizeId, sizes, UpdatedSize } from "@/db/schema";
+import { NewSize, sizes, UpdatedSize } from "@/db/schema";
+import { SizeId } from "@/lib/types";
 import { eq } from "drizzle-orm";
 
 export async function getAllSizes() {

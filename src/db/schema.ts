@@ -131,9 +131,7 @@ export const addresses = pgTable("address", {
 });
 
 export const addressesRelations = relations(addresses, ({ many, one }) => ({
-  orders: many(orders, {
-    relationName: "delivery_address",
-  }),
+  orders: many(orders),
   user: one(users, {
     fields: [addresses.userId],
     references: [users.id],
@@ -151,17 +149,20 @@ export const categories = pgTable("category", {
 
 export const categoryRelations = relations(categories, ({ one, many }) => ({
   products: many(products),
+  subcategories: many(categories, {
+    relationName: "subcategories",
+  }),
   parentCategory: one(categories, {
     fields: [categories.parentId],
     references: [categories.id],
+    relationName: "subcategories",
   }),
-  childCategories: many(categories),
 }));
 
 export const brands = pgTable("brand", {
   id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
   brand: text("brand").notNull().unique(),
-  brandSlug: text("brand_slug").notNull().unique(),
+  slug: text("slug").notNull().unique(),
 });
 
 export const brandRelations = relations(brands, ({ many }) => ({
@@ -182,8 +183,11 @@ export const products = pgTable("product", {
   }),
   gender: genderEnum("gender").notNull(),
   tags: text("tags").array(),
-  createdAt: timestamp("created_at", { mode: "date" }).notNull(),
-  updatedAt: timestamp("updated_at", { mode: "date" }).notNull(),
+  createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { mode: "date" })
+    .notNull()
+    .$onUpdate(() => new Date())
+    .defaultNow(),
 });
 
 export const productRelations = relations(products, ({ one, many }) => ({
@@ -230,12 +234,15 @@ export const productVariants = pgTable("product_variants", {
   sizeId: integer("size_id").references(() => sizes.id, {
     onDelete: "set null",
   }),
-  stock: integer("stock").notNull(),
+  stock: integer("stock").notNull().default(0),
   sold: integer("sold").notNull().default(0),
   returns: integer("return").notNull().default(0),
   price: integer().notNull(),
-  createdAt: timestamp("created_at", { mode: "date" }).notNull(),
-  updatedAt: timestamp("updated_at", { mode: "date" }).notNull(),
+  createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { mode: "date" })
+    .notNull()
+    .$onUpdate(() => new Date())
+    .defaultNow(),
 });
 
 export const productVariantRelations = relations(
@@ -253,7 +260,7 @@ export const productVariantRelations = relations(
       fields: [productVariants.sizeId],
       references: [sizes.id],
     }),
-    orders: many(orders),
+    orderItems: many(orderItems),
     cartItems: many(cartItems),
     wishlistItems: many(wishlistItems),
   })
@@ -266,8 +273,8 @@ export const productRatings = pgTable("product_rating", {
       onDelete: "cascade",
     })
     .notNull(),
-  rate: numeric("rate", { precision: 2, scale: 1 }).notNull(),
-  count: integer("count").notNull(),
+  rate: numeric("rate", { precision: 2, scale: 1 }),
+  count: integer("count").notNull().default(0),
 });
 
 export const productRatingRelations = relations(productRatings, ({ one }) => ({
@@ -287,12 +294,15 @@ export const orders = pgTable("order", {
   price: integer("price").notNull(),
   shippingMethod: text("shipping_method").notNull(),
   shippingPrice: text("shipping_price").notNull(),
-  deliveryAddressId: text("delivery_address")
+  deliveryAddressId: text("delivery_address_id")
     .notNull()
     .references(() => addresses.id),
   customerNote: text("customer_note"),
-  createdAt: timestamp("created_at", { mode: "date" }).notNull(),
-  updatedAt: timestamp("updated_at", { mode: "date" }).notNull(),
+  createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { mode: "date" })
+    .notNull()
+    .$onUpdate(() => new Date())
+    .defaultNow(),
 });
 
 export const orderRelations = relations(orders, ({ many, one }) => ({
@@ -312,16 +322,16 @@ export const orderItems = pgTable("order_item", {
   orderId: text("order_id")
     .notNull()
     .references(() => orders.id),
-  productId: integer("product_id")
+  productVariantId: integer("product_variant_id")
     .notNull()
-    .references(() => products.id),
+    .references(() => productVariants.id),
   quantity: integer("quantity").notNull(),
   productPrice: integer("price").notNull(),
 });
 
 export const orderItemRelations = relations(orderItems, ({ one }) => ({
   productVariant: one(productVariants, {
-    fields: [orderItems.productId],
+    fields: [orderItems.productVariantId],
     references: [productVariants.id],
   }),
   order: one(orders, {

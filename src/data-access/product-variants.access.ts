@@ -1,10 +1,10 @@
 import { db } from "@/db";
 import {
   NewProductVariant,
-  ProductVariantId,
   productVariants,
   UpdatedProductVariant,
 } from "@/db/schema";
+import { ProductVariantId } from "@/lib/types";
 import { eq } from "drizzle-orm";
 
 export async function getProductVariant(productVariantId: ProductVariantId) {

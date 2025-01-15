@@ -1,10 +1,6 @@
 import { db } from "@/db";
-import {
-  categories,
-  UpdatedCategory,
-  NewCategory,
-  CategoryId,
-} from "@/db/schema";
+import { categories, UpdatedCategory, NewCategory } from "@/db/schema";
+import { CategoryId } from "@/lib/types";
 import { eq } from "drizzle-orm";
 
 export async function getAllCategories() {

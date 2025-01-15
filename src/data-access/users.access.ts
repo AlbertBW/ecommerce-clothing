@@ -1,5 +1,6 @@
 import { db } from "@/db";
-import { UpdatedUser, UserId, users } from "@/db/schema";
+import { UpdatedUser, users } from "@/db/schema";
+import { UserId } from "@/lib/types";
 import { eq } from "drizzle-orm";
 
 export async function getUser(userId: UserId) {
