@@ -346,6 +346,7 @@ export const carts = pgTable("cart", {
     .$defaultFn(() => crypto.randomUUID()),
   userId: text("user_id")
     .notNull()
+    .unique()
     .references(() => users.id),
 });
 

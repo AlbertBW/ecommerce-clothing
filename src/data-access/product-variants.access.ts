@@ -7,13 +7,13 @@ import {
 import { ProductVariantId } from "@/lib/types";
 import { eq } from "drizzle-orm";
 
-export async function getProductVariant(productVariantId: ProductVariantId) {
+export async function selectProductVariant(productVariantId: ProductVariantId) {
   return await db.query.productVariants.findFirst({
     where: eq(productVariants.id, productVariantId),
   });
 }
 
-export async function createProductVariant(
+export async function insertProductVariant(
   newProductVariant: NewProductVariant
 ) {
   return await db.insert(productVariants).values(newProductVariant).returning();

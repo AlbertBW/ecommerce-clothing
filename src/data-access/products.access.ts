@@ -3,13 +3,13 @@ import { NewProduct, products, UpdatedProduct } from "@/db/schema";
 import { ProductId } from "@/lib/types";
 import { eq } from "drizzle-orm";
 
-export async function getProduct(productId: ProductId) {
+export async function selectProduct(productId: ProductId) {
   return await db.query.products.findFirst({
     where: eq(products.id, productId),
   });
 }
 
-export async function getProductDetails(productId: ProductId) {
+export async function selectProductDetails(productId: ProductId) {
   return await db.query.products.findFirst({
     where: eq(products.id, productId),
     with: {
@@ -19,7 +19,7 @@ export async function getProductDetails(productId: ProductId) {
   });
 }
 
-export async function createProduct(newProduct: NewProduct) {
+export async function insertProduct(newProduct: NewProduct) {
   return await db.insert(products).values(newProduct).returning();
 }
 

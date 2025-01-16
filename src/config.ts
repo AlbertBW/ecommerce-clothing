@@ -2,7 +2,7 @@
 export const SIGNIN_ERROR_URL = "/error";
 
 // Name of the company
-export const COMPANY_NAME = "DapperDactyl Clothing";
+export const COMPANY_NAME = "DapperWear";
 
 // URL to the author's GitHub profile
 export const AUTHOR_GITHUB = "https://github.com/AlbertBW";

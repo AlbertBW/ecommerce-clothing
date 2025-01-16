@@ -3,17 +3,17 @@ import { categories, UpdatedCategory, NewCategory } from "@/db/schema";
 import { CategoryId } from "@/lib/types";
 import { eq } from "drizzle-orm";
 
-export async function getAllCategories() {
+export async function selectAllCategories() {
   return await db.query.categories.findMany();
 }
 
-export async function getCategoryById(categoryId: CategoryId) {
+export async function selectCategoryById(categoryId: CategoryId) {
   return await db.query.categories.findFirst({
     where: eq(categories.id, categoryId),
   });
 }
 
-export async function createCategory(newCategory: NewCategory) {
+export async function insertCategory(newCategory: NewCategory) {
   return await db.insert(categories).values(newCategory).returning();
 }
 

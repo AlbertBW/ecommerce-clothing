@@ -3,15 +3,15 @@ import { NewSize, sizes, UpdatedSize } from "@/db/schema";
 import { SizeId } from "@/lib/types";
 import { eq } from "drizzle-orm";
 
-export async function getAllSizes() {
+export async function selectAllSizes() {
   return await db.query.sizes.findMany();
 }
 
-export async function getSizeById(sizeId: SizeId) {
+export async function selectSizeById(sizeId: SizeId) {
   return await db.query.sizes.findFirst({ where: eq(sizes.id, sizeId) });
 }
 
-export async function createSize(newSize: NewSize) {
+export async function insertSize(newSize: NewSize) {
   return await db.insert(sizes).values(newSize).returning();
 }
 

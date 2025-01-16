@@ -3,7 +3,7 @@ import { UpdatedUser, users } from "@/db/schema";
 import { UserId } from "@/lib/types";
 import { eq } from "drizzle-orm";
 
-export async function getUser(userId: UserId) {
+export async function selectUser(userId: UserId) {
   const user = await db.query.users.findFirst({
     where: eq(users.id, userId),
   });
@@ -11,7 +11,7 @@ export async function getUser(userId: UserId) {
   return user;
 }
 
-export async function getUserByEmail(email: string) {
+export async function selectUserByEmail(email: string) {
   const user = await db.query.users.findFirst({
     where: eq(users.email, email),
   });

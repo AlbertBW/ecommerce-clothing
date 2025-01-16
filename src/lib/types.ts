@@ -1,4 +1,5 @@
 import {
+  Cart,
   Category,
   Colour,
   Product,
@@ -27,6 +28,8 @@ export type ProductId = Product["id"];
 export type SizeId = Size["id"];
 
 export type ProductVariantId = ProductVariant["id"];
+
+export type CartId = Cart["id"];
 
 export type ProductDetails = Product & {
   productVariants: (ProductVariant & {

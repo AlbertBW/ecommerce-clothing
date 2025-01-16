@@ -5,6 +5,7 @@ import { db } from "./db";
 import { accounts, sessions, users, verificationTokens } from "./db/schema";
 import type { Provider } from "next-auth/providers";
 import { ProviderInfo } from "@/lib/types";
+import { getOrCreateCart } from "./use-cases/carts";
 
 const providers: Provider[] = [GitHub];
 
@@ -21,6 +22,10 @@ export const providerMap: ProviderInfo[] = providers
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
+    async signIn({ user }) {
+      if (user.id) await getOrCreateCart(user.id);
+      return true;
+    },
     authorized: async ({ auth }) => {
       // Logged in users are authenticated, otherwise redirect to login page
       return !!auth;

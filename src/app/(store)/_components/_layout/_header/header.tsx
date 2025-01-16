@@ -15,7 +15,7 @@ export default async function Header() {
       <Suspense>
         <SearchBox />
       </Suspense>
-      <div className="flex gap-4 md:gap-8 lg:gap-12 h-full items-center min-w-24">
+      <div className="flex gap-4 md:gap-8 h-full items-center min-w-24">
         <ShoppingCart />
         <SessionProvider>
           <UserAccount />

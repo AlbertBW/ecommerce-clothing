@@ -35,5 +35,4 @@ export async function signInWithProvider(state: ProviderForm) {
     // https://nextjs.org/docs/app/api-reference/functions/redirect#server-component
     throw error;
   }
-  return state;
 }
