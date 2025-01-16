@@ -15,6 +15,8 @@ export async function selectProductDetails(productId: ProductId) {
     with: {
       productVariants: { with: { colour: true, size: true } },
       productRating: true,
+      brand: true,
+      category: true,
     },
   });
 }
@@ -24,6 +26,8 @@ export async function selectLatestProductDetails(limit?: number) {
     with: {
       productVariants: { with: { colour: true, size: true } },
       productRating: true,
+      brand: true,
+      category: true,
     },
     orderBy: products.createdAt,
     limit: limit,

@@ -1,4 +1,5 @@
 import {
+  Brand,
   Cart,
   Category,
   Colour,
@@ -39,5 +40,7 @@ export type ProductDetails = Product & {
     colour: Colour | null;
     size: Size | null;
   })[];
-  rating: ProductRating;
+  productRating: ProductRating | null;
+  brand: Brand | null;
+  category: Category | null;
 };

@@ -23,20 +23,15 @@ body {
 }
 
 /* Animation for landing page products */
-/* .container {
+.carousel-container {
   position: relative;
-  min-width: 100%;
-  height: 20vh;
-  overflow: hidden;
+  height: 30svh;
+  overflow-x: hidden;
 }
 
-.moving-square {
-  width: 50px;
-  height: 50px;
-  background-color: skyblue;
+.moving-product {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  width: 14%;
 }
 
 .move-right {
@@ -66,7 +61,7 @@ body {
 }
 
 /* Delays to space out the squares */
-/* .delay-0 {
+.delay-0 {
   animation-delay: calc(-1 * (var(--animation-duration) / 3 * 2));
 }
 
@@ -79,6 +74,6 @@ body {
 }
 
 /* Pause animation on hover */
-/* .container:hover .moving-square {
+.carousel-container:hover .moving-product {
   animation-play-state: paused;
-}   */
+}

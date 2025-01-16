@@ -20,7 +20,7 @@ export default function HoverDropdown({
   return (
     <div data-testid={"hover-trigger"} ref={ref} className="relative group">
       <div className="group flex justify-center items-center">
-        <div className="relative group-hover:z-10">{trigger}</div>
+        <div className="relative group-hover:z-20">{trigger}</div>
       </div>
       <div
         className={`transition-opacity duration-300 ${
