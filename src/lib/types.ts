@@ -7,6 +7,7 @@ import {
   ProductVariant,
   Size,
   User,
+  Wishlist,
 } from "@/db/schema";
 
 export type ProviderInfo = {
@@ -30,6 +31,8 @@ export type SizeId = Size["id"];
 export type ProductVariantId = ProductVariant["id"];
 
 export type CartId = Cart["id"];
+
+export type WishlistId = Wishlist["id"];
 
 export type ProductDetails = Product & {
   productVariants: (ProductVariant & {

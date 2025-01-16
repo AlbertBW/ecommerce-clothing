@@ -19,6 +19,17 @@ export async function selectProductDetails(productId: ProductId) {
   });
 }
 
+export async function selectLatestProductDetails(limit?: number) {
+  return await db.query.products.findMany({
+    with: {
+      productVariants: { with: { colour: true, size: true } },
+      productRating: true,
+    },
+    orderBy: products.createdAt,
+    limit: limit,
+  });
+}
+
 export async function insertProduct(newProduct: NewProduct) {
   return await db.insert(products).values(newProduct).returning();
 }

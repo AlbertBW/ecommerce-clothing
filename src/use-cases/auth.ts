@@ -2,7 +2,9 @@ import { signIn } from "@/auth";
 import { SIGNIN_ERROR_URL } from "@/config";
 import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
-import type { ProviderForm } from "@/lib/types";
+import type { ProviderForm, UserId } from "@/lib/types";
+import { getOrCreateWishlist } from "./wishlists";
+import { getOrCreateCart } from "./carts";
 
 export async function signInWithCredentials(formData: FormData) {
   try {
@@ -35,4 +37,9 @@ export async function signInWithProvider(state: ProviderForm) {
     // https://nextjs.org/docs/app/api-reference/functions/redirect#server-component
     throw error;
   }
+}
+
+export async function createCartAndWishlist(userId: UserId) {
+  await getOrCreateCart(userId);
+  await getOrCreateWishlist(userId);
 }

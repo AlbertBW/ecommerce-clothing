@@ -4,7 +4,6 @@ import {
   NewColour,
   NewProduct,
   NewSize,
-  NewProductVariant,
   NewProductRating,
   NewBrand,
 } from "../schema";
@@ -44,31 +43,31 @@ export const categorySeedData: NewCategory[] = [
 
 export const brandSeedData: NewBrand[] = [
   {
-    brand: "Solace",
+    name: "Solace",
     slug: createBrandSlug("Solace"),
   },
   {
-    brand: "Urban Threads",
+    name: "Urban Threads",
     slug: createBrandSlug("Urban Threads"),
   },
   {
-    brand: "ComfortWear",
+    name: "ComfortWear",
     slug: createBrandSlug("ComfortWear"),
   },
   {
-    brand: "WinterFit",
+    name: "WinterFit",
     slug: createBrandSlug("WinterFit"),
   },
   {
-    brand: "Breeze",
+    name: "Breeze",
     slug: createBrandSlug("Breeze"),
   },
   {
-    brand: "Elegance",
+    name: "Elegance",
     slug: createBrandSlug("Elegance"),
   },
   {
-    brand: "PartyTime",
+    name: "PartyTime",
     slug: createBrandSlug("PartyTime"),
   },
 ];
@@ -192,16 +191,6 @@ export const sizeSeedData: NewSize[] = [
   { name: "large", displayOrder: 3 },
   { name: "extra large", displayOrder: 4 },
   { name: "XXL", displayOrder: 5 },
-];
-
-export const productVariantSeedData: NewProductVariant[] = [
-  {
-    stock: 0,
-    price: 0,
-    sku: "",
-    createdAt: undefined,
-    updatedAt: undefined,
-  },
 ];
 
 export const productRatingSeedData: NewProductRating[] = [

@@ -161,7 +161,7 @@ export const categoryRelations = relations(categories, ({ one, many }) => ({
 
 export const brands = pgTable("brand", {
   id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
-  brand: text("brand").notNull().unique(),
+  name: text("brand").notNull().unique(),
   slug: text("slug").notNull().unique(),
 });
 
@@ -225,9 +225,11 @@ export const sizeRelations = relations(sizes, ({ many }) => ({
 export const productVariants = pgTable("product_variants", {
   id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
   sku: text("sku").unique().notNull(),
-  productId: integer("product_id").references(() => products.id, {
-    onDelete: "cascade",
-  }),
+  productId: integer("product_id")
+    .notNull()
+    .references(() => products.id, {
+      onDelete: "cascade",
+    }),
   colourId: integer("colour_id").references(() => colours.id, {
     onDelete: "set null",
   }),

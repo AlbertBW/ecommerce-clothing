@@ -3,7 +3,7 @@ import { UpdatedUser, users } from "@/db/schema";
 import { UserId } from "@/lib/types";
 import { eq } from "drizzle-orm";
 
-export async function selectUser(userId: UserId) {
+export async function selectUserByUserId(userId: UserId) {
   const user = await db.query.users.findFirst({
     where: eq(users.id, userId),
   });

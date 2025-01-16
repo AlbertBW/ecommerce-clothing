@@ -8,7 +8,7 @@ import { SessionProvider } from "next-auth/react";
 
 export default async function Header() {
   return (
-    <header className="flex px-4 md:px-12 lg:px-18 mx-auto justify-between items-center h-16 gap-2">
+    <header className="flex pt-1 px-4 md:px-12 lg:px-18 mx-auto justify-between items-center h-16 gap-2">
       <Link href={"/"}>
         <h1 className="font-bold lg:text-2xl">{COMPANY_NAME}</h1>
       </Link>
