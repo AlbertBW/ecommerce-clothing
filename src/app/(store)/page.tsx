@@ -1,7 +1,6 @@
 import { getLatestProductDetails } from "@/use-cases/products";
 import ProductCarousel from "../_components/product-carousel";
 import Link from "next/link";
-import ProductCard from "../_components/product-card";
 
 export default async function Home() {
   const latestProducts = await getLatestProductDetails();

@@ -27,10 +27,7 @@ import { getRandomFloatAsString } from "./utils/get-random-float";
 
 async function seed() {
   // Script to seed the database
-  const allCategories = await db
-    .insert(categories)
-    .values(categorySeedData)
-    .returning();
+  await db.insert(categories).values(categorySeedData).returning();
 
   const allColours = await db
     .insert(colours)
@@ -86,10 +83,7 @@ async function seed() {
     return variants;
   });
 
-  const allProductVariants = await db
-    .insert(productVariants)
-    .values(productVariantsData)
-    .returning();
+  await db.insert(productVariants).values(productVariantsData).returning();
 
   const productRatingsData = allProducts.flatMap((p) => {
     const rating: NewProductRating = {
@@ -100,10 +94,7 @@ async function seed() {
     return rating;
   });
 
-  const allProductRatings = await db
-    .insert(productRatings)
-    .values(productRatingsData)
-    .returning();
+  await db.insert(productRatings).values(productRatingsData).returning();
 }
 
 seed();
