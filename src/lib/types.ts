@@ -72,32 +72,15 @@ export type RecursiveCategory = {
   }[];
 };
 
-export type HeaderCatergory = {
+export type NavigationGroup = {
   gender: string;
-  categories: HeaderCatergories;
+  categories: HeaderCatergory[];
 };
 
-export type HeaderCatergories = {
+export type HeaderCatergory = {
   id: number;
   name: string;
   gender: "men" | "women" | "unisex";
   parentId: number | null;
-  subcategories: {
-    id: number;
-    name: string;
-    gender: "men" | "women" | "unisex";
-    parentId: number | null;
-    subcategories: {
-      id: number;
-      name: string;
-      gender: "men" | "women" | "unisex";
-      parentId: number | null;
-      subcategories: {
-        id: number;
-        name: string;
-        gender: "men" | "women" | "unisex";
-        parentId: number | null;
-      }[];
-    }[];
-  }[];
-}[];
+  subcategories: HeaderCatergory[];
+};

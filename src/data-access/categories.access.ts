@@ -32,9 +32,7 @@ export async function selectRecursiveCategoriesByGender(genders: Gender[]) {
           subcategories: {
             where: inArray(categories.gender, genders),
             with: {
-              subcategories: {
-                where: inArray(categories.gender, genders),
-              },
+              subcategories: {},
             },
           },
         },
