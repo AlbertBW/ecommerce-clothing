@@ -12,7 +12,15 @@ export default function ProductCard({ product }: { product: ProductDetails }) {
   const isLowStock = totalStock < LOW_STOCK_THRESHOLD && totalStock > 0;
   return (
     <>
-      <Image src={shirt} alt={product.title} width={0} height={0} />
+      <Image
+        src={shirt}
+        alt={product.title}
+        layout="responsive"
+        width={0}
+        height={0}
+        className="w-full h-auto object-contain"
+      />
+
       <div>
         <p className="font-semibold">{product.brand?.name}</p>
         <p>{product.title}</p>

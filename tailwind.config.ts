@@ -16,6 +16,9 @@ export default {
         sans: ["var(--font-geist-sans)"],
         mono: ["var(--font-geist-mono)"],
       },
+      minHeight: {
+        main: "var(--min-height-calc)",
+      },
     },
   },
   plugins: [],
