@@ -9,5 +9,3 @@ export const AUTHOR_GITHUB = "https://github.com/AlbertBW";
 
 // URL to the project repository on GitHub
 export const PROJECT_REPO = "https://github.com/AlbertBW/ecommerce-clothing";
-
-export const LOW_STOCK_THRESHOLD = 50;

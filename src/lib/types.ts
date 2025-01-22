@@ -44,3 +44,60 @@ export type ProductDetails = Product & {
   brand: Brand | null;
   category: Category | null;
 };
+
+export type RecursiveCategory = {
+  categories: {
+    gender: "men" | "women" | "unisex";
+    id: number;
+    name: string;
+    parentId: number | null;
+    subcategories: {
+      gender: "men" | "women" | "unisex";
+      id: number;
+      name: string;
+      parentId: number | null;
+      subcategories: {
+        gender: "men" | "women" | "unisex";
+        id: number;
+        name: string;
+        parentId: number | null;
+        subcategories: {
+          gender: "men" | "women" | "unisex";
+          id: number;
+          name: string;
+          parentId: number | null;
+        }[];
+      }[];
+    }[];
+  }[];
+};
+
+export type HeaderCatergory = {
+  gender: string;
+  categories: HeaderCatergories;
+};
+
+export type HeaderCatergories = {
+  id: number;
+  name: string;
+  gender: "men" | "women" | "unisex";
+  parentId: number | null;
+  subcategories: {
+    id: number;
+    name: string;
+    gender: "men" | "women" | "unisex";
+    parentId: number | null;
+    subcategories: {
+      id: number;
+      name: string;
+      gender: "men" | "women" | "unisex";
+      parentId: number | null;
+      subcategories: {
+        id: number;
+        name: string;
+        gender: "men" | "women" | "unisex";
+        parentId: number | null;
+      }[];
+    }[];
+  }[];
+}[];

@@ -1,10 +1,47 @@
 import { db } from "@/db";
-import { categories, UpdatedCategory, NewCategory } from "@/db/schema";
+import { UpdatedCategory, NewCategory, Gender, categories } from "@/db/schema";
 import { CategoryId } from "@/lib/types";
-import { eq } from "drizzle-orm";
+import { and, eq, inArray, isNull } from "drizzle-orm";
 
 export async function selectAllCategories() {
   return await db.query.categories.findMany();
+}
+
+export async function selectCategoriesWithSubcategoriesByGender(
+  genders: Gender[]
+) {
+  return await db.query.categories.findMany({
+    where: and(
+      inArray(categories.gender, genders),
+      isNull(categories.parentId)
+    ),
+    with: { subcategories: { where: inArray(categories.gender, genders) } },
+  });
+}
+
+export async function selectRecursiveCategoriesByGender(genders: Gender[]) {
+  return await db.query.categories.findMany({
+    where: and(
+      isNull(categories.parentId),
+      inArray(categories.gender, genders)
+    ),
+    with: {
+      subcategories: {
+        where: inArray(categories.gender, genders),
+        with: {
+          subcategories: {
+            where: inArray(categories.gender, genders),
+            with: {
+              subcategories: {
+                where: inArray(categories.gender, genders),
+              },
+            },
+          },
+        },
+      },
+    },
+    orderBy: categories.name,
+  });
 }
 
 export async function selectCategoryById(categoryId: CategoryId) {

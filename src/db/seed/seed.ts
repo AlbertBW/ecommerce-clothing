@@ -40,8 +40,12 @@ async function seed() {
 
   const productsData = productSeedData.map((product) => {
     const brand = allBrands.find((brand) => brand.id === product.brandId);
+    const category = categorySeedData.find(
+      (category) => category.id === product.categoryId
+    );
 
     if (!brand?.name) throw new Error("No Brand name");
+    if (!category?.gender) throw new Error("No Category Gender");
 
     const brandCode = generateCode(brand?.name);
     const productTitleCode = generateCode(product.title);
@@ -51,7 +55,7 @@ async function seed() {
     const slug = createProductSlug({
       brandCode: brandCode,
       categoryId: product.categoryId,
-      gender: product.gender,
+      gender: category.gender,
       productTitleCode: productTitleCode,
     });
 

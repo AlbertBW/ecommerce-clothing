@@ -20,7 +20,10 @@ import type { AdapterAccountType } from "next-auth/adapters";
 const pgTable = pgTableCreator((name) => `ec_${name}`);
 
 export const roles = pgEnum("roles", ["admin", "customer"]);
+
 export const genderEnum = pgEnum("gender", ["men", "women", "unisex"]);
+export type Gender = (typeof genderEnum.enumValues)[number];
+export const allGenders = genderEnum.enumValues;
 
 export const users = pgTable("user", {
   id: text("id")
@@ -141,7 +144,7 @@ export const addressesRelations = relations(addresses, ({ many, one }) => ({
 export const categories = pgTable("category", {
   id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
   name: text("name").notNull().unique(),
-  // e.g. "Clothing > T-Shirts"
+  gender: genderEnum("gender").notNull(),
   parentId: integer("parent_id").references((): AnyPgColumn => categories.id, {
     onDelete: "set null",
   }),
@@ -178,10 +181,9 @@ export const products = pgTable("product", {
   brandId: integer("brand_id")
     .notNull()
     .references(() => brands.id),
-  categoryId: integer("category_id").references(() => categories.id, {
-    onDelete: "set null",
-  }),
-  gender: genderEnum("gender").notNull(),
+  categoryId: integer("category_id")
+    .references(() => categories.id)
+    .notNull(),
   tags: text("tags").array(),
   createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { mode: "date" })

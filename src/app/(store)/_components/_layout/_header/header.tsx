@@ -5,22 +5,30 @@ import ShoppingCart from "./shopping-cart";
 import UserAccount from "./user-account";
 import { Suspense } from "react";
 import { SessionProvider } from "next-auth/react";
+import { getHeaderMenuCategories } from "@/use-cases/categories";
+import CategoryMenu from "./category-menu";
 
 export default async function Header() {
+  const categories = await getHeaderMenuCategories();
+
   return (
-    <header className="flex pt-1 px-4 md:px-12 lg:px-18 mx-auto justify-between items-center h-16 gap-2">
-      <Link href={"/"}>
-        <h1 className="font-bold lg:text-2xl">{COMPANY_NAME}</h1>
-      </Link>
-      <Suspense>
-        <SearchBox />
-      </Suspense>
-      <div className="flex gap-4 md:gap-8 h-full items-center min-w-24">
-        <ShoppingCart />
-        <SessionProvider>
-          <UserAccount />
-        </SessionProvider>
+    <header className="flex flex-col w-full transition-colors ease-linear dark:bg-black/0 sm:dark:hover:bg-black/20 bg-white/0 sm:hover:bg-white/40 bg-gradient-to-b dark:from-black/90 from-white/90 dark:via-black/60 via-white-60 to-transparent">
+      <div className="flex w-full pt-1 px-4 md:px-12 lg:px-18 mx-auto justify-between items-center h-16 gap-2 z-50">
+        <Link href={"/"}>
+          <h1 className="font-bold lg:text-2xl">{COMPANY_NAME}</h1>
+        </Link>
+        <Suspense>
+          <SearchBox />
+        </Suspense>
+        <div className="flex gap-4 md:gap-8 h-full items-center min-w-24">
+          <ShoppingCart />
+          <SessionProvider>
+            <UserAccount />
+          </SessionProvider>
+        </div>
       </div>
+
+      <CategoryMenu categories={categories} />
     </header>
   );
 }

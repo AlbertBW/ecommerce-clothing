@@ -18,11 +18,11 @@ export default function SearchInput({
     "focus-within:ring-2 focus-within:ring-red-500 focus-within:border-red-500 dark:focus-within:bg-red-950/40  focus-within:bg-red-50/40";
 
   const regularStyle =
-    "focus-within:ring-2 focus-within:ring-sky-500 focus-within:border-sky-500 dark:focus-within:bg-sky-950/40  focus-within:bg-sky-50/40";
+    "focus-within:ring-2 focus-within:ring-sky-500 focus-within:border-sky-500 dark:focus-within:bg-sky-950/80 focus-within:bg-sky-50/80";
 
   return (
     <div
-      className={`group flex justify-end w-full mx-auto max-w-screen-md border border-zinc-700 rounded-md ${
+      className={`group dark:bg-black/70 bg-white/70 flex justify-end w-full mx-auto max-w-screen-md border border-zinc-700 rounded-md ${
         error ? errorStyle : regularStyle
       } transition-all`}
     >

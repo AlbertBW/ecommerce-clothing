@@ -23,7 +23,7 @@ export default function ShoppingCart() {
     <HoverDropdown
       trigger={
         <Link href={"/cart"}>
-          <ShoppingBagIcon className="size-9 dark:hover:text-zinc-200/70 hover:text-zinc-600/70 transition-colors group-hover:z-10" />
+          <ShoppingBagIcon className="size-9 dark:hover:text-zinc-200/70 hover:text-zinc-600/70 transition-colors group-hover:z-10 drop-shadow-lg" />
         </Link>
       }
       dropdown={
