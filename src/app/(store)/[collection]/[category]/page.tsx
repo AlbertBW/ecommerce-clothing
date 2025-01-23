@@ -1,4 +1,5 @@
 import { getGenderParams } from "@/use-cases/products";
+import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
   const genders = getGenderParams();
@@ -15,7 +16,7 @@ export default async function GenderPage({
 }) {
   const gender = (await params).gender;
 
-  if (gender != "men" || "women") return <div>Error</div>;
+  if (gender != "men" || "women") return notFound();
 
   return <div>GenderPage {gender}</div>;
 }

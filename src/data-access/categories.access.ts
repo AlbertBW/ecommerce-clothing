@@ -1,5 +1,10 @@
 import { db } from "@/db";
-import { UpdatedCategory, NewCategory, Gender, categories } from "@/db/schema";
+import {
+  UpdatedCategory,
+  NewCategory,
+  Collection,
+  categories,
+} from "@/db/schema";
 import { CategoryId } from "@/lib/types";
 import { and, eq, inArray, isNull } from "drizzle-orm";
 
@@ -7,30 +12,34 @@ export async function selectAllCategories() {
   return await db.query.categories.findMany();
 }
 
-export async function selectCategoriesWithSubcategoriesByGender(
-  genders: Gender[]
+export async function selectCategoriesWithSubcategoriesByCollection(
+  collections: Collection[]
 ) {
   return await db.query.categories.findMany({
     where: and(
-      inArray(categories.gender, genders),
+      inArray(categories.collection, collections),
       isNull(categories.parentId)
     ),
-    with: { subcategories: { where: inArray(categories.gender, genders) } },
+    with: {
+      subcategories: { where: inArray(categories.collection, collections) },
+    },
   });
 }
 
-export async function selectRecursiveCategoriesByGender(genders: Gender[]) {
+export async function selectRecursiveCategoriesByCollection(
+  collections: Collection[]
+) {
   return await db.query.categories.findMany({
     where: and(
       isNull(categories.parentId),
-      inArray(categories.gender, genders)
+      inArray(categories.collection, collections)
     ),
     with: {
       subcategories: {
-        where: inArray(categories.gender, genders),
+        where: inArray(categories.collection, collections),
         with: {
           subcategories: {
-            where: inArray(categories.gender, genders),
+            where: inArray(categories.collection, collections),
             with: {
               subcategories: {},
             },
@@ -38,7 +47,7 @@ export async function selectRecursiveCategoriesByGender(genders: Gender[]) {
         },
       },
     },
-    orderBy: categories.name,
+    orderBy: [categories.displayOrder, categories.name],
   });
 }
 

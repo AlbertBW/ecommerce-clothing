@@ -5,15 +5,15 @@ import ShoppingCart from "./shopping-cart";
 import UserAccount from "./user-account";
 import { Suspense } from "react";
 import { SessionProvider } from "next-auth/react";
-import { getHeaderMenuCategories } from "@/use-cases/categories";
-import CategoryMenu from "./category-menu";
+import { getHeaderMenuCollections } from "@/use-cases/categories";
+import CollectionsMenu from "./category-menu";
 
 export default async function Header() {
-  const categories = await getHeaderMenuCategories();
+  const collections = await getHeaderMenuCollections();
 
   return (
-    <header className="flex flex-col w-full transition-colors ease-linear dark:bg-black/0 sm:dark:hover:bg-black/20 bg-white/0 sm:hover:bg-white/40 bg-gradient-to-b dark:from-black/90 from-white/90 dark:via-black/60 via-white-60 to-transparent">
-      <div className="flex w-full pt-1 px-4 md:px-12 lg:px-18 mx-auto justify-between items-center h-16 gap-2 z-50">
+    <header className="flex flex-col w-full bg-gradient-to-b dark:from-black/90 from-white/90 dark:via-black/60 via-white-60 to-transparent">
+      <div className="flex w-full pt-2 px-4 md:px-12 lg:px-18 mx-auto justify-between items-center h-14 gap-2 z-50">
         <Link href={"/"}>
           <h1 className="font-bold lg:text-2xl">{COMPANY_NAME}</h1>
         </Link>
@@ -28,7 +28,7 @@ export default async function Header() {
         </div>
       </div>
 
-      <CategoryMenu categories={categories} />
+      <CollectionsMenu collections={collections} />
     </header>
   );
 }

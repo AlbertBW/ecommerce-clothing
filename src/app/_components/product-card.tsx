@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { ProductDetails } from "@/lib/types";
-import { LOW_STOCK_THRESHOLD } from "@/config";
+import { LOW_STOCK_THRESHOLD } from "@/lib/constants";
 import shirt from "../../../public/t-shirt-white.jpeg";
 
 export default function ProductCard({ product }: { product: ProductDetails }) {

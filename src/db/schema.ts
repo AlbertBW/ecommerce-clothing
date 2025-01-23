@@ -21,9 +21,9 @@ const pgTable = pgTableCreator((name) => `ec_${name}`);
 
 export const roles = pgEnum("roles", ["admin", "customer"]);
 
-export const genderEnum = pgEnum("gender", ["men", "women", "unisex"]);
-export type Gender = (typeof genderEnum.enumValues)[number];
-export const allGenders = genderEnum.enumValues;
+export const collectionEnum = pgEnum("collection", ["men", "women", "unisex"]);
+export type Collection = (typeof collectionEnum.enumValues)[number];
+export const allCollections = collectionEnum.enumValues;
 
 export const users = pgTable("user", {
   id: text("id")
@@ -144,7 +144,8 @@ export const addressesRelations = relations(addresses, ({ many, one }) => ({
 export const categories = pgTable("category", {
   id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
   name: text("name").notNull().unique(),
-  gender: genderEnum("gender").notNull(),
+  collection: collectionEnum("collection").notNull(),
+  displayOrder: integer("display_order"),
   parentId: integer("parent_id").references((): AnyPgColumn => categories.id, {
     onDelete: "set null",
   }),

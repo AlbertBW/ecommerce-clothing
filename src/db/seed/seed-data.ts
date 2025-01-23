@@ -10,131 +10,134 @@ import {
 
 export const categorySeedData: NewCategory[] = [
   // Clothing
-  { id: 100, name: "Clothing", gender: "unisex" },
-  { id: 101, name: "T-shirts", parentId: 100, gender: "unisex" },
-  { id: 102, name: "Dresses", parentId: 100, gender: "women" },
+  { id: 100, name: "Clothing", collection: "unisex", displayOrder: 0 },
+  { id: 101, name: "T-shirts", parentId: 100, collection: "unisex" },
+  { id: 102, name: "Dresses", parentId: 100, collection: "women" },
   {
     id: 103,
     name: "Trousers",
     parentId: 100,
-    gender: "unisex",
+    collection: "unisex",
   },
   {
     id: 104,
     name: "Jackets",
     parentId: 100,
-    gender: "unisex",
+    collection: "unisex",
   },
   {
     id: 105,
     name: "Skirts",
     parentId: 100,
-    gender: "women",
+    collection: "women",
   },
 
   // Sportswear
   {
     id: 200,
     name: "Sportswear",
-    gender: "unisex",
+    collection: "unisex",
+    displayOrder: 1,
   },
   {
     id: 201,
     name: "Tops",
     parentId: 200,
-    gender: "unisex",
+    collection: "unisex",
   },
   {
     id: 202,
     name: "Sports Bra",
     parentId: 200,
-    gender: "women",
+    collection: "women",
   },
   {
     id: 203,
     name: "Leggins",
     parentId: 200,
-    gender: "women",
+    collection: "women",
   },
   {
     id: 204,
     name: "Shorts",
     parentId: 200,
-    gender: "unisex",
+    collection: "unisex",
   },
   {
     id: 205,
     name: "Joggers",
     parentId: 200,
-    gender: "men",
+    collection: "men",
   },
 
   // Footwear
   {
     id: 300,
     name: "Footwear",
-    gender: "unisex",
+    collection: "unisex",
+    displayOrder: 2,
   },
   {
     id: 301,
     name: "Running Shoes",
     parentId: 300,
-    gender: "unisex",
+    collection: "unisex",
   },
   {
     id: 302,
     name: "Training Shoes",
     parentId: 300,
-    gender: "unisex",
+    collection: "unisex",
   },
   {
     id: 303,
     name: "Hiking Boots",
     parentId: 300,
-    gender: "unisex",
+    collection: "unisex",
   },
   {
     id: 304,
     name: "Cleats",
     parentId: 300,
-    gender: "unisex",
+    collection: "unisex",
   },
 
   // Accessories
   {
     id: 400,
     name: "Accessories",
-    gender: "unisex",
+    collection: "unisex",
+    displayOrder: 3,
   },
   {
     id: 401,
     name: "Hats",
     parentId: 400,
-    gender: "unisex",
+    collection: "unisex",
   },
   {
     id: 402,
     name: "Bags",
     parentId: 400,
-    gender: "unisex",
+    collection: "unisex",
   },
   {
     id: 403,
     name: "Jewellery",
     parentId: 400,
-    gender: "unisex",
+    collection: "unisex",
   },
   {
     id: 404,
     name: "Gloves",
     parentId: 400,
-    gender: "unisex",
+    collection: "unisex",
   },
   {
     id: 405,
     name: "Belts",
     parentId: 400,
-    gender: "unisex",
+    collection: "unisex",
   },
 ];
 

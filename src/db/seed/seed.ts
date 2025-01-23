@@ -45,7 +45,7 @@ async function seed() {
     );
 
     if (!brand?.name) throw new Error("No Brand name");
-    if (!category?.gender) throw new Error("No Category Gender");
+    if (!category?.collection) throw new Error("No collection");
 
     const brandCode = generateCode(brand?.name);
     const productTitleCode = generateCode(product.title);
@@ -55,7 +55,7 @@ async function seed() {
     const slug = createProductSlug({
       brandCode: brandCode,
       categoryId: product.categoryId,
-      gender: category.gender,
+      collection: category.collection,
       productTitleCode: productTitleCode,
     });
 

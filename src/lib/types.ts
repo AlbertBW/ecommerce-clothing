@@ -72,15 +72,15 @@ export type RecursiveCategory = {
   }[];
 };
 
-export type NavigationGroup = {
-  gender: string;
+export type CollectionGroup = {
+  collection: string;
   categories: HeaderCatergory[];
 };
 
 export type HeaderCatergory = {
   id: number;
   name: string;
-  gender: "men" | "women" | "unisex";
+  collection: "men" | "women" | "unisex";
   parentId: number | null;
   subcategories: HeaderCatergory[];
 };

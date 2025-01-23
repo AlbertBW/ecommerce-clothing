@@ -1,10 +1,10 @@
-import { Gender } from "@/db/schema";
+import { Collection } from "@/db/schema";
 
 export const LOW_STOCK_THRESHOLD = 50;
 
-export const GENDER_HOME_PARAMS = ["men", "women"];
+export const COLLECTION_PARAMS = ["men", "women"];
 
-export const GENDER_COMBINATIONS = {
-  mens: ["men", "unisex"] as Gender[],
-  womens: ["women", "unisex"] as Gender[],
+export const COLLECTION_COMBINATIONS = {
+  mens: ["men", "unisex"] as Collection[],
+  womens: ["women", "unisex"] as Collection[],
 } as const;
