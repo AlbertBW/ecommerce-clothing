@@ -1,38 +1,37 @@
 import { COLLECTION_PARAMS } from "@/lib/constants";
-import { getGenderParams } from "@/use-cases/products";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import menTshirt from "../../../../public/t-shirt-white.jpeg";
 import womenTshirt from "../../../../public/t-shirt-white.jpeg";
 
 export async function generateStaticParams() {
-  const genders = getGenderParams();
-  console.log(genders);
-  return genders.map((gender) => ({
-    gender,
+  return COLLECTION_PARAMS.map((collection) => ({
+    collection,
+    category: ["all"],
   }));
 }
 
 export default async function CollectionPage({
   params,
 }: {
-  params: Promise<{ gender: string }>;
+  params: Promise<{ collection: string }>;
 }) {
-  const gender = (await params).gender;
+  const collection = (await params).collection;
 
-  if (!COLLECTION_PARAMS.includes(gender)) {
+  if (!COLLECTION_PARAMS.includes(collection)) {
     notFound();
   }
 
-  // const data = await genderHomePage(gender);
+  // const data = await collectionHomePage(gender);
 
   return (
     <>
       <section>
         <Image
-          src={gender === "men" ? menTshirt : womenTshirt}
+          src={collection === "men" ? menTshirt : womenTshirt}
           alt={"Men"}
           width={0}
+          priority
           style={{
             position: "absolute",
             top: 0,

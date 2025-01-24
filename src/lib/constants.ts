@@ -5,6 +5,18 @@ export const LOW_STOCK_THRESHOLD = 50;
 export const COLLECTION_PARAMS = ["men", "women"];
 
 export const COLLECTION_COMBINATIONS = {
-  mens: ["men", "unisex"] as Collection[],
-  womens: ["women", "unisex"] as Collection[],
+  men: ["men", "unisex"] as Collection[],
+  women: ["women", "unisex"] as Collection[],
 } as const;
+
+export const ORDER_BY = [
+  "latest",
+  "priceAsc",
+  "priceDesc",
+  "popular",
+  undefined,
+] as const;
+
+export type OrderBy = (typeof ORDER_BY)[number];
+
+export const ORDER_BY_DEFAULT = "latest" as const;

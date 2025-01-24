@@ -9,8 +9,8 @@ export async function getCategoriesRecursiveByCollection(
 }
 
 export async function getHeaderMenuCollections() {
-  const men = COLLECTION_COMBINATIONS["mens"];
-  const women = COLLECTION_COMBINATIONS["womens"];
+  const men = COLLECTION_COMBINATIONS["men"];
+  const women = COLLECTION_COMBINATIONS["women"];
 
   const womenCategories = await getCategoriesRecursiveByCollection(men);
   const menCategories = await getCategoriesRecursiveByCollection(women);

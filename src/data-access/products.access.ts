@@ -1,5 +1,11 @@
 import { db } from "@/db";
-import { NewProduct, products, UpdatedProduct } from "@/db/schema";
+import {
+  categories,
+  Collection,
+  NewProduct,
+  products,
+  UpdatedProduct,
+} from "@/db/schema";
 import { ProductId } from "@/lib/types";
 import { eq } from "drizzle-orm";
 
@@ -31,6 +37,37 @@ export async function selectLatestProductDetails(limit?: number) {
     },
     orderBy: products.createdAt,
     limit: limit,
+  });
+}
+
+export async function selectProductDetailsByCollection(
+  collection: Collection[],
+  filters?: string | string[]
+) {
+  return await db.query.products.findMany({
+    with: {
+      productVariants: {
+        with: {
+          colour: true,
+          size: true,
+        },
+      },
+      productRating: true,
+      brand: true,
+      category: true,
+    },
+    where: (products, { exists, and, eq, inArray }) =>
+      exists(
+        db
+          .select()
+          .from(categories)
+          .where(
+            and(
+              eq(categories.id, products.categoryId),
+              inArray(categories.collection, collection)
+            )
+          )
+      ),
   });
 }
 
