@@ -82,6 +82,7 @@ export default function CollectionsMenu({
 }
 
 export function CollectionBox({ collection }: { collection: CollectionGroup }) {
+  console.log(collection);
   return (
     <Fragment>
       {collection.categories.map((category) => (

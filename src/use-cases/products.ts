@@ -3,7 +3,6 @@ import {
   selectProductDetailsByCollection,
 } from "@/data-access/products.access";
 import { allCollections, Collection } from "@/db/schema";
-import { getCategoriesRecursiveByCollection } from "./categories";
 import { COLLECTION_COMBINATIONS } from "@/lib/constants";
 import { ProductDetails } from "@/lib/types";
 
@@ -15,10 +14,10 @@ export async function getLatestProductDetails() {
 }
 
 export async function getProductsByCollection(
-  collection: Collection[],
-  filters: string | string[] | undefined
+  collection: Collection[]
+  // orderBy: string | string[] | undefined
 ) {
-  return await selectProductDetailsByCollection(collection, filters);
+  return await selectProductDetailsByCollection(collection);
 }
 
 export async function collectionHomePage(gender: string) {
@@ -28,8 +27,9 @@ export async function collectionHomePage(gender: string) {
 export async function getProductsByCollectionAndCategory(
   collection: Collection[],
   category: string[],
-  filters: string | string[] | undefined
+  orderBy: string | string[] | undefined
 ) {
+  console.log(collection, category, orderBy);
   const products: ProductDetails[] = [];
   return products;
 }
@@ -37,25 +37,33 @@ export async function getProductsByCollectionAndCategory(
 export async function getProductListPageData({
   collection,
   categories,
-  filters,
-}: {
+  orderBy,
+}: // page = "1",
+// brand,
+// colour,
+// size,
+// price,
+{
   collection: string;
   categories: string[];
-  filters: string | string[] | undefined;
+  orderBy: string | string[] | undefined;
+  page: string | string[] | undefined;
+  brand: string | string[] | undefined;
+  colour: string | string[] | undefined;
+  size: string | string[] | undefined;
+  price: string | string[] | undefined;
 }) {
   const collectionCombo =
     COLLECTION_COMBINATIONS[`${collection}` as "men" | "women"];
 
-  const [products, categoryTree] = await Promise.all([
+  const products =
     categories[0] === "all"
-      ? getProductsByCollection(collectionCombo, filters)
+      ? getProductsByCollection(collectionCombo)
       : getProductsByCollectionAndCategory(
           collectionCombo,
           categories,
-          filters
-        ),
-    getCategoriesRecursiveByCollection(collectionCombo),
-  ]);
+          orderBy
+        );
 
-  return { products, categoryTree };
+  return await products;
 }

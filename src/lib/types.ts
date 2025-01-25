@@ -45,42 +45,15 @@ export type ProductDetails = Product & {
   category: Category | null;
 };
 
-export type RecursiveCategory = {
-  categories: {
-    gender: "men" | "women" | "unisex";
-    id: number;
-    name: string;
-    parentId: number | null;
-    subcategories: {
-      gender: "men" | "women" | "unisex";
-      id: number;
-      name: string;
-      parentId: number | null;
-      subcategories: {
-        gender: "men" | "women" | "unisex";
-        id: number;
-        name: string;
-        parentId: number | null;
-        subcategories: {
-          gender: "men" | "women" | "unisex";
-          id: number;
-          name: string;
-          parentId: number | null;
-        }[];
-      }[];
-    }[];
-  }[];
-};
-
 export type CollectionGroup = {
   collection: string;
-  categories: HeaderCatergory[];
+  categories: RecursiveCategory[];
 };
 
-export type HeaderCatergory = {
+export type RecursiveCategory = {
   id: number;
   name: string;
   collection: "men" | "women" | "unisex";
   parentId: number | null;
-  subcategories: HeaderCatergory[];
+  subcategories: RecursiveCategory[];
 };

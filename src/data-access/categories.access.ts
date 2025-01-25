@@ -12,6 +12,12 @@ export async function selectAllCategories() {
   return await db.query.categories.findMany();
 }
 
+export async function selectCategoryByName(name: string) {
+  return await db.query.categories.findFirst({
+    where: eq(categories.name, name),
+  });
+}
+
 export async function selectCategoriesWithSubcategoriesByCollection(
   collections: Collection[]
 ) {
@@ -47,6 +53,23 @@ export async function selectRecursiveCategoriesByCollection(
         },
       },
     },
+    orderBy: [categories.displayOrder, categories.name],
+  });
+}
+
+export async function selectSubcategoriesByCollectionAndParentId({
+  collections,
+  categoryId,
+}: {
+  collections: Collection[];
+  categoryId: number;
+}) {
+  return await db.query.categories.findMany({
+    where: and(
+      eq(categories.parentId, categoryId),
+      inArray(categories.collection, collections)
+    ),
+
     orderBy: [categories.displayOrder, categories.name],
   });
 }

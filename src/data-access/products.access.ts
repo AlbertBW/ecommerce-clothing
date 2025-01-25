@@ -41,8 +41,8 @@ export async function selectLatestProductDetails(limit?: number) {
 }
 
 export async function selectProductDetailsByCollection(
-  collection: Collection[],
-  filters?: string | string[]
+  collection: Collection[]
+  // orderBy?: string | string[]
 ) {
   return await db.query.products.findMany({
     with: {
