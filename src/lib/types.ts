@@ -53,6 +53,8 @@ export type CollectionGroup = {
 export type RecursiveCategory = {
   id: number;
   name: string;
+  displayOrder: number | null;
+  slug: string;
   collection: "men" | "women" | "unisex";
   parentId: number | null;
   subcategories: RecursiveCategory[];

@@ -24,7 +24,6 @@ export async function getCategoryByName(name: string) {
 
   const category = await selectCategoryByName(captialisedName);
 
-  console.log(category);
   if (!category) {
     throw new NotFoundError("Category not found");
   }
@@ -32,7 +31,7 @@ export async function getCategoryByName(name: string) {
   return category;
 }
 
-export async function getHeaderMenuCollections() {
+export async function getHeaderMenuCollectionsWithCategories() {
   const men = COLLECTION_COMBINATIONS["men"];
   const women = COLLECTION_COMBINATIONS["women"];
 

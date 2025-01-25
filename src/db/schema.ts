@@ -144,6 +144,7 @@ export const addressesRelations = relations(addresses, ({ many, one }) => ({
 export const categories = pgTable("category", {
   id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
   name: text("name").notNull().unique(),
+  slug: text("slug").notNull().unique(),
   collection: collectionEnum("collection").notNull(),
   displayOrder: integer("display_order"),
   parentId: integer("parent_id").references((): AnyPgColumn => categories.id, {

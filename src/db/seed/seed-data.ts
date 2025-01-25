@@ -10,26 +10,47 @@ import {
 
 export const categorySeedData: NewCategory[] = [
   // Clothing
-  { id: 100, name: "Clothing", collection: "unisex", displayOrder: 0 },
-  { id: 101, name: "T-shirts", parentId: 100, collection: "unisex" },
-  { id: 102, name: "Dresses", parentId: 100, collection: "women" },
+  {
+    id: 100,
+    name: "Clothing",
+    collection: "unisex",
+    displayOrder: 0,
+    slug: "clothing",
+  },
+  {
+    id: 101,
+    name: "T-shirts",
+    parentId: 100,
+    collection: "unisex",
+    slug: "t-shirts",
+  },
+  {
+    id: 102,
+    name: "Dresses",
+    parentId: 100,
+    collection: "women",
+    slug: "dresses",
+  },
   {
     id: 103,
     name: "Trousers",
     parentId: 100,
     collection: "unisex",
+    slug: "trousers",
   },
   {
     id: 104,
     name: "Jackets",
     parentId: 100,
     collection: "unisex",
+    slug: "jackets",
   },
   {
     id: 105,
     name: "Skirts",
     parentId: 100,
     collection: "women",
+    slug: "skirts",
   },
 
   // Sportswear
@@ -38,36 +59,42 @@ export const categorySeedData: NewCategory[] = [
     name: "Sportswear",
     collection: "unisex",
     displayOrder: 1,
+    slug: "sportswear",
   },
   {
     id: 201,
     name: "Tops",
     parentId: 200,
     collection: "unisex",
+    slug: "tops",
   },
   {
     id: 202,
     name: "Sports Bra",
     parentId: 200,
     collection: "women",
+    slug: "sports-bra",
   },
   {
     id: 203,
     name: "Leggins",
     parentId: 200,
     collection: "women",
+    slug: "leggins",
   },
   {
     id: 204,
     name: "Shorts",
     parentId: 200,
     collection: "unisex",
+    slug: "shorts",
   },
   {
     id: 205,
     name: "Joggers",
     parentId: 200,
     collection: "men",
+    slug: "joggers",
   },
 
   // Footwear
@@ -76,30 +103,35 @@ export const categorySeedData: NewCategory[] = [
     name: "Footwear",
     collection: "unisex",
     displayOrder: 2,
+    slug: "footwear",
   },
   {
     id: 301,
     name: "Running Shoes",
     parentId: 300,
     collection: "unisex",
+    slug: "running-shoes",
   },
   {
     id: 302,
     name: "Training Shoes",
     parentId: 300,
     collection: "unisex",
+    slug: "training-shoes",
   },
   {
     id: 303,
     name: "Hiking Boots",
     parentId: 300,
     collection: "unisex",
+    slug: "hiking-boots",
   },
   {
     id: 304,
     name: "Cleats",
     parentId: 300,
     collection: "unisex",
+    slug: "cleats",
   },
 
   // Accessories
@@ -108,36 +140,42 @@ export const categorySeedData: NewCategory[] = [
     name: "Accessories",
     collection: "unisex",
     displayOrder: 3,
+    slug: "accessories",
   },
   {
     id: 401,
     name: "Hats",
     parentId: 400,
     collection: "unisex",
+    slug: "hats",
   },
   {
     id: 402,
     name: "Bags",
     parentId: 400,
     collection: "unisex",
+    slug: "bags",
   },
   {
     id: 403,
     name: "Jewellery",
     parentId: 400,
     collection: "unisex",
+    slug: "jewellery",
   },
   {
     id: 404,
     name: "Gloves",
     parentId: 400,
     collection: "unisex",
+    slug: "gloves",
   },
   {
     id: 405,
     name: "Belts",
     parentId: 400,
     collection: "unisex",
+    slug: "belts",
   },
 ];
 

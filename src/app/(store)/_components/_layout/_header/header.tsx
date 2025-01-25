@@ -5,11 +5,12 @@ import ShoppingCart from "./shopping-cart";
 import UserAccount from "./user-account";
 import { Suspense } from "react";
 import { SessionProvider } from "next-auth/react";
-import { getHeaderMenuCollections } from "@/use-cases/categories";
+import { getHeaderMenuCollectionsWithCategories } from "@/use-cases/categories";
 import CollectionsMenu from "./category-menu";
 
 export default async function Header() {
-  const collections = await getHeaderMenuCollections();
+  const collectionsWithCategories =
+    await getHeaderMenuCollectionsWithCategories();
 
   return (
     <header className="flex flex-col w-full bg-gradient-to-b dark:from-black/90 from-white/90 dark:via-black/60 via-white-60 to-transparent">
@@ -28,7 +29,7 @@ export default async function Header() {
         </div>
       </div>
 
-      <CollectionsMenu collections={collections} />
+      <CollectionsMenu collections={collectionsWithCategories} />
     </header>
   );
 }

@@ -15,19 +15,31 @@ export default async function SidebarMenu({
 }) {
   return (
     <nav className="sticky sm:mx-12">
+      <h4 className="underline font-semibold mb-2">{parentCategoryName}</h4>
       <ul className="flex flex-col gap-2">
         <li>
-          <h4 className="underline font-semibold">{parentCategoryName}</h4>
+          <Link
+            className={`${
+              selectedCategory === "all"
+                ? "text-blue-500"
+                : "hover:text-blue-400"
+            }`}
+            href={`/${collection}/${parentCategoryName.toLowerCase()}/all`}
+          >
+            All
+          </Link>
         </li>
         {categories.map((category) => (
           <li key={category.id}>
             <Link
               className={`${
-                selectedCategory === category.name.toLowerCase()
+                selectedCategory === category.slug
                   ? "text-blue-500"
                   : "hover:text-blue-400"
               }`}
-              href={`/${collection}/${parentCategoryName}/${category.name.toLowerCase()}`}
+              href={`/${collection}/${parentCategoryName.toLowerCase()}/${
+                category.slug
+              }`}
             >
               {category.name}
             </Link>

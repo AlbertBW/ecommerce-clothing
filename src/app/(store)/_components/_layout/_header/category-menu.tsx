@@ -4,14 +4,19 @@ import HoverDropdown from "@/app/_components/hover-dropdown";
 import { CollectionGroup } from "@/lib/types";
 import Link from "next/link";
 import { Fragment, useState } from "react";
+import CollectionBox from "./collection-box";
+import { useParams } from "next/navigation";
 
 export default function CollectionsMenu({
   collections,
 }: {
   collections: CollectionGroup[];
 }) {
+  const params = useParams<{ collection: string; categories: string[] }>();
   const [selectedCollection, setSelectedCollection] =
     useState<CollectionGroup>();
+
+  const selectedCollectionName = params.collection;
 
   const handleSetCollection = (collection: CollectionGroup | undefined) => {
     setSelectedCollection(collection);
@@ -27,6 +32,8 @@ export default function CollectionsMenu({
               selectedCollection?.collection === c.collection
                 ? "dark:border-white border-black"
                 : "border-transparent"
+            } ${
+              selectedCollectionName === c.collection ? "text-blue-500" : ""
             }`}
             onMouseEnter={() => handleSetCollection(c)}
           >
@@ -42,6 +49,8 @@ export default function CollectionsMenu({
               selectedCollection?.collection === c.collection
                 ? "dark:border-white border-black"
                 : "border-transparent"
+            } ${
+              selectedCollectionName === c.collection ? "text-blue-500" : ""
             }`}
             href={`/${c.collection}`}
             onMouseEnter={() => handleSetCollection(c)}
@@ -78,37 +87,5 @@ export default function CollectionsMenu({
         }
       />
     </div>
-  );
-}
-
-export function CollectionBox({ collection }: { collection: CollectionGroup }) {
-  console.log(collection);
-  return (
-    <Fragment>
-      {collection.categories.map((category) => (
-        <div key={category.id} className="flex flex-col w-48">
-          <Link
-            className="underline dark:hover:text-zinc-400 hover:text-zinc-500"
-            href={`/${
-              collection.collection
-            }/${category.name.toLocaleLowerCase()}`}
-          >
-            {category.name}
-          </Link>
-
-          {category.subcategories.map((sub) => (
-            <Link
-              key={sub.id}
-              href={`/${
-                collection.collection
-              }/${category.name.toLocaleLowerCase()}/${sub.name.toLocaleLowerCase()}`}
-              className="dark:hover:text-zinc-400 hover:text-zinc-500"
-            >
-              {sub.name}
-            </Link>
-          ))}
-        </div>
-      ))}
-    </Fragment>
   );
 }
