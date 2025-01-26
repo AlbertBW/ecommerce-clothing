@@ -21,7 +21,7 @@ export default async function ProductList({
   size,
   price,
 }: ProductListProps) {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+  // await new Promise((resolve) => setTimeout(resolve, 2000));
   const products = await getProductListPageData({
     collection,
     categories,

@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import SidebarMenu from "./_components/sidebar-menu";
 import ProductList from "./_components/product-list";
 import { Suspense } from "react";
-import { getSubcategoriesByCollectionAndCategoryId } from "@/use-cases/categories";
+import { getSubcategoriesAndProductColours } from "@/use-cases/categories";
 
 export async function generateStaticParams() {
   return COLLECTION_PARAMS.map((collection) => ({
@@ -34,9 +34,9 @@ export default async function ProductListPage({
   const parentCategoryName =
     categories[0].charAt(0).toUpperCase() + categories[0].slice(1);
 
-  const subcategories = await getSubcategoriesByCollectionAndCategoryId({
+  const { subcategories } = await getSubcategoriesAndProductColours({
     collection,
-    categoryName: parentCategoryName,
+    parentCategoryName,
   });
 
   return (

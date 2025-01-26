@@ -57,26 +57,26 @@ export async function getHeaderMenuCollectionsWithCategories() {
   return categories;
 }
 
-export async function getSubcategoriesByCollectionAndCategoryId({
+export async function getSubcategoriesAndProductColours({
   collection,
-  categoryName,
+  parentCategoryName,
 }: {
   collection: string;
-  categoryName: string;
+  parentCategoryName: string;
 }) {
   const collectionCombo =
     COLLECTION_COMBINATIONS[`${collection}` as "men" | "women"];
 
-  const categoryParent = await getCategoryByName(categoryName);
+  const categoryParent = await getCategoryByName(parentCategoryName);
 
-  const categories = await selectSubcategoriesByCollectionAndParentId({
+  const subcategories = await selectSubcategoriesByCollectionAndParentId({
     collections: collectionCombo,
     categoryId: categoryParent.id,
   });
 
-  if (!categories || categories.length === 0) {
-    throw new NotFoundError("Categories not found");
+  if (!subcategories || subcategories.length === 0) {
+    throw new NotFoundError("subcategories not found");
   }
 
-  return categories;
+  return { subcategories };
 }
