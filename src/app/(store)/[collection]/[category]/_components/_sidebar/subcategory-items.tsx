@@ -13,7 +13,12 @@ export default async function SubcategoryItems({
   return (
     <ul className="flex flex-col gap-2 font-light text-sm">
       <li>
-        <SidebarButton filter="category" value="all" text="All" />
+        <SidebarButton
+          filter="category"
+          value="all"
+          text="All"
+          paramType="clear"
+        />
       </li>
       {subcategories.map((category) => (
         <li key={category.id}>
@@ -21,6 +26,7 @@ export default async function SubcategoryItems({
             filter="category"
             value={category.slug}
             text={category.name}
+            paramType="array"
           />
         </li>
       ))}

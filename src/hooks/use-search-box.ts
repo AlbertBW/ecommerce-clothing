@@ -15,7 +15,7 @@ export default function useSearchBox(): [
   const router = useRouter();
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const createQueryString = useQueryString();
+  const createSearchParam = useQueryString();
   const [inputOpen, setInputOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -68,7 +68,7 @@ export default function useSearchBox(): [
       }
       toggleInput();
 
-      const queryString = createQueryString({ product: inputValue });
+      const queryString = createSearchParam({ product: inputValue });
       router.push(pathname + "?" + queryString);
     }
   }

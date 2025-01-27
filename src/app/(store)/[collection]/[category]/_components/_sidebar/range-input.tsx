@@ -1,9 +1,27 @@
 "use client";
+import useQueryString from "@/hooks/use-query-string";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function RangeInput() {
+  const { createSearchParam, clearQueryByKey } = useQueryString();
+  const router = useRouter();
+  const pathname = usePathname();
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(210);
+
+  const handleFilterChange = () => {
+    if (minPrice === 0 && maxPrice === 210) {
+      const str = clearQueryByKey("price");
+      router.push(pathname + "?" + str);
+      return;
+    }
+    const str = createSearchParam({
+      price: `${minPrice}-${maxPrice}`,
+    });
+
+    router.push(pathname + "?" + str);
+  };
 
   const handleMinPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Math.min(Number(e.target.value), maxPrice - 10);
@@ -46,7 +64,10 @@ export default function RangeInput() {
         </div>
       </div>
       <div className="mx-auto mt-2">
-        <button className="w-12 h-8 rounded bg-blue-600 hover:bg-blue-700 transition-colors text-white">
+        <button
+          onClick={handleFilterChange}
+          className="w-12 h-8 rounded bg-blue-600 hover:bg-blue-700 transition-colors text-white"
+        >
           Go
         </button>
       </div>

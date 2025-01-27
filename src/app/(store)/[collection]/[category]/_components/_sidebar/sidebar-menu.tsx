@@ -12,7 +12,7 @@ export default function SidebarMenu({
   category: string;
 }) {
   return (
-    <nav className="sm:mx-8">
+    <nav className="sm:mx-8 mb-8">
       <div>
         <h4 className="font-bold my-2">
           {category.charAt(0).toUpperCase() + category.slice(1)}
@@ -24,6 +24,7 @@ export default function SidebarMenu({
 
       <div className="mt-6">
         <h4 className="font-bold my-2">Colours</h4>
+
         <Suspense fallback={<SidebarItemsSkeleton />}>
           <ProductColoursItems
             categoryName={category}
@@ -33,7 +34,7 @@ export default function SidebarMenu({
       </div>
 
       <div className="mt-6">
-        <h4 className="font-bold my-2">Sort by</h4>
+        <h4 className="font-bold my-2">Sort by</h4>{" "}
         <ul className="flex flex-col gap-2 font-light text-sm">
           <li>
             <SidebarButton filter="sortBy" value="popular" text="Popular" />
