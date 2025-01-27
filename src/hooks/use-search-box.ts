@@ -15,7 +15,7 @@ export default function useSearchBox(): [
   const router = useRouter();
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const createSearchParam = useQueryString();
+  const { createSearchParam } = useQueryString();
   const [inputOpen, setInputOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
