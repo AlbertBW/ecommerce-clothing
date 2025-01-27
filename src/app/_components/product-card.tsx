@@ -21,8 +21,8 @@ export default function ProductCard({ product }: { product: ProductDetails }) {
         className="w-full h-auto object-contain"
       />
 
-      <div>
-        <p className="font-semibold">{product.brand?.name}</p>
+      <div className="mt-1">
+        <p className="font-semibold text-zinc-400">{product.brand?.name}</p>
         <p>{product.title}</p>
 
         <p className="text-zinc-500">{product.productVariants[0].price}</p>

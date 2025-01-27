@@ -29,14 +29,13 @@ export async function getProductsByCollectionAndCategory(
   category: string[],
   orderBy: string | string[] | undefined
 ) {
-  console.log(collection, category, orderBy);
   const products: ProductDetails[] = [];
   return products;
 }
 
-export async function getProductListPageData({
+export async function getProductListDetails({
   collection,
-  categories,
+  category,
   orderBy,
 }: // page = "1",
 // brand,
@@ -45,7 +44,7 @@ export async function getProductListPageData({
 // price,
 {
   collection: string;
-  categories: string[];
+  category: string;
   orderBy: string | string[] | undefined;
   page: string | string[] | undefined;
   brand: string | string[] | undefined;
@@ -56,14 +55,7 @@ export async function getProductListPageData({
   const collectionCombo =
     COLLECTION_COMBINATIONS[`${collection}` as "men" | "women"];
 
-  const products =
-    categories[0] === "all"
-      ? getProductsByCollection(collectionCombo)
-      : getProductsByCollectionAndCategory(
-          collectionCombo,
-          categories,
-          orderBy
-        );
+  const products = await getProductsByCollection(collectionCombo);
 
-  return await products;
+  return products;
 }

@@ -12,7 +12,7 @@ export default function SidebarMenu({
   category: string;
 }) {
   return (
-    <nav className="sm:mx-8 mb-8">
+    <nav className="hidden sm:block mx-3 sm:mx-8 mb-8 min-w-fit">
       <div>
         <h4 className="font-bold my-2">
           {category.charAt(0).toUpperCase() + category.slice(1)}
