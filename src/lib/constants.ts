@@ -10,7 +10,7 @@ export const COLLECTION_COMBINATIONS = {
 } as const;
 
 export const ORDER_BY = [
-  "latest",
+  "new",
   "priceAsc",
   "priceDesc",
   "popular",
@@ -19,4 +19,4 @@ export const ORDER_BY = [
 
 export type OrderBy = (typeof ORDER_BY)[number];
 
-export const ORDER_BY_DEFAULT = "latest" as const;
+export const ORDER_BY_DEFAULT = "new" as const;
