@@ -22,7 +22,7 @@ export default function CollectionBox({
       {collection.categories.map((category) => (
         <div key={category.id} className="flex flex-col w-48">
           <Link
-            href={`/${collection.collection}/${category.slug}/all`}
+            href={`/${collection.collection}/${category.slug}`}
             className={`underline dark:hover:text-zinc-400 hover:text-zinc-500 ${
               selectedCategory === category.slug.toLowerCase()
                 ? "text-blue-500"
@@ -35,7 +35,7 @@ export default function CollectionBox({
           {category.subcategories.map((sub) => (
             <Link
               key={sub.id}
-              href={`/${collection.collection}/${category.slug}/${sub.slug}`}
+              href={`/${collection.collection}/${category.slug}?category=${sub.slug}`}
               className={`dark:hover:text-zinc-400 hover:text-zinc-500 ${
                 selectedSubcategory === sub.slug.toLowerCase()
                   ? "text-blue-500"

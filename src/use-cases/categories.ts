@@ -6,6 +6,7 @@ import {
 import { Collection } from "@/db/schema";
 import { COLLECTION_COMBINATIONS } from "@/lib/constants";
 import { NotFoundError } from "./errors";
+import { selectProductColoursByCollectionAndParentId } from "@/data-access/colours.access";
 
 export async function getCategoriesRecursiveByCollection(
   collections: Collection[]
@@ -57,17 +58,37 @@ export async function getHeaderMenuCollectionsWithCategories() {
   return categories;
 }
 
-export async function getSubcategoriesAndProductColours({
+export async function getProductColours({
   collection,
-  parentCategoryName,
+  categoryName,
 }: {
   collection: string;
-  parentCategoryName: string;
+  categoryName: string;
 }) {
   const collectionCombo =
     COLLECTION_COMBINATIONS[`${collection}` as "men" | "women"];
 
-  const categoryParent = await getCategoryByName(parentCategoryName);
+  const categoryParent = await getCategoryByName(categoryName);
+
+  const productColours = selectProductColoursByCollectionAndParentId({
+    collections: collectionCombo,
+    categoryId: categoryParent.id,
+  });
+
+  return productColours;
+}
+
+export async function getSubcategories({
+  collection,
+  categoryName,
+}: {
+  collection: string;
+  categoryName: string;
+}) {
+  const collectionCombo =
+    COLLECTION_COMBINATIONS[`${collection}` as "men" | "women"];
+
+  const categoryParent = await getCategoryByName(categoryName);
 
   const subcategories = await selectSubcategoriesByCollectionAndParentId({
     collections: collectionCombo,
@@ -78,5 +99,5 @@ export async function getSubcategoriesAndProductColours({
     throw new NotFoundError("subcategories not found");
   }
 
-  return { subcategories };
+  return subcategories;
 }
