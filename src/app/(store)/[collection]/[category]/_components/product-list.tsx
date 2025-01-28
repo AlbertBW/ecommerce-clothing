@@ -1,4 +1,6 @@
-import ProductCard from "@/app/_components/product-card";
+import ProductCard, {
+  ProductCardSkeleton,
+} from "@/app/_components/product-card";
 import { getProductListDetails } from "@/use-cases/products";
 
 type ProductListProps = {
@@ -41,6 +43,18 @@ export default async function ProductList({
       {products.map((product) => (
         <div key={product.id} className="max-w-80">
           <ProductCard product={product} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function ProductListSkeleton() {
+  return (
+    <div className="pt-0 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8 px-1 md:px-0 md:ml-6 mx-1 sm:mx-4">
+      {Array.from({ length: 12 }, (_, i) => (
+        <div key={i} className="max-w-80 animate-pulse">
+          <ProductCardSkeleton />
         </div>
       ))}
     </div>

@@ -39,36 +39,23 @@ export default function ProductCard({ product }: { product: ProductDetails }) {
   );
 }
 
-// export default function product-card() {
-//   return (
-// <div className="h-48 bg-red-500 flex flex-col">
-//       <div className="flex-grow flex items-center justify-center bg-blue-400">
-//         <Image
-//           src={shirt}
-//           alt={product.title}
-//           width={0}
-//           height={0}
-//           className="w-full h-full object-cover"
-//         />
+export function ProductCardSkeleton() {
+  return (
+    <>
+      <div className="bg-zinc-800 w-[350px] max-w-full aspect-[1/1]" />
 
-//         <div className="pt-3 px-4">
-//           <div>
-//             <h1 className="font-semibold">{product.brand?.name}</h1>
-//             <h1 className="font-medium">{product.title}</h1>
+      <div className="mt-1">
+        <p className="font-semibold text-transparent bg-zinc-800 w-fit">
+          Loading brand name
+        </p>
+        <p className="text-transparent bg-zinc-800 w-fit">
+          Loading product name
+        </p>
 
-//             <p className="text-zinc-600 dark:text-zinc-400">
-//               {product.productVariants[0].price}
-//             </p>
-//             {!isLowStock && totalStock > 0 ? (
-//               <p className="text-green-600">In stock</p>
-//             ) : isLowStock ? (
-//               <p className="text-yellow-500">Low stock</p>
-//             ) : (
-//               totalStock === 0 && <p className="text-red-600">Out of stock</p>
-//             )}
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   )
-// }
+        <p className="text-transparent bg-zinc-800 w-fit">Loading price</p>
+
+        <p className="text-transparent bg-zinc-800 w-fit">Loading stock</p>
+      </div>
+    </>
+  );
+}
