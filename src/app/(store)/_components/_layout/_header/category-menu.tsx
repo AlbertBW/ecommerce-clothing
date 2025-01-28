@@ -73,10 +73,10 @@ export default function CollectionsMenu({
             onTouchCancel={() => handleSetCollection(undefined)}
           >
             {/* Background for header */}
-            <div className="fixed left-0 right-0 top-0 w-full h-24 dark:bg-black bg-white" />
+            <div className="fixed left-0 right-0 top-0 w-full h-24 dark:bg-zinc-900 bg-zinc-200" />
 
             {/* Dropdown Menu */}
-            <div className="fixed left-0 right-0 top-[6rem] w-full dark:bg-black bg-white flex justify-center items-center">
+            <div className="fixed left-0 right-0 top-[6rem] w-full dark:bg-zinc-900 bg-zinc-200 flex justify-center items-center">
               <div className="flex flex-col items-center flex-wrap gap-4 md:w-1/2 mt-4 mx-8 h-96">
                 {selectedCollection && (
                   <CollectionBox collection={selectedCollection} />

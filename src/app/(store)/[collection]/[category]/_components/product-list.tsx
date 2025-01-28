@@ -36,14 +36,13 @@ export default async function ProductList({
     price,
   });
 
-  console.log("produts", products);
   return (
-    <section className="pt-0 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8 px-1 md:px-0 md:ml-6 mx-1 sm:mx-4">
+    <div className="pt-0 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8 px-1 md:px-0 md:ml-6 mx-1 sm:mx-4">
       {products.map((product) => (
         <div key={product.id} className="max-w-80">
           <ProductCard product={product} />
         </div>
       ))}
-    </section>
+    </div>
   );
 }

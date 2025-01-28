@@ -9,9 +9,10 @@ export default async function ProductListingLayout({
 }) {
   const { collection, category } = await params;
   return (
-    <section className="flex">
+    <div className="flex">
       <SidebarMenu category={category} collection={collection} />
-      {children}
-    </section>
+
+      <section className="w-full max-w-screen-2xl mx-auto">{children}</section>
+    </div>
   );
 }

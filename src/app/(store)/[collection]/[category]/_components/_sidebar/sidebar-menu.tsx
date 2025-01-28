@@ -74,7 +74,7 @@ function SidebarItemsSkeleton() {
   return (
     <ul className="flex flex-col gap-2 font-light text-sm">
       {Object.keys(Array.from({ length: 4 })).map((_, i) => (
-        <li key={i} className="animate-pulse">
+        <li key={i} className="animate-pulse -z-50">
           <button
             className={`${
               i === 0

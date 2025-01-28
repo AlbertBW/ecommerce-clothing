@@ -13,14 +13,14 @@ export default function RangeInput() {
   const handleFilterChange = () => {
     if (minPrice === 0 && maxPrice === 210) {
       const str = clearQueryByKey("price");
-      router.push(pathname + "?" + str);
+      router.push(pathname + "?" + str, { scroll: false });
       return;
     }
     const str = createSearchParam({
       price: `${minPrice}-${maxPrice}`,
     });
 
-    router.push(pathname + "?" + str);
+    router.push(pathname + "?" + str, { scroll: false });
   };
 
   const handleMinPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {

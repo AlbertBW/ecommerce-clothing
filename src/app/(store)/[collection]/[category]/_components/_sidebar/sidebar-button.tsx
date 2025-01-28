@@ -30,13 +30,13 @@ export default function SidebarButton({
   const handleFilterChange = () => {
     if (paramType === "clear") {
       const str = removeQueryString([filter]);
-      router.push(pathname + "?" + str);
+      router.push(pathname + "?" + str, { scroll: false });
       return;
     }
     if (isSelectedValue === true) {
       const str = removeValueFromKey({ filter, value });
 
-      router.push(pathname + "?" + str);
+      router.push(pathname + "?" + str, { scroll: false });
       return;
     }
 
@@ -45,7 +45,7 @@ export default function SidebarButton({
         [filter]: [value],
       });
 
-      router.push(pathname + "?" + str);
+      router.push(pathname + "?" + str, { scroll: false });
 
       return;
     }
@@ -55,7 +55,7 @@ export default function SidebarButton({
         [filter]: value,
       });
 
-      router.push(pathname + "?" + str);
+      router.push(pathname + "?" + str, { scroll: false });
     }
   };
 
