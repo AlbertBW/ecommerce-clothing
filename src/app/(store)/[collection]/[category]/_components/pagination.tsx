@@ -1,3 +1,5 @@
+"use client";
+
 import useQueryString from "@/hooks/use-query-string";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";

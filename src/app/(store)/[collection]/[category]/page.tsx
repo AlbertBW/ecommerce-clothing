@@ -3,6 +3,9 @@ export const dynamic = "force-dynamic";
 import { COLLECTION_PARAMS, ORDER_BY, OrderBy } from "@/lib/constants";
 import { notFound } from "next/navigation";
 import ProductList from "./_components/product-list";
+import { Suspense } from "react";
+import Pagination from "./_components/pagination";
+import SidebarMenu from "./_components/_sidebar/sidebar-menu";
 
 export async function generateStaticParams() {
   return COLLECTION_PARAMS.map((collection) => ({
@@ -28,19 +31,28 @@ export default async function ProductListPage({
     notFound();
   }
 
+  const suspenseKey = `${collection}-${category}-${subcategory}-${orderBy}-${page}-${brand}-${colour}-${size}-${price}`;
+
   return (
-    <>
-      <ProductList
-        collection={collection}
-        category={category}
-        subcategory={subcategory}
-        orderBy={orderBy}
-        page={page}
-        brand={brand}
-        colour={colour}
-        size={size}
-        price={price}
-      />
-    </>
+    <div className="flex">
+      <SidebarMenu category={category} collection={collection} />
+      <section className="flex flex-col w-full max-w-screen-2xl mx-auto">
+        <Suspense key={suspenseKey} fallback={<div>Loading...</div>}>
+          <ProductList
+            collection={collection}
+            category={category}
+            subcategory={subcategory}
+            orderBy={orderBy}
+            page={page}
+            brand={brand}
+            colour={colour}
+            size={size}
+            price={price}
+          />
+        </Suspense>
+
+        <Pagination totalPages={5} />
+      </section>
+    </div>
   );
 }

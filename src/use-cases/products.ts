@@ -37,12 +37,12 @@ export async function getProductListDetails({
   collection,
   category,
   orderBy,
-}: // page = "1",
-// brand,
-// colour,
-// size,
-// price,
-{
+  page = "1",
+  brand,
+  colour,
+  size,
+  price,
+}: {
   collection: string;
   category: string;
   orderBy: string | string[] | undefined;
