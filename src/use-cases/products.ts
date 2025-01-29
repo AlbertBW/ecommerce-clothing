@@ -1,16 +1,21 @@
 import {
   selectLatestProductDetails,
-  selectProductDetailsByCollection,
   selectProductListDetails,
 } from "@/data-access/products.access";
-import { allCollections, Collection } from "@/db/schema";
+import { allCollections } from "@/db/schema";
 import { COLLECTION_COMBINATIONS } from "@/lib/constants";
-import { ProductDetails } from "@/lib/types";
 import { selectSizeArrayBySlugArray } from "@/data-access/sizes.access";
 import { normaliseArrayParam } from "@/utils/normalise-array-param";
-import { selectColoursBySlugArray } from "@/data-access/colours.access";
+import {
+  selectColoursBySlugArray,
+  selectProductColoursByCollectionAndParentId,
+} from "@/data-access/colours.access";
 import { selectBrandArrayBySlugArray } from "@/data-access/brands.access";
-import { selectCategoryArrayBySlugArray } from "@/data-access/categories.access";
+import {
+  selectCategoryArrayBySlugArray,
+  selectCategoryByParentId,
+} from "@/data-access/categories.access";
+import { getCategoryBySlug } from "./categories";
 
 export function getCollectionParams() {
   return allCollections;
@@ -19,59 +24,71 @@ export async function getLatestProductDetails() {
   return await selectLatestProductDetails(6);
 }
 
-export async function getProductsByCollection(
-  collection: Collection[]
-  // orderBy: string | string[] | undefined
-) {
-  return await selectProductDetailsByCollection(collection);
+export async function getProductColours({
+  collection,
+  categoryName,
+}: {
+  collection: string;
+  categoryName: string;
+}) {
+  const collectionCombo =
+    COLLECTION_COMBINATIONS[`${collection}` as "men" | "women"];
+
+  const categoryParent = await getCategoryBySlug(categoryName);
+
+  const productColours = selectProductColoursByCollectionAndParentId({
+    collections: collectionCombo,
+    categoryId: categoryParent.id,
+  });
+
+  return productColours;
 }
 
 export async function collectionHomePage(gender: string) {
   return "data " + gender;
 }
 
-export async function getProductsByCollectionAndCategory(
-  collection: Collection[],
-  category: string[],
-  orderBy: string | string[] | undefined
-) {
-  const products: ProductDetails[] = [];
-  return products;
-}
-
 export async function getProductListDetails({
   collection,
-  category,
-  subcategory,
+  categorySlug,
+  subcategorySlug,
   orderBy,
   page = "1",
-  brand,
-  colour,
-  size,
+  brandSlug,
+  colourSlug,
+  sizeSlug,
   price,
 }: {
   collection: string;
-  category: string;
-  subcategory: string | string[] | undefined;
+  categorySlug: string;
+  subcategorySlug: string | string[] | undefined;
   orderBy: string | string[] | undefined;
   page: string | string[] | undefined;
-  brand: string | string[] | undefined;
-  colour: string | string[] | undefined;
-  size: string | string[] | undefined;
+  brandSlug: string | string[] | undefined;
+  colourSlug: string | string[] | undefined;
+  sizeSlug: string | string[] | undefined;
   price: string | string[] | undefined;
 }) {
   const collectionCombo =
     COLLECTION_COMBINATIONS[`${collection}` as "men" | "women"];
   const pageNumber = parseInt(page as string);
 
-  const subcategories = normaliseArrayParam(subcategory);
-  const brands = normaliseArrayParam(brand);
-  const colours = normaliseArrayParam(colour);
-  const sizes = normaliseArrayParam(size);
+  const subcategories = normaliseArrayParam(subcategorySlug);
+  const brands = normaliseArrayParam(brandSlug);
+  const colours = normaliseArrayParam(colourSlug);
+  const sizes = normaliseArrayParam(sizeSlug);
+
+  const category = !subcategories
+    ? await getCategoryBySlug(categorySlug)
+    : null;
 
   const [subcategoryArray, brandArray, colourArray, sizeArray] =
     await Promise.all([
-      subcategories ? selectCategoryArrayBySlugArray(subcategories) : null,
+      subcategories
+        ? selectCategoryArrayBySlugArray(subcategories)
+        : category
+        ? selectCategoryByParentId(category.id)
+        : null,
       brands ? selectBrandArrayBySlugArray(brands) : null,
       colours ? selectColoursBySlugArray(colours) : null,
       sizes ? selectSizeArrayBySlugArray(sizes) : null,

@@ -1,12 +1,11 @@
 import {
-  selectCategoryByName,
+  selectCategoryBySlug,
   selectRecursiveCategoriesByCollection,
   selectSubcategoriesByCollectionAndParentId,
 } from "@/data-access/categories.access";
 import { Collection } from "@/db/schema";
 import { COLLECTION_COMBINATIONS } from "@/lib/constants";
 import { NotFoundError } from "./errors";
-import { selectProductColoursByCollectionAndParentId } from "@/data-access/colours.access";
 
 export async function getCategoriesRecursiveByCollection(
   collections: Collection[]
@@ -20,10 +19,8 @@ export async function getCategoriesRecursiveByCollection(
   return categories;
 }
 
-export async function getCategoryByName(name: string) {
-  const captialisedName = name.charAt(0).toUpperCase() + name.slice(1);
-
-  const category = await selectCategoryByName(captialisedName);
+export async function getCategoryBySlug(name: string) {
+  const category = await selectCategoryBySlug(name);
 
   if (!category) {
     throw new NotFoundError("Category not found");
@@ -58,26 +55,6 @@ export async function getHeaderMenuCollectionsWithCategories() {
   return categories;
 }
 
-export async function getProductColours({
-  collection,
-  categoryName,
-}: {
-  collection: string;
-  categoryName: string;
-}) {
-  const collectionCombo =
-    COLLECTION_COMBINATIONS[`${collection}` as "men" | "women"];
-
-  const categoryParent = await getCategoryByName(categoryName);
-
-  const productColours = selectProductColoursByCollectionAndParentId({
-    collections: collectionCombo,
-    categoryId: categoryParent.id,
-  });
-
-  return productColours;
-}
-
 export async function getSubcategories({
   collection,
   categoryName,
@@ -88,7 +65,7 @@ export async function getSubcategories({
   const collectionCombo =
     COLLECTION_COMBINATIONS[`${collection}` as "men" | "women"];
 
-  const categoryParent = await getCategoryByName(categoryName);
+  const categoryParent = await getCategoryBySlug(categoryName);
 
   const subcategories = await selectSubcategoriesByCollectionAndParentId({
     collections: collectionCombo,

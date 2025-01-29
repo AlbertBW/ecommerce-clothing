@@ -21,7 +21,6 @@ export async function selectProductColoursByCollectionAndParentId({
   collections: Collection[];
   categoryId: number;
 }) {
-  console.log("collections", collections, categoryId);
   return await db
     .selectDistinct({
       id: colours.id,

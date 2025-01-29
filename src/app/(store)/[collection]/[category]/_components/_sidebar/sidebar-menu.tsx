@@ -3,6 +3,7 @@ import RangeInput from "./range-input";
 import SidebarButton from "./sidebar-button";
 import SubcategoryItems from "./subcategory-items";
 import ProductColoursItems from "./product-colours-items";
+import ProductBrandsItems from "./product-brands-items";
 
 export default function SidebarMenu({
   collection,
@@ -30,6 +31,14 @@ export default function SidebarMenu({
             categoryName={category}
             collection={collection}
           />
+        </Suspense>
+      </div>
+
+      <div className="mt-6">
+        <h4 className="font-bold my-2">Brands</h4>
+
+        <Suspense fallback={<SidebarItemsSkeleton />}>
+          <ProductBrandsItems categoryName={category} collection={collection} />
         </Suspense>
       </div>
 

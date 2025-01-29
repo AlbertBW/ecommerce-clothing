@@ -28,13 +28,13 @@ export default async function ProductList({
 }: ProductListProps) {
   const products = await getProductListDetails({
     collection,
-    category,
-    subcategory,
+    categorySlug: category,
+    subcategorySlug: subcategory,
     orderBy,
     page,
-    brand,
-    colour,
-    size,
+    brandSlug: brand,
+    colourSlug: colour,
+    sizeSlug: size,
     price,
   });
 

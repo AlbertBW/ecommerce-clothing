@@ -1,30 +1,33 @@
-import { getProductColours } from "@/use-cases/products";
 import SidebarButton from "./sidebar-button";
+import { getBrandsByCollectionAndCategory } from "@/use-cases/brands";
 
-export default async function ProductColoursItems({
+export default async function ProductBrandsItems({
   collection,
   categoryName,
 }: {
   collection: string;
   categoryName: string;
 }) {
-  const colours = await getProductColours({ collection, categoryName });
+  const brands = await getBrandsByCollectionAndCategory({
+    collection,
+    categoryName,
+  });
   return (
     <ul className="flex flex-col gap-2 font-light text-sm">
       <li>
         <SidebarButton
-          filter="colour"
+          filter="brand"
           value="clear"
           text="All"
           paramType="clear"
         />
       </li>
-      {colours.map((colour) => (
-        <li key={colour.id}>
+      {brands.map((brand) => (
+        <li key={brand.id}>
           <SidebarButton
-            filter="colour"
-            value={colour.name}
-            text={colour.name.charAt(0).toUpperCase() + colour.name.slice(1)}
+            filter="brand"
+            value={brand.slug}
+            text={brand.name.charAt(0).toUpperCase() + brand.name.slice(1)}
             paramType="array"
           />
         </li>

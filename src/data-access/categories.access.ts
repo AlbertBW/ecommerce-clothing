@@ -12,9 +12,9 @@ export async function selectAllCategories() {
   return await db.query.categories.findMany();
 }
 
-export async function selectCategoryByName(name: string) {
+export async function selectCategoryBySlug(slug: string) {
   return await db.query.categories.findFirst({
-    where: eq(categories.name, name),
+    where: eq(categories.slug, slug),
   });
 }
 
@@ -24,6 +24,11 @@ export async function selectCategoryArrayBySlugArray(slugs: string[]) {
   });
 }
 
+export async function selectCategoryByParentId(parentId: number) {
+  return await db.query.categories.findMany({
+    where: eq(categories.parentId, parentId),
+  });
+}
 export async function selectCategoriesWithSubcategoriesByCollection(
   collections: Collection[]
 ) {

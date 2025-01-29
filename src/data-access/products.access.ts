@@ -201,8 +201,6 @@ export async function selectProductListDetails({
     offset: pageLimit - productsPerPage,
   });
 
-  console.log("allProducts", allProducts);
-
   return allProducts;
 }
 
