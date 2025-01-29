@@ -1,9 +1,10 @@
 import { Suspense } from "react";
 import RangeInput from "./range-input";
 import SidebarButton from "./sidebar-button";
-import SubcategoryItems from "./subcategory-items";
-import ProductColoursItems from "./product-colours-items";
-import ProductBrandsItems from "./product-brands-items";
+import SidebarItems from "./sidebar-items-component";
+import { getProductColours } from "@/use-cases/products";
+import { getSubcategories } from "@/use-cases/categories";
+import { getBrandsByCollectionAndCategory } from "@/use-cases/brands";
 
 export default function SidebarMenu({
   collection,
@@ -19,7 +20,12 @@ export default function SidebarMenu({
           {category.charAt(0).toUpperCase() + category.slice(1)}
         </h4>
         <Suspense fallback={<SidebarItemsSkeleton />}>
-          <SubcategoryItems collection={collection} categoryName={category} />
+          <SidebarItems
+            categoryName={category}
+            collection={collection}
+            fetchItems={getSubcategories}
+            filter="subcategory"
+          />
         </Suspense>
       </div>
 
@@ -27,9 +33,11 @@ export default function SidebarMenu({
         <h4 className="font-bold my-2">Colours</h4>
 
         <Suspense fallback={<SidebarItemsSkeleton />}>
-          <ProductColoursItems
+          <SidebarItems
             categoryName={category}
             collection={collection}
+            fetchItems={getProductColours}
+            filter="colour"
           />
         </Suspense>
       </div>
@@ -38,7 +46,12 @@ export default function SidebarMenu({
         <h4 className="font-bold my-2">Brands</h4>
 
         <Suspense fallback={<SidebarItemsSkeleton />}>
-          <ProductBrandsItems categoryName={category} collection={collection} />
+          <SidebarItems
+            categoryName={category}
+            collection={collection}
+            fetchItems={getBrandsByCollectionAndCategory}
+            filter="brand"
+          />
         </Suspense>
       </div>
 
