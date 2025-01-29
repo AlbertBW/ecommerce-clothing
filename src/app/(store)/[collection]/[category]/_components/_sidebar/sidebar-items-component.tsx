@@ -7,28 +7,15 @@ export type Item = {
 };
 
 type SidebarItemsProps<T extends Item> = {
-  collection: string;
-  categoryName: string;
-  fetchItems: ({
-    collection,
-    categoryName,
-  }: {
-    collection: string;
-    categoryName: string;
-  }) => Promise<T[]>;
+  fetchItems: () => Promise<T[]>;
   filter: string;
 };
 
 export default async function SidebarItems<T extends Item>({
-  collection,
-  categoryName,
   fetchItems,
   filter,
 }: SidebarItemsProps<T>) {
-  const items = await fetchItems({
-    collection,
-    categoryName,
-  });
+  const items = await fetchItems();
   return (
     <ul className="styled-scrollbar overflow-y-scroll flex flex-col gap-2 font-light text-sm max-h-80">
       <li>

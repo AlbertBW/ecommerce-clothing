@@ -2,18 +2,25 @@ import { Suspense } from "react";
 import RangeInput from "./range-input";
 import SidebarButton from "./sidebar-button";
 import SidebarItems from "./sidebar-items-component";
-import { getProductColours } from "@/use-cases/products";
-import { getSubcategories } from "@/use-cases/categories";
-import { getBrandsByCollectionAndCategory } from "@/use-cases/brands";
-import { getAllSizes } from "@/use-cases/sizes";
+import { getSidebarMenuItemsData } from "@/use-cases/categories";
 
-export default function SidebarMenu({
+export default async function SidebarMenu({
   collection,
   category,
 }: {
   collection: string;
   category: string;
 }) {
+  const {
+    getSubcategories,
+    getProductColours,
+    getBrandsByCollectionAndCategory,
+    getAllSizes,
+  } = await getSidebarMenuItemsData({
+    collection,
+    categoryName: category,
+  });
+
   return (
     <nav className="hidden sm:block mx-3 sm:mx-8 mb-8 min-w-fit">
       <div>
@@ -21,12 +28,7 @@ export default function SidebarMenu({
           {category.charAt(0).toUpperCase() + category.slice(1)}
         </h4>
         <Suspense fallback={<SidebarItemsSkeleton />}>
-          <SidebarItems
-            categoryName={category}
-            collection={collection}
-            fetchItems={getSubcategories}
-            filter="subcategory"
-          />
+          <SidebarItems fetchItems={getSubcategories} filter="subcategory" />
         </Suspense>
       </div>
 
@@ -34,12 +36,7 @@ export default function SidebarMenu({
         <h4 className="font-bold my-2">Colours</h4>
 
         <Suspense fallback={<SidebarItemsSkeleton />}>
-          <SidebarItems
-            categoryName={category}
-            collection={collection}
-            fetchItems={getProductColours}
-            filter="colour"
-          />
+          <SidebarItems fetchItems={getProductColours} filter="colour" />
         </Suspense>
       </div>
 
@@ -48,8 +45,6 @@ export default function SidebarMenu({
 
         <Suspense fallback={<SidebarItemsSkeleton />}>
           <SidebarItems
-            categoryName={category}
-            collection={collection}
             fetchItems={getBrandsByCollectionAndCategory}
             filter="brand"
           />
@@ -60,12 +55,7 @@ export default function SidebarMenu({
         <h4 className="font-bold my-2">Sizes</h4>
 
         <Suspense fallback={<SidebarItemsSkeleton />}>
-          <SidebarItems
-            categoryName={category}
-            collection={collection}
-            fetchItems={getAllSizes}
-            filter="size"
-          />
+          <SidebarItems fetchItems={getAllSizes} filter="size" />
         </Suspense>
       </div>
 

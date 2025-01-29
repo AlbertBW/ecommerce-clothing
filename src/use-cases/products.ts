@@ -1,47 +1,44 @@
 import {
   selectLatestProductDetails,
+  selectProductDetails,
   selectProductListDetails,
 } from "@/data-access/products.access";
 import { allCollections } from "@/db/schema";
 import { COLLECTION_COMBINATIONS } from "@/lib/constants";
 import { selectSizeArrayBySlugArray } from "@/data-access/sizes.access";
 import { normaliseArrayParam } from "@/utils/normalise-array-param";
-import {
-  selectColoursBySlugArray,
-  selectProductColoursByCollectionAndParentId,
-} from "@/data-access/colours.access";
+import { selectColoursBySlugArray } from "@/data-access/colours.access";
 import { selectBrandArrayBySlugArray } from "@/data-access/brands.access";
 import {
   selectCategoryArrayBySlugArray,
   selectCategoryByParentId,
 } from "@/data-access/categories.access";
 import { getCategoryBySlug } from "./categories";
+import { NotFoundError } from "./errors";
+import { ValidationError } from "zod-validation-error";
 
 export function getCollectionParams() {
   return allCollections;
 }
-export async function getLatestProductDetails() {
-  return await selectLatestProductDetails(6);
+
+export async function getProductDetailsById(id: string) {
+  const productId = parseInt(id);
+
+  if (isNaN(productId)) {
+    throw new ValidationError("Invalid product ID");
+  }
+
+  const product = await selectProductDetails(productId);
+
+  if (!product) {
+    throw new NotFoundError("Product not found");
+  }
+
+  return product;
 }
 
-export async function getProductColours({
-  collection,
-  categoryName,
-}: {
-  collection: string;
-  categoryName: string;
-}) {
-  const collectionCombo =
-    COLLECTION_COMBINATIONS[`${collection}` as "men" | "women"];
-
-  const categoryParent = await getCategoryBySlug(categoryName);
-
-  const productColours = selectProductColoursByCollectionAndParentId({
-    collections: collectionCombo,
-    categoryId: categoryParent.id,
-  });
-
-  return productColours;
+export async function getLatestProductDetails() {
+  return await selectLatestProductDetails(6);
 }
 
 export async function collectionHomePage(gender: string) {

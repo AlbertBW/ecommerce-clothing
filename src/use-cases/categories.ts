@@ -3,6 +3,9 @@ import {
   selectRecursiveCategoriesByCollection,
   selectSubcategoriesByCollectionAndParentId,
 } from "@/data-access/categories.access";
+import { selectBrandArrayByCollectionAndCategory } from "@/data-access/brands.access";
+import { selectAllSizes } from "@/data-access/sizes.access";
+import { selectProductColoursByCollectionAndParentId } from "@/data-access/colours.access";
 import { Collection } from "@/db/schema";
 import { COLLECTION_COMBINATIONS } from "@/lib/constants";
 import { NotFoundError } from "./errors";
@@ -55,7 +58,7 @@ export async function getHeaderMenuCollectionsWithCategories() {
   return categories;
 }
 
-export async function getSubcategories({
+export async function getSidebarMenuItemsData({
   collection,
   categoryName,
 }: {
@@ -64,17 +67,24 @@ export async function getSubcategories({
 }) {
   const collectionCombo =
     COLLECTION_COMBINATIONS[`${collection}` as "men" | "women"];
-
   const categoryParent = await getCategoryBySlug(categoryName);
 
-  const subcategories = await selectSubcategoriesByCollectionAndParentId({
-    collections: collectionCombo,
-    categoryId: categoryParent.id,
-  });
-
-  if (!subcategories || subcategories.length === 0) {
-    throw new NotFoundError("subcategories not found");
-  }
-
-  return subcategories;
+  return {
+    getSubcategories: () =>
+      selectSubcategoriesByCollectionAndParentId({
+        collections: collectionCombo,
+        categoryId: categoryParent.id,
+      }),
+    getProductColours: () =>
+      selectProductColoursByCollectionAndParentId({
+        collections: collectionCombo,
+        categoryId: categoryParent.id,
+      }),
+    getBrandsByCollectionAndCategory: () =>
+      selectBrandArrayByCollectionAndCategory({
+        collections: collectionCombo,
+        categoryId: categoryParent.id,
+      }),
+    getAllSizes: () => selectAllSizes(),
+  };
 }
