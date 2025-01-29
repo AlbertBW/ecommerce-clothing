@@ -21,17 +21,17 @@ export default async function ProductListPage({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { collection, category } = await params;
-  const { subcategory, orderBy, page, brand, colour, size, price } =
+  const { subcategory, sortBy, page, brand, colour, size, price } =
     await searchParams;
 
   if (
     !COLLECTION_PARAMS.includes(collection) ||
-    !ORDER_BY.includes(orderBy as OrderBy)
+    !ORDER_BY.includes(sortBy as OrderBy)
   ) {
     notFound();
   }
 
-  const suspenseKey = `${collection}-${category}-${subcategory}-${orderBy}-${page}-${brand}-${colour}-${size}-${price}`;
+  const suspenseKey = `${collection}-${category}-${subcategory}-${sortBy}-${page}-${brand}-${colour}-${size}-${price}`;
 
   return (
     <div className="flex">
@@ -42,7 +42,7 @@ export default async function ProductListPage({
             collection={collection}
             category={category}
             subcategory={subcategory}
-            orderBy={orderBy}
+            sortBy={sortBy}
             page={page}
             brand={brand}
             colour={colour}

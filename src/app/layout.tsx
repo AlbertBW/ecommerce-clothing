@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistMono.variable} ${geistSans.variable} h-screen`}
+      className={`${geistMono.variable} ${geistSans.variable} h-screen styled-scrollbar`}
     >
       <body className={`font-mono min-h-dvh h-screen`}>{children}</body>
     </html>

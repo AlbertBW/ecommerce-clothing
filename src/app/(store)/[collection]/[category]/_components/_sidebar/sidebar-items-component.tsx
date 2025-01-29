@@ -6,12 +6,7 @@ export type Item = {
   slug?: string;
 };
 
-export default async function SidebarItems<T extends Item>({
-  collection,
-  categoryName,
-  fetchItems,
-  filter,
-}: {
+type SidebarItemsProps<T extends Item> = {
   collection: string;
   categoryName: string;
   fetchItems: ({
@@ -22,7 +17,14 @@ export default async function SidebarItems<T extends Item>({
     categoryName: string;
   }) => Promise<T[]>;
   filter: string;
-}) {
+};
+
+export default async function SidebarItems<T extends Item>({
+  collection,
+  categoryName,
+  fetchItems,
+  filter,
+}: SidebarItemsProps<T>) {
   const items = await fetchItems({
     collection,
     categoryName,

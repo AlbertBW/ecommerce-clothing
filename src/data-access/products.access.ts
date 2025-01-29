@@ -79,7 +79,7 @@ export async function selectProductListDetails({
   sizeIdArray,
   brandIdArray,
   page,
-  orderBy,
+  sortBy,
   minPrice,
   maxPrice,
 }: {
@@ -89,7 +89,7 @@ export async function selectProductListDetails({
   sizeIdArray: number[] | null;
   brandIdArray: number[] | null;
   page: number;
-  orderBy: string | string[] | undefined;
+  sortBy: string | string[] | undefined;
   minPrice: number | null;
   maxPrice: number | null;
 }) {
@@ -113,8 +113,8 @@ export async function selectProductListDetails({
   };
 
   // Add the orderBy condition to the orderByConditions array
-  if (orderBy && orderByMapping[orderBy as OrderByKey]) {
-    orderByConditions.push(orderByMapping[orderBy as OrderByKey]);
+  if (sortBy && orderByMapping[sortBy as OrderByKey]) {
+    orderByConditions.push(orderByMapping[sortBy as OrderByKey]);
   }
 
   const allProducts = await db.query.products.findMany({

@@ -52,7 +52,7 @@ export async function getProductListDetails({
   collection,
   categorySlug,
   subcategorySlug,
-  orderBy,
+  sortBy,
   page = "1",
   brandSlug,
   colourSlug,
@@ -62,7 +62,7 @@ export async function getProductListDetails({
   collection: string;
   categorySlug: string;
   subcategorySlug: string | string[] | undefined;
-  orderBy: string | string[] | undefined;
+  sortBy: string | string[] | undefined;
   page: string | string[] | undefined;
   brandSlug: string | string[] | undefined;
   colourSlug: string | string[] | undefined;
@@ -111,7 +111,7 @@ export async function getProductListDetails({
     brandIdArray,
     collection: collectionCombo,
     colourIdArray,
-    orderBy,
+    sortBy,
     page: pageNumber,
     minPrice,
     maxPrice,

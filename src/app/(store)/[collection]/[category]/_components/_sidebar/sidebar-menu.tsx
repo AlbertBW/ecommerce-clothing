@@ -5,6 +5,7 @@ import SidebarItems from "./sidebar-items-component";
 import { getProductColours } from "@/use-cases/products";
 import { getSubcategories } from "@/use-cases/categories";
 import { getBrandsByCollectionAndCategory } from "@/use-cases/brands";
+import { getAllSizes } from "@/use-cases/sizes";
 
 export default function SidebarMenu({
   collection,
@@ -56,6 +57,19 @@ export default function SidebarMenu({
       </div>
 
       <div className="mt-6">
+        <h4 className="font-bold my-2">Sizes</h4>
+
+        <Suspense fallback={<SidebarItemsSkeleton />}>
+          <SidebarItems
+            categoryName={category}
+            collection={collection}
+            fetchItems={getAllSizes}
+            filter="size"
+          />
+        </Suspense>
+      </div>
+
+      <div className="mt-6">
         <h4 className="font-bold my-2">Sort by</h4>{" "}
         <ul className="flex flex-col gap-2 font-light text-sm">
           <li>
@@ -95,7 +109,7 @@ export default function SidebarMenu({
 function SidebarItemsSkeleton() {
   return (
     <ul className="flex flex-col gap-2 font-light text-sm">
-      {Object.keys(Array.from({ length: 4 })).map((_, i) => (
+      {Object.keys(Array.from({ length: 7 })).map((_, i) => (
         <li key={i} className="animate-pulse -z-50">
           <button
             className={`${

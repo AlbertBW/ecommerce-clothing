@@ -46,16 +46,20 @@ export function ProductCardSkeleton() {
       <div className="bg-zinc-800 w-[350px] max-w-full aspect-[1/1]" />
 
       <div className="mt-1">
-        <p className="font-semibold text-transparent bg-zinc-800 w-fit">
+        <p className="font-semibold text-transparent bg-zinc-800/70 w-fit rounded-md">
           Loading brand name
         </p>
-        <p className="text-transparent bg-zinc-800 w-fit">
+        <p className="text-transparent bg-zinc-800/80 w-fit rounded-md">
           Loading product name
         </p>
 
-        <p className="text-transparent bg-zinc-800 w-fit">Loading price</p>
+        <p className="text-transparent bg-zinc-800/50 w-fit rounded-md">
+          Loading price
+        </p>
 
-        <p className="text-transparent bg-zinc-800 w-fit">Loading stock</p>
+        <p className="text-transparent bg-zinc-800/40 w-fit rounded-md">
+          Loading stock
+        </p>
       </div>
     </>
   );
