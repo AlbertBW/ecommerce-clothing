@@ -69,12 +69,13 @@ async function seed() {
 
   const productVariantsData = allProducts.flatMap((p) => {
     const variants = [];
+    const randomPrice = getRandomPrice();
     for (const colour of allColours) {
       for (const size of allSizes) {
         const sku = generateSKU(p.slug, colour.name, size.name);
         variants.push({
           stock: getRandomInt(25),
-          price: getRandomPrice(),
+          price: randomPrice,
           returns: getRandomInt(10),
           sold: getRandomInt(100),
           productId: p.id,

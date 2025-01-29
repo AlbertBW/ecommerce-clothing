@@ -18,6 +18,12 @@ export async function selectCategoryByName(name: string) {
   });
 }
 
+export async function selectCategoryArrayBySlugArray(slugs: string[]) {
+  return await db.query.categories.findMany({
+    where: inArray(categories.slug, slugs),
+  });
+}
+
 export async function selectCategoriesWithSubcategoriesByCollection(
   collections: Collection[]
 ) {

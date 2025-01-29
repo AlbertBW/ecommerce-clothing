@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ProductDetails } from "@/lib/types";
 import { LOW_STOCK_THRESHOLD } from "@/lib/constants";
 import shirt from "../../../public/t-shirt-white.jpeg";
+import Link from "next/link";
 
 export default function ProductCard({ product }: { product: ProductDetails }) {
   const totalStock = product.productVariants.reduce(
@@ -11,7 +12,7 @@ export default function ProductCard({ product }: { product: ProductDetails }) {
 
   const isLowStock = totalStock < LOW_STOCK_THRESHOLD && totalStock > 0;
   return (
-    <>
+    <Link href={`/product/${product.id}`}>
       <Image
         src={shirt}
         alt={product.title}
@@ -35,7 +36,7 @@ export default function ProductCard({ product }: { product: ProductDetails }) {
           totalStock === 0 && <p className="text-red-600">Out of stock</p>
         )}
       </div>
-    </>
+    </Link>
   );
 }
 

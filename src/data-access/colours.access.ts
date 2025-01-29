@@ -8,6 +8,12 @@ import {
 import { db } from "@/db";
 import { inArray, eq, and } from "drizzle-orm";
 
+export async function selectColoursBySlugArray(slugs: string[]) {
+  return await db.query.colours.findMany({
+    where: inArray(colours.name, slugs),
+  });
+}
+
 export async function selectProductColoursByCollectionAndParentId({
   collections,
   categoryId,

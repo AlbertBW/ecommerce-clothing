@@ -4,10 +4,11 @@ import {
   Collection,
   NewProduct,
   products,
+  productVariants,
   UpdatedProduct,
 } from "@/db/schema";
 import { ProductId } from "@/lib/types";
-import { eq } from "drizzle-orm";
+import { asc, desc, eq, gte, lte, sql } from "drizzle-orm";
 
 export async function selectProduct(productId: ProductId) {
   return await db.query.products.findFirst({
@@ -69,6 +70,140 @@ export async function selectProductDetailsByCollection(
           )
       ),
   });
+}
+
+export async function selectProductListDetails({
+  collection,
+  subcategoryIdArray,
+  colourIdArray,
+  sizeIdArray,
+  brandIdArray,
+  page,
+  orderBy,
+  minPrice,
+  maxPrice,
+}: {
+  collection: Collection[];
+  subcategoryIdArray: number[] | null;
+  colourIdArray: number[] | null;
+  sizeIdArray: number[] | null;
+  brandIdArray: number[] | null;
+  page: number;
+  orderBy: string | string[] | undefined;
+  minPrice: number | null;
+  maxPrice: number | null;
+}) {
+  const productsPerPage = 12;
+  const pageLimit = productsPerPage * page;
+
+  type OrderByKey = "popular" | "new" | "priceAsc" | "priceDesc";
+
+  // Define the type for the values of orderByMapping
+  type OrderByValue = ReturnType<typeof desc> | ReturnType<typeof asc>;
+
+  // Set the orderBy conditions based on the search params
+  const orderByConditions: OrderByValue[] = [];
+
+  // Define the mapping for the orderBy conditions
+  const orderByMapping: { [key in OrderByKey]: OrderByValue } = {
+    popular: desc(sql<number>`SUM(${productVariants.sold})`),
+    new: desc(products.createdAt),
+    priceAsc: asc(sql<number>`MIN(${productVariants.price})`),
+    priceDesc: desc(sql<number>`MIN(${productVariants.price})`),
+  };
+
+  // Add the orderBy condition to the orderByConditions array
+  if (orderBy && orderByMapping[orderBy as OrderByKey]) {
+    orderByConditions.push(orderByMapping[orderBy as OrderByKey]);
+  }
+
+  const allProducts = await db.query.products.findMany({
+    where: (products, { exists, and, eq, inArray }) =>
+      and(
+        // Category and collection filter
+        subcategoryIdArray
+          ? inArray(products.categoryId, subcategoryIdArray)
+          : undefined,
+        exists(
+          db
+            .select()
+            .from(categories)
+            .where(
+              and(
+                eq(categories.id, products.categoryId),
+                inArray(categories.collection, collection)
+              )
+            )
+        ),
+
+        // Color filter
+        colourIdArray
+          ? exists(
+              db
+                .select()
+                .from(productVariants)
+                .where(
+                  and(
+                    inArray(productVariants.colourId, colourIdArray),
+                    eq(productVariants.productId, products.id)
+                  )
+                )
+            )
+          : undefined,
+
+        // Size filter
+        sizeIdArray
+          ? exists(
+              db
+                .select()
+                .from(productVariants)
+                .where(
+                  and(
+                    inArray(productVariants.sizeId, sizeIdArray),
+                    eq(productVariants.productId, products.id)
+                  )
+                )
+            )
+          : undefined,
+
+        // Brand filter
+        brandIdArray ? inArray(products.brandId, brandIdArray) : undefined,
+
+        // Price range filter
+        minPrice || maxPrice
+          ? exists(
+              db
+                .select()
+                .from(productVariants)
+                .where(
+                  and(
+                    minPrice ? gte(productVariants.price, minPrice) : undefined,
+                    maxPrice ? lte(productVariants.price, maxPrice) : undefined,
+                    eq(productVariants.productId, products.id)
+                  )
+                )
+            )
+          : undefined
+      ),
+    with: {
+      productVariants: {
+        with: {
+          colour: true,
+          size: true,
+        },
+        orderBy: orderByConditions,
+      },
+      productRating: true,
+      brand: true,
+      category: { with: { parentCategory: true } },
+    },
+    limit: pageLimit,
+    offset: pageLimit - productsPerPage,
+  });
+
+  console.log("allProducts", allProducts);
+
+  return allProducts;
 }
 
 export async function insertProduct(newProduct: NewProduct) {
