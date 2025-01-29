@@ -4,13 +4,22 @@ import UserAvatar, { UserAvatarSkeleton } from "../../_auth/user-avatar";
 import HoverDropdown from "@/app/_components/hover-dropdown";
 import DropdownMenu from "./dropdown-menu";
 import { useSession } from "next-auth/react";
+import WishlistHeart from "@/app/_components/_icons/wishlist-heart";
 
 const menuItems = [
   <Link key="account" className="hover:opacity-75" href={"/account"}>
     Your account
   </Link>,
-  <Link key="orders" className="hover:opacity-75" href={"/orders"}>
+  <Link key="orders" className="hover:opacity-75" href={"/account/orders"}>
     Your Orders
+  </Link>,
+  <Link
+    key="orders"
+    className="hover:opacity-75 flex gap-2 justify-end group"
+    href={"/account/wishlist"}
+  >
+    <WishlistHeart />
+    Wishlist
   </Link>,
   <Link key="settings" className="hover:opacity-75" href={"/account/settings"}>
     Settings
