@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { notFound } from "next/navigation";
 
-export default async function AdminHomePage() {
+export default async function ProductsPage() {
   const session = await auth();
   console.log(session?.user.role);
   if (!session) {
@@ -12,5 +12,5 @@ export default async function AdminHomePage() {
     return notFound();
   }
 
-  return <div>Overview</div>;
+  return <div>ProductsPage</div>;
 }

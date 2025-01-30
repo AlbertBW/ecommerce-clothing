@@ -16,11 +16,11 @@ export default function Header() {
   return (
     <header className="border-b p-2 mx-4 border-zinc-800 text-zinc-400">
       <nav className="flex justify-between text-sm">
-        <div className="flex w-full">
+        <div className="flex w-full gap-1">
           <Link
             className={`hover:bg-zinc-800 hover:text-white ${
               isRoot && "text-white"
-            } p-1 m-1 rounded transition-colors`}
+            } p-2 rounded transition-colors`}
             href={"/admin"}
           >
             Overview
@@ -28,7 +28,7 @@ export default function Header() {
           <Link
             className={`hover:bg-zinc-800 hover:text-white ${
               isProducts && "text-white"
-            } p-1 m-1 rounded transition-colors`}
+            } p-2 rounded transition-colors`}
             href={"/admin/products"}
           >
             Products
@@ -36,7 +36,7 @@ export default function Header() {
           <Link
             className={`hover:bg-zinc-800 hover:text-white ${
               isOrders && "text-white"
-            } p-1 m-1 rounded transition-colors`}
+            } p-2 rounded transition-colors`}
             href={"/admin/orders"}
           >
             Orders
@@ -44,7 +44,7 @@ export default function Header() {
           <Link
             className={`hover:bg-zinc-800 hover:text-white ${
               isCustomers && "text-white"
-            } p-1 m-1 rounded transition-colors`}
+            } p-2 rounded transition-colors`}
             href={"/admin/customers"}
           >
             Customers
