@@ -17,7 +17,7 @@ export default async function SidebarItems<T extends Item>({
 }: SidebarItemsProps<T>) {
   const items = await fetchItems();
   return (
-    <ul className="styled-scrollbar overflow-y-scroll max-h-80 flex flex-col gap-2 font-light text-sm">
+    <ul className="overflow-y-auto max-h-80 flex flex-col gap-2 font-light text-sm">
       <li>
         <SidebarButton
           filter={filter}

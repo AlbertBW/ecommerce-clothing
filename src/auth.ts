@@ -33,6 +33,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // Logged in users are authenticated, otherwise redirect to login page
       return !!auth;
     },
+    session: async ({ session, user }) => {
+      session.user.role = user.role;
+      return session;
+    },
   },
   adapter: DrizzleAdapter(db, {
     usersTable: users,

@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import WishlistHeart from "@/app/_components/_icons/wishlist-heart";
 
-export const accountCategories = [
+const accountCategories = [
   { name: "Your Orders", path: "orders" },
   { name: "Your Addresses", path: "addresses" },
   { name: "Manage Account", path: "manage" },

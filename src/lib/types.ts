@@ -41,7 +41,7 @@ export type ProductDetails = Product & {
     size: Size | null;
   })[];
   productRating: ProductRating | null;
-  brand: Brand | null;
+  brand: Brand;
   category: Category | null;
 };
 
