@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import UserAccount from "@/app/(store)/_components/_layout/_header/user-account";
-import { SignOut } from "../../../../../../src/app/(store)/_components/_auth/sign-out";
+import { SignOut } from "../../../../../../src/app/_components/_auth/sign-out";
 import Image from "next/image";
 
 // Mock the HoverDropdown, DropdownMenu, UserAvatar, and SignOut components

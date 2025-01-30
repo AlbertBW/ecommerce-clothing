@@ -6,7 +6,7 @@ import { auth } from "../../../../../../src/server/auth";
 import UserAccount from "../../../../../../src/app/(store)/_components/_layout/_header/user-account";
 import SearchBox from "../../../../../../src/app/(store)/_components/_layout/_header/_search/search-box";
 import ShoppingCart from "../../../../../../src/app/(store)/_components/_layout/_header/shopping-cart";
-import SignIn from "../../../../../../src/app/(store)/_components/_auth/sign-in";
+import SignIn from "../../../../../../src/app/_components/_auth/sign-in";
 
 jest.mock(
   "../../../../../../src/app/(store)/_components/_layout/_header/_search/search-box"

@@ -1,6 +1,8 @@
 "use client";
 import Link from "next/link";
-import UserAvatar, { UserAvatarSkeleton } from "../../_auth/user-avatar";
+import UserAvatar, {
+  UserAvatarSkeleton,
+} from "../../../../_components/_auth/user-avatar";
 import HoverDropdown from "@/app/_components/hover-dropdown";
 import DropdownMenu from "./dropdown-menu";
 import { useSession } from "next-auth/react";
