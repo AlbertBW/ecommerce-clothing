@@ -51,7 +51,9 @@ export default async function ProductListPage({
           />
         </Suspense>
 
-        <Pagination totalPages={5} />
+        <div className="flex justify-center items-center h-full">
+          <Pagination totalPages={5} />
+        </div>
       </section>
     </div>
   );

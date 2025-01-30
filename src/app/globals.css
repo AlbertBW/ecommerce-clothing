@@ -8,6 +8,7 @@
   --animation-duration: 50s;
   --animation-duration-slow: 60s;
   --min-height-calc: calc(100svh - 9rem);
+  --max-height-calc: calc(100svh - 11rem);
 }
 
 @media (prefers-color-scheme: dark) {

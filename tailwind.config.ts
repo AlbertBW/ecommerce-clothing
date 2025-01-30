@@ -19,6 +19,9 @@ export default {
       minHeight: {
         main: "var(--min-height-calc)",
       },
+      maxHeight: {
+        main: "var(--max-height-calc)",
+      },
     },
   },
   plugins: [],

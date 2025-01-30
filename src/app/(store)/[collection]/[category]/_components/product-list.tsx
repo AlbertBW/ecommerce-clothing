@@ -39,7 +39,7 @@ export default async function ProductList({
   });
 
   return (
-    <div className="pt-0 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8 px-1 md:px-0 md:ml-6 mx-1 sm:mx-4">
+    <div className="pt-0 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8 px-1 md:px-0 md:ml-6 mx-1 sm:mx-4 min-h-[calc(100vh-14rem)] max-h-[calc(100vh-13rem)] styled-scrollbar overflow-y-scroll">
       {products.map((product) => (
         <div key={product.id} className="max-w-80">
           <ProductCard product={product} />
@@ -51,7 +51,7 @@ export default async function ProductList({
 
 export function ProductListSkeleton() {
   return (
-    <div className="pt-0 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8 px-1 md:px-0 md:ml-6 mx-1 sm:mx-4 -z-50">
+    <div className="pt-0 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8 px-1 md:px-0 md:ml-6 mx-1 sm:mx-4 min-h-[calc(100vh-14rem)] max-h-[calc(100vh-14rem)] styled-scrollbar overflow-y-scroll -z-50">
       {Array.from({ length: 6 }, (_, i) => (
         <div key={i} className={`max-w-80 animate-pulse`}>
           <ProductCardSkeleton />
