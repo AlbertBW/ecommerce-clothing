@@ -13,7 +13,9 @@ export default async function ProductPage({
 
   const colours = [
     ...new Set(
-      product.productVariants.flatMap((prodVar) => prodVar.colour?.name)
+      product.productVariants
+        .filter((prodVar) => prodVar.colour?.name)
+        .map((prodVar) => prodVar.colour!.name)
     ),
   ];
 
@@ -32,7 +34,7 @@ export default async function ProductPage({
               height={650}
             />
           </div>
-          <ProductForm product={product} />
+          <ProductForm product={product} colours={colours} />
         </div>
       </div>
     </>

@@ -319,7 +319,7 @@ export const sizeSeedData: NewSize[] = [
   { name: "small", displayOrder: 1 },
   { name: "medium", displayOrder: 2 },
   { name: "large", displayOrder: 3 },
-  { name: "extra large", displayOrder: 4 },
+  { name: "XL", displayOrder: 4 },
   { name: "XXL", displayOrder: 5 },
 ];
 
