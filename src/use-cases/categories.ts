@@ -1,4 +1,5 @@
 import {
+  selectAllCategories,
   selectCategoryBySlug,
   selectRecursiveCategoriesByCollection,
   selectSubcategoriesByCollectionAndParentId,
@@ -62,29 +63,33 @@ export async function getSidebarMenuItemsData({
   collection,
   categoryName,
 }: {
-  collection: string;
-  categoryName: string;
+  collection: string | string[] | undefined;
+  categoryName: string | string[] | undefined;
 }) {
   const collectionCombo =
     COLLECTION_COMBINATIONS[`${collection}` as "men" | "women"];
-  const categoryParent = await getCategoryBySlug(categoryName);
+  const categoryParent =
+    categoryName !== "all" && categoryName && !Array.isArray(categoryName)
+      ? await getCategoryBySlug(categoryName)
+      : null;
 
   return {
     getSubcategories: () =>
       selectSubcategoriesByCollectionAndParentId({
         collections: collectionCombo,
-        categoryId: categoryParent.id,
+        categoryId: categoryName ? categoryParent?.id : undefined,
       }),
     getProductColours: () =>
       selectProductColoursByCollectionAndParentId({
         collections: collectionCombo,
-        categoryId: categoryParent.id,
+        categoryId: categoryName ? categoryParent?.id : undefined,
       }),
     getBrandsByCollectionAndCategory: () =>
       selectBrandArrayByCollectionAndCategory({
         collections: collectionCombo,
-        categoryId: categoryParent.id,
+        categoryId: categoryName ? categoryParent?.id : undefined,
       }),
     getAllSizes: () => selectAllSizes(),
+    getAllCategories: () => selectAllCategories(),
   };
 }

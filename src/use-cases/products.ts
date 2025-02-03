@@ -56,8 +56,8 @@ export async function getProductListDetails({
   sizeSlug,
   price,
 }: {
-  collection: string;
-  categorySlug: string;
+  collection: string | string[] | undefined;
+  categorySlug: string | string[] | undefined;
   subcategorySlug: string | string[] | undefined;
   sortBy: string | string[] | undefined;
   page: string | string[] | undefined;
@@ -75,9 +75,10 @@ export async function getProductListDetails({
   const colours = normaliseArrayParam(colourSlug);
   const sizes = normaliseArrayParam(sizeSlug);
 
-  const category = !subcategories
-    ? await getCategoryBySlug(categorySlug)
-    : null;
+  const category =
+    !subcategories && categorySlug !== "all"
+      ? await getCategoryBySlug(categorySlug as string)
+      : null;
 
   const [subcategoryArray, brandArray, colourArray, sizeArray] =
     await Promise.all([

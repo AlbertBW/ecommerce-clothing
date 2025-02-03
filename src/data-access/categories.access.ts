@@ -6,10 +6,12 @@ import {
   categories,
 } from "@/db/schema";
 import { CategoryId } from "@/lib/types";
-import { and, eq, inArray, isNull } from "drizzle-orm";
+import { and, eq, inArray, isNotNull, isNull } from "drizzle-orm";
 
 export async function selectAllCategories() {
-  return await db.query.categories.findMany();
+  return await db.query.categories.findMany({
+    where: isNull(categories.parentId),
+  });
 }
 
 export async function selectCategoryBySlug(slug: string) {
@@ -72,13 +74,14 @@ export async function selectSubcategoriesByCollectionAndParentId({
   collections,
   categoryId,
 }: {
-  collections: Collection[];
-  categoryId: number;
+  collections?: Collection[];
+  categoryId?: number;
 }) {
   return await db.query.categories.findMany({
     where: and(
-      eq(categories.parentId, categoryId),
-      inArray(categories.collection, collections)
+      categoryId ? eq(categories.parentId, categoryId) : undefined,
+      collections ? inArray(categories.collection, collections) : undefined,
+      isNotNull(categories.parentId)
     ),
 
     orderBy: [categories.displayOrder, categories.name],

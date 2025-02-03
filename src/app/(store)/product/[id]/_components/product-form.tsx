@@ -124,38 +124,35 @@ export default function ProductForm({
             ))}
           </div>
         </div>
-        <div className="mt-4">
-          <div className="grid grid-cols-3 justify-center items-center mt-4">
-            <div className="flex justify-end mr-4">
-              {true && ( // User logged in
-                <button
-                  aria-label="Add to wishlist"
-                  disabled={isLoading || selectedSize === null || inCart}
-                  type="button"
+
+        <div className="grid grid-cols-3 mt-4">
+          <div className="flex justify-end mr-4">
+            {true && ( // User logged in
+              <button
+                aria-label="Add to wishlist"
+                disabled={isLoading || selectedSize === null || inCart}
+                type="button"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className={`size-10 transition ${
+                    selectedSize !== null && !inCart
+                      ? "text-red-500  ease-in-out hover:scale-125"
+                      : inCart && "text-green-500"
+                  } ${true && "fill-red-500"} ${isLoading && "animate-pulse"}`}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className={`size-10 transition ${
-                      selectedSize !== null && !inCart
-                        ? "text-red-500  ease-in-out hover:scale-125"
-                        : inCart && "text-green-500"
-                    } ${true && "fill-red-500"} ${
-                      isLoading && "animate-pulse"
-                    }`}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-                    />
-                  </svg>
-                </button>
-              )}
-            </div>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+                  />
+                </svg>
+              </button>
+            )}
           </div>
           <button
             aria-label="Add to cart"

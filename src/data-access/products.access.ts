@@ -132,7 +132,9 @@ export async function selectProductListDetails({
             .where(
               and(
                 eq(categories.id, products.categoryId),
-                inArray(categories.collection, collection)
+                collection
+                  ? inArray(categories.collection, collection)
+                  : undefined
               )
             )
         ),

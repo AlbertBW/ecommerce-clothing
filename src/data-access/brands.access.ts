@@ -12,8 +12,8 @@ export async function selectBrandArrayByCollectionAndCategory({
   collections,
   categoryId,
 }: {
-  collections: Collection[];
-  categoryId: number;
+  collections?: Collection[];
+  categoryId?: number;
 }) {
   return await db
     .selectDistinct({
@@ -26,8 +26,8 @@ export async function selectBrandArrayByCollectionAndCategory({
     .leftJoin(categories, eq(categories.id, products.categoryId))
     .where(
       and(
-        eq(categories.parentId, categoryId),
-        inArray(categories.collection, collections)
+        categoryId ? eq(categories.parentId, categoryId) : undefined,
+        collections ? inArray(categories.collection, collections) : undefined
       )
     )
     .orderBy(brands.name);

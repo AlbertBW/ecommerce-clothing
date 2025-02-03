@@ -5,6 +5,7 @@ export const LOW_STOCK_THRESHOLD = 50;
 export const COLLECTION_PARAMS = ["men", "women"];
 
 export const COLLECTION_COMBINATIONS = {
+  all: ["men", "women", "unisex"] as Collection[],
   men: ["men", "unisex"] as Collection[],
   women: ["women", "unisex"] as Collection[],
 } as const;
