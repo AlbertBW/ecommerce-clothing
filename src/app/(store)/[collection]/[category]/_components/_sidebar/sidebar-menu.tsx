@@ -22,7 +22,7 @@ export default async function SidebarMenu({
   });
 
   return (
-    <nav className="hidden sm:block mx-3 sm:px-8 mb-8 min-w-fit overflow-y-auto max-h-main">
+    <nav className="sticky top-10 mx-3 sm:px-8 mb-8 pb-4 min-w-fit overflow-y-auto max-h-[calc(100svh-8rem)] border rounded border-zinc-700 -z-0">
       <div>
         <h4 className="font-bold my-2">
           {category.charAt(0).toUpperCase() + category.slice(1)}

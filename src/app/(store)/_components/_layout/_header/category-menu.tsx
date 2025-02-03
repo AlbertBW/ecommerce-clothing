@@ -68,7 +68,7 @@ export default function CollectionsMenu({
         trigger={menuLinks}
         dropdown={
           <div
-            className="fixed"
+            className="fixed z-10"
             onMouseLeave={() => handleSetCollection(undefined)}
             onTouchCancel={() => handleSetCollection(undefined)}
           >
@@ -76,8 +76,8 @@ export default function CollectionsMenu({
             <div className="fixed left-0 right-0 top-0 w-full h-24 dark:bg-zinc-900 bg-zinc-200" />
 
             {/* Dropdown Menu */}
-            <div className="fixed left-0 right-0 top-[6rem] w-full dark:bg-zinc-900 bg-zinc-200 flex justify-center items-center">
-              <div className="flex flex-col items-center flex-wrap gap-4 md:w-1/2 mt-4 mx-8 h-96">
+            <div className="fixed left-0 right-0 top-[6rem] w-full dark:bg-zinc-900 bg-zinc-200 flex justify-center items-center z-50">
+              <div className="flex flex-col items-center flex-wrap gap-4 md:w-1/2 mt-4 mx-8 h-96 z-50">
                 {selectedCollection && (
                   <CollectionBox collection={selectedCollection} />
                 )}
