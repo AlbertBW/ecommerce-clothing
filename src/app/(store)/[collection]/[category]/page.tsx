@@ -4,7 +4,6 @@ import { COLLECTION_PARAMS, ORDER_BY, OrderBy } from "@/lib/constants";
 import { notFound } from "next/navigation";
 import ProductList, { ProductListSkeleton } from "./_components/product-list";
 import { Suspense } from "react";
-import Pagination from "./_components/pagination";
 import SidebarMenu from "./_components/_sidebar/sidebar-menu";
 
 export async function generateStaticParams() {
@@ -50,10 +49,6 @@ export default async function ProductListPage({
             price={price}
           />
         </Suspense>
-
-        <div className="flex justify-center items-center mt-2">
-          <Pagination totalPages={5} />
-        </div>
       </section>
     </div>
   );

@@ -20,3 +20,5 @@ export const ORDER_BY = [
 export type OrderBy = (typeof ORDER_BY)[number];
 
 export const ORDER_BY_DEFAULT = "new" as const;
+
+export const PRODUCTS_PER_PAGE = 3;

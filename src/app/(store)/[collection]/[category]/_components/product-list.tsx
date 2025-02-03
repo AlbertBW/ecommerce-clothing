@@ -1,7 +1,6 @@
-import ProductCard, {
-  ProductCardSkeleton,
-} from "@/app/_components/product-card";
 import { getProductListDetails } from "@/use-cases/products";
+import ProductCardList from "./product-card-list";
+import { ProductCardSkeleton } from "@/app/_components/product-card";
 
 type ProductListProps = {
   collection: string;
@@ -26,7 +25,7 @@ export default async function ProductList({
   size,
   price,
 }: ProductListProps) {
-  const products = await getProductListDetails({
+  const initialProducts = await getProductListDetails({
     collection,
     categorySlug: category,
     subcategorySlug: subcategory,
@@ -38,7 +37,7 @@ export default async function ProductList({
     price,
   });
 
-  if (products.length === 0) {
+  if (initialProducts.length === 0) {
     return (
       <div className="pt-0 min-h-[calc(100vh-12rem)] max-h-[calc(100vh-12rem)] mt-2 px-1 md:px-0 md:ml-4 mx-1 sm:mx-4 ">
         <div className="text-center text-lg font-light flex justify-center items-center w-full h-full">
@@ -48,14 +47,26 @@ export default async function ProductList({
     );
   }
 
+  const loadMoreProducts = async (pageNum: number) => {
+    "use server";
+    return await getProductListDetails({
+      collection,
+      categorySlug: category,
+      subcategorySlug: subcategory,
+      sortBy,
+      page: pageNum.toString(),
+      brandSlug: brand,
+      colourSlug: colour,
+      sizeSlug: size,
+      price,
+    });
+  };
+
   return (
-    <div className="pt-0 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-2 px-1 md:px-0 md:ml-4 mx-1 sm:mx-4 min-h-[calc(100vh-12rem)]">
-      {products.map((product) => (
-        <div key={product.id} className="max-w-80">
-          <ProductCard product={product} />
-        </div>
-      ))}
-    </div>
+    <ProductCardList
+      initialProducts={initialProducts}
+      loadMoreProducts={loadMoreProducts}
+    />
   );
 }
 

@@ -17,7 +17,6 @@ export default async function ProductPage({
     ),
   ];
 
-  console.log(colours);
   return (
     <>
       <div className="max-w-screen-xl mt-8 ml-4 md:mx-auto">

@@ -7,6 +7,7 @@ import {
   productVariants,
   UpdatedProduct,
 } from "@/db/schema";
+import { PRODUCTS_PER_PAGE } from "@/lib/constants";
 import { ProductId } from "@/lib/types";
 import { asc, desc, eq, gte, lte, sql } from "drizzle-orm";
 
@@ -93,8 +94,8 @@ export async function selectProductListDetails({
   minPrice: number | null;
   maxPrice: number | null;
 }) {
-  const productsPerPage = 12;
-  const pageLimit = productsPerPage * page;
+  const productsPerPage = PRODUCTS_PER_PAGE;
+  const offset = (page - 1) * productsPerPage;
 
   type OrderByKey = "popular" | "new" | "priceAsc" | "priceDesc";
 
@@ -197,8 +198,8 @@ export async function selectProductListDetails({
       brand: true,
       category: { with: { parentCategory: true } },
     },
-    limit: pageLimit,
-    offset: pageLimit - productsPerPage,
+    limit: productsPerPage,
+    offset: offset,
   });
 
   return allProducts;
