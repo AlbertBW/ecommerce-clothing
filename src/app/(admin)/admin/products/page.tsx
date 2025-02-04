@@ -2,6 +2,8 @@ import { auth } from "@/auth";
 import { getProductListDetails } from "@/use-cases/products";
 import { notFound } from "next/navigation";
 import AdminSidebarMenu from "../_components/_sidebar/admin-sidebar";
+import AdminProductList from "./_components/admin-product-list";
+import { Suspense } from "react";
 
 export default async function ProductsPage({
   searchParams,
@@ -30,17 +32,7 @@ export default async function ProductsPage({
     price,
   } = await searchParams;
 
-  const products = await getProductListDetails({
-    collection,
-    categorySlug: category,
-    subcategorySlug: subcategory,
-    sortBy,
-    page,
-    brandSlug: brand,
-    colourSlug: colour,
-    sizeSlug: size,
-    price,
-  });
+  const suspenseKey = `${collection}-${category}-${subcategory}-${sortBy}-${page}-${brand}-${colour}-${size}-${price}`;
 
   return (
     <div className="flex">
@@ -48,6 +40,22 @@ export default async function ProductsPage({
         collection={collection as string}
         category={category as string}
       />
+      <section className="flex flex-col w-full max-w-screen-2xl mx-auto overflow-y-visible">
+        <Suspense key={suspenseKey} fallback={<div>Loading...</div>}>
+          <AdminProductList
+            collection={collection as string}
+            category={category as string}
+            subcategory={subcategory}
+            sortBy={sortBy}
+            page={page}
+            brand={brand}
+            colour={colour}
+            size={size}
+            price={price}
+          />
+        </Suspense>
+      </section>
+      {/* <Pagination /> */}
     </div>
   );
 }
