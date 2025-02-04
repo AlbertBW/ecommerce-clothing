@@ -15,7 +15,7 @@ export default function Header() {
 
   return (
     <header className="border-b p-2 mx-4 border-zinc-800 text-zinc-400">
-      <nav className="flex justify-between text-sm">
+      <nav className="flex justify-between items-center text-sm">
         <div className="flex w-full gap-1">
           <Link
             className={`hover:bg-zinc-800 hover:text-white ${
@@ -50,14 +50,22 @@ export default function Header() {
             Customers
           </Link>
         </div>
-        <Link
-          href={"/account"}
-          className="w-full flex justify-end items-center"
-        >
-          <SessionProvider>
-            <UserAccount />
-          </SessionProvider>
-        </Link>
+        <div className="h-fit flex items-center justify-end">
+          <Link
+            href={"/"}
+            className="w-32 flex items-center justify-center hover:text-white"
+          >
+            Return to store
+          </Link>
+          <Link
+            href={"/account"}
+            className="w-24 flex justify-end items-center"
+          >
+            <SessionProvider>
+              <UserAccount />
+            </SessionProvider>
+          </Link>
+        </div>
       </nav>
     </header>
   );

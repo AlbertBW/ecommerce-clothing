@@ -48,8 +48,19 @@ export default function UserAccount() {
       trigger={<UserAvatar image={session.user?.image} />}
       dropdown={
         <DropdownMenu
-          title={session.user?.name || "Your account"}
-          listItems={menuItems}
+          title={
+            `${session.user?.name} ${
+              session.user.role === "admin" && "(admin)"
+            }` || "Your account"
+          }
+          listItems={[
+            session.user.role === "admin" && (
+              <Link key="admin" className="hover:opacity-75" href={"/admin"}>
+                Admin Dashboard
+              </Link>
+            ),
+            ...menuItems,
+          ]}
           listClassName="flex flex-col text-right gap-2"
         />
       }
