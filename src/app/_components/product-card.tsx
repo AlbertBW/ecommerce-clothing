@@ -26,7 +26,9 @@ export default function ProductCard({ product }: { product: ProductDetails }) {
         <p className="font-semibold text-zinc-400">{product.brand?.name}</p>
         <p>{product.title}</p>
 
-        <p className="text-zinc-500">{product.productVariants[0].price}</p>
+        <p className="text-zinc-500">
+          {(product.productVariants[0].price / 100).toFixed(2)}
+        </p>
 
         {!isLowStock && totalStock > 0 ? (
           <p className="text-green-600">In stock</p>

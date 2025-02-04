@@ -37,6 +37,17 @@ export default async function AdminProductList({
     sizeSlug: size,
     price,
   });
+
+  if (products.length === 0) {
+    return (
+      <div className="pt-0 min-h-[calc(100vh-12rem)] max-h-[calc(100vh-12rem)] mt-2 px-1 md:px-0 md:ml-4 mx-1 sm:mx-4 ">
+        <div className="text-center text-lg font-light flex justify-center items-center w-full h-full">
+          No products found
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       {products.map((product) => (

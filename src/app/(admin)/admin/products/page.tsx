@@ -1,5 +1,4 @@
 import { auth } from "@/auth";
-import { getProductListDetails } from "@/use-cases/products";
 import { notFound } from "next/navigation";
 import AdminSidebarMenu from "../_components/_sidebar/admin-sidebar";
 import AdminProductList from "./_components/admin-product-list";

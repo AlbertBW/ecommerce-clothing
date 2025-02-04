@@ -1,5 +1,6 @@
 import {
   selectAllCategories,
+  selectAllSubcategories,
   selectCategoryBySlug,
   selectRecursiveCategoriesByCollection,
   selectSubcategoriesByCollectionAndParentId,
@@ -10,6 +11,26 @@ import { selectProductColoursByCollectionAndParentId } from "@/data-access/colou
 import { Collection } from "@/db/schema";
 import { COLLECTION_COMBINATIONS } from "@/lib/constants";
 import { NotFoundError } from "./errors";
+
+export async function getAllCategories() {
+  const categories = await selectAllCategories();
+
+  if (!categories || categories.length === 0) {
+    throw new NotFoundError("Categories not found");
+  }
+
+  return categories;
+}
+
+export async function getAllSubcategories() {
+  const categories = await selectAllSubcategories();
+
+  if (!categories || categories.length === 0) {
+    throw new NotFoundError("Categories not found");
+  }
+
+  return categories;
+}
 
 export async function getCategoriesRecursiveByCollection(
   collections: Collection[]

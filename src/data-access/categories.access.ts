@@ -14,6 +14,12 @@ export async function selectAllCategories() {
   });
 }
 
+export async function selectAllSubcategories() {
+  return await db.query.categories.findMany({
+    where: isNotNull(categories.parentId),
+  });
+}
+
 export async function selectCategoryBySlug(slug: string) {
   return await db.query.categories.findFirst({
     where: eq(categories.slug, slug),

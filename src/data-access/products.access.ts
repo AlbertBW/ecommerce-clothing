@@ -24,7 +24,7 @@ export async function selectProductDetails(productId: ProductId) {
       productVariants: { with: { colour: true, size: true } },
       productRating: true,
       brand: true,
-      category: true,
+      category: { with: { parentCategory: true } },
     },
   });
 }

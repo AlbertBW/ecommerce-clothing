@@ -42,7 +42,11 @@ export type ProductDetails = Product & {
   })[];
   productRating: ProductRating | null;
   brand: Brand;
-  category: Category | null;
+  category:
+    | (Category & {
+        parentCategory: Category | null;
+      })
+    | null;
 };
 
 export type CollectionGroup = {
