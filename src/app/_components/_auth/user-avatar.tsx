@@ -34,11 +34,15 @@ export default function UserAvatar({
 }
 
 export function UserAvatarSkeleton({ size }: { size?: number }) {
+  const containerWidth = size ? size * 1.2 : 48;
+  const containerHeight = size ? size * 1.075 : 43;
+
   return (
     <div
-      className={`w-[${size ? size * 1.2 : 48}px] h-[${
-        size ? size * 1.075 : 43
-      }px]`}
+      style={{
+        width: `${containerWidth}px`,
+        height: `${containerHeight}px`,
+      }}
     />
   );
 }
