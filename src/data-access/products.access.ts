@@ -97,27 +97,6 @@ export async function selectProductListDetails({
   const productsPerPage = PRODUCTS_PER_PAGE;
   const offset = (page - 1) * productsPerPage;
 
-  type OrderByKey = "popular" | "new" | "priceAsc" | "priceDesc";
-
-  // Define the type for the values of orderByMapping
-  type OrderByValue = ReturnType<typeof desc> | ReturnType<typeof asc>;
-
-  // Set the orderBy conditions based on the search params
-  const orderByConditions: OrderByValue[] = [];
-
-  // Define the mapping for the orderBy conditions
-  const orderByMapping: { [key in OrderByKey]: OrderByValue } = {
-    popular: desc(sql<number>`SUM(${productVariants.sold})`),
-    new: desc(products.createdAt),
-    priceAsc: asc(sql<number>`MIN(${productVariants.price})`),
-    priceDesc: desc(sql<number>`MIN(${productVariants.price})`),
-  };
-
-  // Add the orderBy condition to the orderByConditions array
-  if (sortBy && orderByMapping[sortBy as OrderByKey]) {
-    orderByConditions.push(orderByMapping[sortBy as OrderByKey]);
-  }
-
   const allProducts = await db.query.products.findMany({
     where: (products, { exists, and, eq, inArray }) =>
       and(
@@ -194,12 +173,33 @@ export async function selectProductListDetails({
           colour: true,
           size: true,
         },
-        orderBy: orderByConditions,
       },
       productRating: true,
       brand: true,
       category: { with: { parentCategory: true } },
     },
+    orderBy:
+      sortBy === "popular"
+        ? desc(sql`(
+          SELECT COALESCE(SUM(pv.sold), 0)
+          FROM ${productVariants} pv
+          WHERE pv.product_id = ${products.id}
+        )`)
+        : sortBy === "priceAsc"
+        ? asc(sql`(
+          SELECT MIN(pv.price)
+          FROM ${productVariants} pv
+          WHERE pv.product_id = ${products.id}
+          GROUP BY pv.product_id
+        )`)
+        : sortBy === "priceDesc"
+        ? desc(sql`(
+          SELECT MIN(pv.price)
+          FROM ${productVariants} pv
+          WHERE pv.product_id = ${products.id}
+          GROUP BY pv.product_id
+        )`)
+        : desc(products.createdAt),
     limit: productsPerPage,
     offset: offset,
   });

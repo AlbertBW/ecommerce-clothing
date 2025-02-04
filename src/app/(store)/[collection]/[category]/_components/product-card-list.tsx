@@ -1,5 +1,6 @@
 "use client";
 
+import LoadingSpinner from "@/app/_components/loading-spinner";
 import ProductCard from "@/app/_components/product-card";
 import { PRODUCTS_PER_PAGE } from "@/lib/constants";
 import { ProductDetails } from "@/lib/types";
@@ -44,10 +45,10 @@ export default function ProductCardList({
         {hasMore ? (
           <button
             disabled={loading}
-            className="p-2 border border-zinc-500 text-sm"
+            className="p-2 border-2 border-zinc-500 text-sm w-24 h-12 rounded flex justify-center items-center"
             onClick={handleLoadMoreProducts}
           >
-            {loading ? "Loading" : "Load More"}
+            {loading ? <LoadingSpinner /> : "Load More"}
           </button>
         ) : (
           <div className="text-center text-sm text-zinc-400 font-light flex justify-center items-center w-full h-full">
