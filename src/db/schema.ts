@@ -176,7 +176,7 @@ export const brandRelations = relations(brands, ({ many }) => ({
 
 export const products = pgTable("product", {
   id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
-  title: text("title").notNull(),
+  name: text("name").notNull(),
   description: text("description").notNull(),
   slug: text("slug").notNull().unique(),
   image: text("image").notNull(),

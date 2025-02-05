@@ -63,3 +63,8 @@ export type RecursiveCategory = {
   parentId: number | null;
   subcategories: RecursiveCategory[];
 };
+
+export type CartCookies = Array<{
+  id: Product["id"];
+  quantity: number;
+}>;

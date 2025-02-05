@@ -15,7 +15,7 @@ export default function ProductCard({ product }: { product: ProductDetails }) {
     <Link href={`/product/${product.id}`}>
       <Image
         src={shirt}
-        alt={product.title}
+        alt={product.name}
         layout="responsive"
         width={0}
         height={0}
@@ -24,10 +24,10 @@ export default function ProductCard({ product }: { product: ProductDetails }) {
 
       <div className="mt-1">
         <p className="font-semibold text-zinc-400">{product.brand?.name}</p>
-        <p>{product.title}</p>
+        <p>{product.name}</p>
 
         <p className="text-zinc-500">
-          {(product.productVariants[0].price / 100).toFixed(2)}
+          £{(product.productVariants[0].price / 100).toFixed(2)}
         </p>
 
         {!isLowStock && totalStock > 0 ? (

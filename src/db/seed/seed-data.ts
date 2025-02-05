@@ -213,7 +213,7 @@ export const brandSeedData: NewBrand[] = [
 export const productSeedData: NewProduct[] = [
   // T-shirts
   {
-    title: "Classic T-shirt",
+    name: "Classic T-shirt",
     description: "A classic short sleeve t-shirt",
     categoryId: 101,
     brandId: 1,
@@ -223,7 +223,7 @@ export const productSeedData: NewProduct[] = [
     slug: "",
   },
   {
-    title: "Graphic T-shirt",
+    name: "Graphic T-shirt",
     description: "A t-shirt with a cool graphic design",
     categoryId: 101,
     brandId: 2,
@@ -233,7 +233,7 @@ export const productSeedData: NewProduct[] = [
     slug: "",
   },
   {
-    title: "V-neck T-shirt",
+    name: "V-neck T-shirt",
     description: "A comfortable V-neck t-shirt",
     categoryId: 101,
     brandId: 3,
@@ -243,7 +243,7 @@ export const productSeedData: NewProduct[] = [
     slug: "",
   },
   {
-    title: "Long Sleeve T-shirt",
+    name: "Long Sleeve T-shirt",
     description: "A long sleeve t-shirt for cooler weather",
     categoryId: 101,
     brandId: 4,
@@ -255,7 +255,7 @@ export const productSeedData: NewProduct[] = [
 
   // Dresses
   {
-    title: "Summer Dress",
+    name: "Summer Dress",
     description: "A light and airy summer dress",
     categoryId: 102,
     brandId: 5,
@@ -265,7 +265,7 @@ export const productSeedData: NewProduct[] = [
     slug: "",
   },
   {
-    title: "Evening Gown",
+    name: "Evening Gown",
     description: "An elegant evening gown for special occasions",
     categoryId: 102,
     brandId: 6,
@@ -275,7 +275,7 @@ export const productSeedData: NewProduct[] = [
     slug: "",
   },
   {
-    title: "Casual Dress",
+    name: "Casual Dress",
     description: "A comfortable dress for everyday wear",
     categoryId: 102,
     brandId: 3,
@@ -285,7 +285,7 @@ export const productSeedData: NewProduct[] = [
     slug: "",
   },
   {
-    title: "Party Dress",
+    name: "Party Dress",
     description: "A fun and stylish dress for parties",
     categoryId: 102,
     brandId: 7,

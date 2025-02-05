@@ -48,7 +48,7 @@ async function seed() {
     if (!category?.collection) throw new Error("No collection");
 
     const brandCode = generateCode(brand?.name);
-    const productTitleCode = generateCode(product.title);
+    const productTitleCode = generateCode(product.name);
 
     if (!product.categoryId) throw new Error("No category ID on product");
 
@@ -70,8 +70,15 @@ async function seed() {
   const productVariantsData = allProducts.flatMap((p) => {
     const variants = [];
     const randomPrice = getRandomPrice();
-    for (const colour of allColours) {
-      for (const size of allSizes) {
+    const randomColours = allColours
+      .sort(() => Math.random() - 0.5)
+      .slice(0, getRandomInt(3, 4));
+    const randomSizes = allSizes
+      .sort(() => Math.random() - 0.5)
+      .slice(0, getRandomInt(3, 4));
+
+    for (const colour of randomColours) {
+      for (const size of randomSizes) {
         const sku = generateSKU(p.slug, colour.name, size.name);
         variants.push({
           stock: getRandomInt(25),

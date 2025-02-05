@@ -21,15 +21,15 @@ export default async function ProductPage({
 
   return (
     <>
-      <div className="max-w-screen-xl mt-8 ml-4 md:mx-auto">
+      <div className="hidden sm:block max-w-screen-xl mt-2 ml-8 mb-12">
         <BackButton />
       </div>
-      <div className="min-h-[calc(100vh-197px)] max-w-screen-xl flex text-center mx-auto">
-        <div className="flex md:flex-row flex-col mb-24 items-center w-full justify-between">
-          <div className="my-8 md:my-0">
+      <div className="max-w-screen-xl flex text-center mx-auto">
+        <div className="flex lg:flex-row flex-col items-center w-full justify-between">
+          <div className="my-8 md:my-0 ml-4">
             <Image
               src={shirt}
-              alt={`Image of ${product.title}`}
+              alt={`Image of ${product.name}`}
               width={650}
               height={650}
             />

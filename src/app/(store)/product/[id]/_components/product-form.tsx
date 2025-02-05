@@ -1,5 +1,6 @@
 "use client";
 
+import { addToCartAction } from "@/actions/cart.action";
 import LoadingSpinner from "@/app/_components/loading-spinner";
 import { ProductDetails } from "@/lib/types";
 import { useState } from "react";
@@ -59,13 +60,12 @@ export default function ProductForm({
   };
 
   const handleAddToCart = async () => {
-    console.log("Add to cart");
     if (!selectedProductVariant) {
       return;
     }
 
     setIsLoading(true);
-    // await addToCart(selectedProductVariant);
+    await addToCartAction(selectedProductVariant.id, 1);
     setIsLoading(false);
     setInCart(true);
   };
@@ -81,10 +81,10 @@ export default function ProductForm({
   return (
     <div className="flex flex-col justify-between gap-4 md:w-2/5 text-xl md:mx-auto">
       <h1 className="font-bold">{product.brand.name}</h1>
-      <div>{product.title}</div>
+      <div>{product.name}</div>
 
       <div className="w-full mx-auto">
-        <div className="flex flex-col justify-between mx-auto gap-2 my-4 w-96">
+        <div className="flex flex-col justify-between mx-auto gap-2 my-4 max-w-96">
           <h2>Colours</h2>
           <div className="flex justify-center flex-wrap gap-2">
             {colours.map((colour) => (
@@ -165,7 +165,7 @@ export default function ProductForm({
                 : false
                 ? "bg-zinc-800 opacity-40"
                 : "bg-blue-500 hover:bg-blue-700"
-            } self-center  text-white font-bold w-40 h-12 rounded`}
+            } self-center  text-white font-semibold w-40 h-12 rounded`}
           >
             {isLoading ? (
               <div className="flex justify-center items-center">

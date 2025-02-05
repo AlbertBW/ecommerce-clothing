@@ -39,11 +39,11 @@ export default function EditModal({
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium">
-                  Name: {product.title}
+                  Name: {product.name}
                 </label>
                 <input
                   type="text"
-                  defaultValue={product.title}
+                  defaultValue={product.name}
                   className="mt-1 block w-full rounded border-gray-300 shadow-sm dark:bg-zinc-700"
                 />
               </div>

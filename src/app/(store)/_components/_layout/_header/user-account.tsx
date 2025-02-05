@@ -50,7 +50,7 @@ export default function UserAccount() {
         <DropdownMenu
           title={
             `${session.user?.name} ${
-              session.user.role === "admin" && "(admin)"
+              session.user.role === "admin" ? "(admin)" : ""
             }` || "Your account"
           }
           listItems={[

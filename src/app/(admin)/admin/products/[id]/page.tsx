@@ -30,7 +30,7 @@ export default async function ProductPage({
       <div className="flex flex-row items-center justify-between w-full px-4 my-4">
         <BackButton />
         <h1 className="sm:text-lg font-bold absolute left-1/2 transform -translate-x-1/2">
-          {product.brand.name} - {product.title}
+          {product.brand.name} - {product.name}
         </h1>
       </div>
 
@@ -56,7 +56,7 @@ export default async function ProductPage({
       </p>
       <p>
         <strong>Name - </strong>
-        {product.title}
+        {product.name}
       </p>
       <p>
         <strong>Description - </strong>

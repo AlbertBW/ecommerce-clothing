@@ -58,12 +58,12 @@ export default async function AdminProductList({
           <div className="flex items-center">
             <Image
               src={tshirt}
-              alt={product.title}
+              alt={product.name}
               className="w-12 h-12 object-cover"
               quality={10}
             />
             <p className="ml-2 min-w-32 border-r">{product.brand.name}</p>
-            <p className="ml-2 min-w-40 border-r">{product.title}</p>
+            <p className="ml-2 min-w-40 border-r">{product.name}</p>
             <p className="ml-2 min-w-32 border-r">
               Variants: {product.productVariants.length}
             </p>
