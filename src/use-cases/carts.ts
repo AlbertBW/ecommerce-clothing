@@ -1,3 +1,4 @@
+import { addToCartCookies } from "@/actions/cookie.action";
 import { auth } from "@/auth";
 import {
   insertCart,
@@ -31,13 +32,10 @@ export async function getOrCreateCart(userId: UserId) {
 export async function getCartCookies() {
   const cookieStore = await cookies();
 
-  if (!cookieStore.has("cart")) {
-    cookieStore.set("cart", JSON.stringify([]));
-  }
   const cart = cookieStore.get("cart");
 
   if (!cart) {
-    throw new Error("failed getting cart");
+    return { cart: [], cookieStore };
   }
 
   const cartContents = JSON.parse(cart.value) as Array<{
@@ -57,22 +55,6 @@ export async function addToCart(productId: ProductVariantId, quantity: number) {
     await addToCartDb(productId, session.user.id);
   }
   revalidatePath("/cart");
-}
-
-export async function addToCartCookies(
-  productId: ProductVariantId,
-  quantity: number
-) {
-  const { cart, cookieStore } = await getCartCookies();
-
-  const existingItemIndex = cart.findIndex((item) => item.id === productId);
-
-  if (existingItemIndex !== -1) {
-    cart[existingItemIndex].quantity += 1;
-  } else {
-    cart.push({ id: productId, quantity: quantity || 1 });
-  }
-  cookieStore.set("cart", JSON.stringify(cart));
 }
 
 export async function addToCartDb(productId: ProductId, userId: UserId) {

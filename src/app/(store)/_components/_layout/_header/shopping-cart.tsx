@@ -2,9 +2,10 @@ import Link from "next/link";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import HoverDropdown from "@/app/_components/hover-dropdown";
 import DropdownMenu from "./dropdown-menu";
-import { getHeaderCartItems } from "@/use-cases/carts";
+
 import Image from "next/image";
 import tshirt from "../../../../../../public/t-shirt-white.jpeg";
+import { getHeaderCartItems } from "@/use-cases/carts";
 
 export default async function ShoppingCart() {
   const { products, count } = await getHeaderCartItems();
@@ -43,7 +44,7 @@ export default async function ShoppingCart() {
       </div>
     )),
     <p className="text-sm" key={"CartItemCount"}>
-      Viewing 3 of {count} items
+      Viewing {count} of 3 items
     </p>,
     <Link href={"/cart"} key={"LinkToCart"}>
       Go to cart
