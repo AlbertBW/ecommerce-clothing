@@ -52,10 +52,8 @@ export async function addToCart(productId: ProductVariantId, quantity: number) {
   const session = await auth();
 
   if (!session || !session.user.id) {
-    // cookies
     await addToCartCookies(productId, quantity);
   } else {
-    // db
     await addToCartDb(productId, session.user.id);
   }
   revalidatePath("/cart");
@@ -75,7 +73,6 @@ export async function addToCartCookies(
     cart.push({ id: productId, quantity: quantity || 1 });
   }
   cookieStore.set("cart", JSON.stringify(cart));
-  console.log("cookies", cookieStore);
 }
 
 export async function addToCartDb(productId: ProductId, userId: UserId) {
@@ -111,13 +108,13 @@ export async function getHeaderCartItems() {
   const session = await auth();
 
   if (!session || !session.user.id) {
-    return await getCartItemsCookies();
+    return await getCartItemsCookies(3);
   } else {
-    return await getCartItemsDb(session.user.id);
+    return await getCartItemsDb(session.user.id, 3);
   }
 }
 
-export async function getCartItemsCookies() {
+export async function getCartItemsCookies(limit?: number) {
   const { cart } = await getCartCookies();
 
   const productIds = cart.map((item) => item.id);
@@ -125,12 +122,12 @@ export async function getCartItemsCookies() {
 
   const products = await selectProductVariantsByProductIdArray({
     productIds,
-    limit: 3,
+    limit: limit,
   });
   return { products, count };
 }
 
-export async function getCartItemsDb(userId: UserId) {
+export async function getCartItemsDb(userId: UserId, limit?: number) {
   const userCart = await selectCartWithCartItems(userId);
 
   if (!userCart) {
@@ -142,7 +139,7 @@ export async function getCartItemsDb(userId: UserId) {
 
   const products = await selectProductVariantsByProductIdArray({
     productIds,
-    limit: 3,
+    limit: limit,
   });
 
   return { products, count };

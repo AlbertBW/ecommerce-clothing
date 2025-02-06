@@ -24,6 +24,8 @@ export default async function ProductPage({
   const wishlistItemIds = wishlistItems.map((item) => item.productVariantId);
   const cartItemIds = cartItems.products.map((item) => item.id);
 
+  console.log("Cart items", cartItemIds);
+
   const colours = [
     ...new Set(
       product.productVariants
@@ -34,7 +36,7 @@ export default async function ProductPage({
 
   return (
     <>
-      <div className="hidden sm:block max-w-screen-xl mt-2 ml-8 mb-12">
+      <div className="hidden sm:block max-w-screen-xl mt-0 ml-8 mb-12">
         <BackButton />
       </div>
       <div className="max-w-screen-xl flex text-center mx-auto">
