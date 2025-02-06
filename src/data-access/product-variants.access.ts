@@ -5,7 +5,7 @@ import {
   UpdatedProductVariant,
 } from "@/db/schema";
 import { ProductVariantId } from "@/lib/types";
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 
 export async function selectProductVariant(productVariantId: ProductVariantId) {
   return await db.query.productVariants.findFirst({
@@ -28,4 +28,18 @@ export async function updateProduct(
     .set(updatedProductVariant)
     .where(eq(productVariants.id, productVariantId))
     .returning();
+}
+
+export async function selectProductVariantsByProductIdArray({
+  productIds,
+  limit,
+}: {
+  productIds: ProductVariantId[];
+  limit?: number;
+}) {
+  return await db.query.productVariants.findMany({
+    where: inArray(productVariants.id, productIds),
+    with: { product: true, colour: true, size: true },
+    limit: limit ?? undefined,
+  });
 }

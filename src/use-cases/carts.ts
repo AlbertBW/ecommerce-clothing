@@ -1,6 +1,17 @@
 import { auth } from "@/auth";
-import { insertCart, selectCartByUserId } from "@/data-access/carts.access";
-import { ProductId, UserId } from "@/lib/types";
+import {
+  insertCart,
+  insertCartItem,
+  selectCartByUserId,
+  selectCartWithCartItems,
+} from "@/data-access/carts.access";
+import { selectProductVariantsByProductIdArray } from "@/data-access/product-variants.access";
+import {
+  deleteWishlistItem,
+  selectWishlistByUserId,
+} from "@/data-access/wishlists.access";
+import { ProductId, ProductVariantId, UserId } from "@/lib/types";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 export async function getOrCreateCart(userId: UserId) {
@@ -37,7 +48,7 @@ export async function getCartCookies() {
   return { cart: cartContents, cookieStore };
 }
 
-export async function addToCart(productId: ProductId, quantity: number) {
+export async function addToCart(productId: ProductVariantId, quantity: number) {
   const session = await auth();
 
   if (!session || !session.user.id) {
@@ -45,11 +56,15 @@ export async function addToCart(productId: ProductId, quantity: number) {
     await addToCartCookies(productId, quantity);
   } else {
     // db
-    await addToCartDb(productId, quantity, session.user.id);
+    await addToCartDb(productId, session.user.id);
   }
+  revalidatePath("/cart");
 }
 
-export async function addToCartCookies(productId: ProductId, quantity: number) {
+export async function addToCartCookies(
+  productId: ProductVariantId,
+  quantity: number
+) {
   const { cart, cookieStore } = await getCartCookies();
 
   const existingItemIndex = cart.findIndex((item) => item.id === productId);
@@ -63,11 +78,72 @@ export async function addToCartCookies(productId: ProductId, quantity: number) {
   console.log("cookies", cookieStore);
 }
 
-export async function addToCartDb(
-  productId: ProductId,
-  quantity: number,
-  userId: UserId
-) {
-  // db
-  console.log("db", productId, quantity, userId);
+export async function addToCartDb(productId: ProductId, userId: UserId) {
+  const [cart, wishlist] = await Promise.all([
+    await selectCartWithCartItems(userId),
+    await selectWishlistByUserId(userId),
+  ]);
+
+  if (!cart) {
+    throw new Error("failed getting cart");
+  }
+
+  const existingItemInCart = cart.cartItems.find(
+    (item) => item.productVariantId === productId
+  );
+
+  const existingItemInWishlist = wishlist?.wishlistItems.find(
+    (item) => item.productVariantId === productId
+  );
+
+  if (existingItemInCart) {
+    throw new Error("already in cart");
+  }
+
+  await insertCartItem(productId, cart.id);
+
+  if (existingItemInWishlist && wishlist) {
+    await deleteWishlistItem(productId, wishlist.id);
+  }
+}
+
+export async function getHeaderCartItems() {
+  const session = await auth();
+
+  if (!session || !session.user.id) {
+    return await getCartItemsCookies();
+  } else {
+    return await getCartItemsDb(session.user.id);
+  }
+}
+
+export async function getCartItemsCookies() {
+  const { cart } = await getCartCookies();
+
+  const productIds = cart.map((item) => item.id);
+  const count = productIds.length;
+
+  const products = await selectProductVariantsByProductIdArray({
+    productIds,
+    limit: 3,
+  });
+  return { products, count };
+}
+
+export async function getCartItemsDb(userId: UserId) {
+  const userCart = await selectCartWithCartItems(userId);
+
+  if (!userCart) {
+    throw new Error("failed getting cart");
+  }
+
+  const productIds = userCart.cartItems.map((item) => item.productVariantId);
+  const count = productIds.length;
+
+  const products = await selectProductVariantsByProductIdArray({
+    productIds,
+    limit: 3,
+  });
+
+  return { products, count };
 }

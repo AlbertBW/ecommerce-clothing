@@ -68,3 +68,13 @@ export type CartCookies = Array<{
   id: Product["id"];
   quantity: number;
 }>;
+
+export type UseCaseReturnType =
+  | {
+      success: true;
+      message: null;
+    }
+  | {
+      success: false;
+      message: string;
+    };

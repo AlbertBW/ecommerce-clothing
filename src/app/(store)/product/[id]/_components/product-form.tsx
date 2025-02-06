@@ -1,16 +1,28 @@
 "use client";
 
 import { addToCartAction } from "@/actions/cart.action";
+import {
+  addToWishlistAction,
+  removeFromWishlistAction,
+} from "@/actions/wishlist.action";
 import LoadingSpinner from "@/app/_components/loading-spinner";
-import { ProductDetails } from "@/lib/types";
-import { useState } from "react";
+import { ProductDetails, ProductVariantId } from "@/lib/types";
+import { Session } from "next-auth";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function ProductForm({
   product,
   colours,
+  session,
+  wishlistItemIds,
+  cartItemIds,
 }: {
   product: ProductDetails;
   colours: string[];
+  session: Session | null;
+  wishlistItemIds: ProductVariantId[];
+  cartItemIds: ProductVariantId[];
 }) {
   const [selectedColour, setSelectedColour] = useState<string | null>(null);
   const [selectedProductVariants, setSelectedProductVariants] = useState<
@@ -19,15 +31,19 @@ export default function ProductForm({
   const [selectedProductVariant, setSelectedProductVariant] =
     useState<(typeof product.productVariants)[0]>();
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
-  const [inCart, setInCart] = useState(false);
+  const [itemInWishlist, setItemInWishlist] = useState(false);
+  const [itemInCart, setItemInCart] = useState(false);
   const [outOfStock, setOutOfStock] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSetSelectedColour = (colour: string) => {
+    setSelectedSize(null);
+    setItemInCart(false);
+    setItemInWishlist(false);
+
     setSelectedColour((prev) => {
       if (prev === colour) {
         setSelectedProductVariants([]);
-        setSelectedSize(null);
         return null;
       }
       return colour;
@@ -66,8 +82,37 @@ export default function ProductForm({
 
     setIsLoading(true);
     await addToCartAction(selectedProductVariant.id, 1);
+    toast.success("Added to cart");
     setIsLoading(false);
-    setInCart(true);
+  };
+
+  const handleWishlistToggle = async () => {
+    if (!selectedProductVariant) {
+      return;
+    }
+
+    if (!session) {
+      toast.error("Please sign in to add to wishlist");
+      return;
+    }
+
+    setIsLoading(true);
+
+    const { success, message } = itemInWishlist
+      ? await removeFromWishlistAction(selectedProductVariant.id)
+      : await addToWishlistAction(selectedProductVariant.id);
+
+    if (!success) {
+      toast.error(message);
+      setIsLoading(false);
+    } else {
+      if (itemInWishlist) {
+        toast.success("Removed from wishlist");
+      } else {
+        toast.success("Added to wishlist");
+      }
+    }
+    setIsLoading(false);
   };
 
   const productSizes: string[] = Array.from(
@@ -77,6 +122,20 @@ export default function ProductForm({
         .map((prodVar) => prodVar.size!.name)
     )
   );
+
+  useEffect(() => {
+    setItemInWishlist(
+      selectedProductVariant
+        ? wishlistItemIds.includes(selectedProductVariant.id)
+        : false
+    );
+
+    setItemInCart(
+      selectedProductVariant
+        ? cartItemIds.includes(selectedProductVariant.id)
+        : false
+    );
+  }, [cartItemIds, selectedProductVariant, wishlistItemIds]);
 
   return (
     <div className="flex flex-col justify-between gap-4 md:w-2/5 text-xl md:mx-auto">
@@ -111,7 +170,7 @@ export default function ProductForm({
                 type="button"
                 onClick={() => handleSetSelectedSize(size)}
                 key={size}
-                className={`md:w-32 md:h-12 w-24 h-10 border rounded-md transition-colors delay-0 text-sm sm:text-base ${
+                className={`md:w-20 md:h-10 w-24 h-10 border rounded-md transition-colors delay-0 text-sm sm:text-base ${
                   selectedProductVariants.some(
                     (variant) => variant.size?.name === size
                   )
@@ -127,40 +186,41 @@ export default function ProductForm({
 
         <div className="grid grid-cols-3 mt-4">
           <div className="flex justify-end mr-4">
-            {true && ( // User logged in
-              <button
-                aria-label="Add to wishlist"
-                disabled={isLoading || selectedSize === null || inCart}
-                type="button"
+            <button
+              aria-label="Add to wishlist"
+              disabled={isLoading || selectedSize === null || itemInCart}
+              onClick={handleWishlistToggle}
+              type="button"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className={`size-10 transition ${
+                  selectedSize !== null && !itemInCart
+                    ? "text-red-500  ease-in-out hover:scale-125"
+                    : itemInCart && "text-green-500"
+                } ${itemInWishlist && "fill-red-500"} ${
+                  isLoading && "animate-pulse"
+                }`}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className={`size-10 transition ${
-                    selectedSize !== null && !inCart
-                      ? "text-red-500  ease-in-out hover:scale-125"
-                      : inCart && "text-green-500"
-                  } ${true && "fill-red-500"} ${isLoading && "animate-pulse"}`}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-                  />
-                </svg>
-              </button>
-            )}
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+                />
+              </svg>
+            </button>
           </div>
           <button
             aria-label="Add to cart"
-            disabled={!selectedSize || outOfStock || inCart}
+            disabled={!selectedSize || outOfStock || itemInCart}
             onClick={handleAddToCart}
             type="button"
             className={`${
-              !selectedSize || outOfStock || inCart
+              !selectedSize || outOfStock || itemInCart
                 ? "bg-zinc-400/40"
                 : false
                 ? "bg-zinc-800 opacity-40"
@@ -175,7 +235,7 @@ export default function ProductForm({
               "Select Size"
             ) : outOfStock ? (
               "Out of Stock"
-            ) : inCart ? (
+            ) : itemInCart ? (
               "In Basket"
             ) : (
               "Add to Cart"

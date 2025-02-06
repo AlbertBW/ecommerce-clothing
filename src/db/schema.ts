@@ -418,7 +418,7 @@ export const wishlistRelations = relations(wishlists, ({ many, one }) => ({
 export const wishlistItems = pgTable(
   "wishlist_item",
   {
-    wishlistId: text("wishlist_item")
+    wishlistId: text("wishlist_id")
       .notNull()
       .references(() => wishlists.id, { onDelete: "cascade" }),
     productVariantId: integer("product_variant_id")

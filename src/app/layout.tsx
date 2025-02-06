@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import { AUTHOR_GITHUB, COMPANY_NAME } from "@/config";
+import { ToastContainer } from "react-toastify";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,7 +31,10 @@ export default function RootLayout({
       lang="en"
       className={`${geistMono.variable} ${geistSans.variable} h-screen overflow-y-scroll`}
     >
-      <body className={`font-mono min-h-dvh h-screen`}>{children}</body>
+      <body className={`font-mono min-h-dvh h-screen`}>
+        {children}
+        <ToastContainer />
+      </body>
     </html>
   );
 }
