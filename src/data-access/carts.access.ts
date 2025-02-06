@@ -37,3 +37,7 @@ export async function insertCartItem(productId: number, cartId: CartId) {
     })
     .returning();
 }
+
+export async function deleteAllCartItems(cartId: CartId) {
+  return await db.delete(cartItems).where(eq(cartItems.cartId, cartId));
+}

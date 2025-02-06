@@ -8,6 +8,7 @@
   --animation-duration: 50s;
   --animation-duration-slow: 60s;
   --min-height-calc: calc(100svh - 9rem);
+  --min-height-small: calc(100svh - 6rem);
   --max-height-calc: calc(100svh - 11rem);
 }
 
@@ -37,6 +38,6 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background-color: var(--background);
+  background-color: transparent;
   border-radius: 6px;
 }

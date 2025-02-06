@@ -39,7 +39,7 @@ export async function selectProductVariantsByProductIdArray({
 }) {
   return await db.query.productVariants.findMany({
     where: inArray(productVariants.id, productIds),
-    with: { product: true, colour: true, size: true },
+    with: { product: { with: { brand: true } }, colour: true, size: true },
     limit: limit ?? undefined,
   });
 }

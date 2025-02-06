@@ -3,6 +3,7 @@
 import Bars3Icon from "@heroicons/react/24/outline/Bars3Icon";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import React from "react";
 
 export default function MobileNav({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
@@ -24,7 +25,7 @@ export default function MobileNav({ children }: { children: React.ReactNode }) {
       )}
 
       <div
-        className={`fixed inset-y-0 left-0 w-[80%] bg-zinc-600 shadow-lg transform transition-transform duration-300 ease-in-out z-50 overflow-auto ${
+        className={`fixed inset-y-0 left-0 w-[80%] dark:bg-black bg-zinc-200 shadow-lg transform transition-transform duration-300 ease-in-out z-50 overflow-y-scroll ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >

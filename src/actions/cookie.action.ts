@@ -35,3 +35,9 @@ export async function addToCartCookies(
   }
   cookieStore.set("cart", JSON.stringify(cartContents));
 }
+
+export async function clearCartCookies() {
+  const cookieStore = await cookies();
+
+  cookieStore.set("cart", JSON.stringify([]));
+}

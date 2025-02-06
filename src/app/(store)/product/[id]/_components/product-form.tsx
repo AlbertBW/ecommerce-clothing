@@ -184,7 +184,7 @@ export default function ProductForm({
           </div>
         </div>
 
-        <div className="grid grid-cols-3 mt-12">
+        <div className="grid grid-cols-3 my-12">
           <div className="flex justify-end mr-4">
             <button
               aria-label="Add to wishlist"

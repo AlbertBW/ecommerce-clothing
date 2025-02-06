@@ -18,6 +18,7 @@ export default {
       },
       minHeight: {
         main: "var(--min-height-calc)",
+        small: "var(--min-height-small)",
       },
       maxHeight: {
         main: "var(--max-height-calc)",

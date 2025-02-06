@@ -1,6 +1,7 @@
 import { addToCartCookies } from "@/actions/cookie.action";
 import { auth } from "@/auth";
 import {
+  deleteAllCartItems,
   insertCart,
   insertCartItem,
   selectCartByUserId,
@@ -86,13 +87,13 @@ export async function addToCartDb(productId: ProductId, userId: UserId) {
   }
 }
 
-export async function getHeaderCartItems() {
+export async function getCartItems(limit?: number) {
   const session = await auth();
 
   if (!session || !session.user.id) {
-    return await getCartItemsCookies(3);
+    return await getCartItemsCookies(limit);
   } else {
-    return await getCartItemsDb(session.user.id, 3);
+    return await getCartItemsDb(session.user.id, limit);
   }
 }
 
@@ -125,4 +126,16 @@ export async function getCartItemsDb(userId: UserId, limit?: number) {
   });
 
   return { products, count };
+}
+
+export async function clearCartDb(userId: UserId) {
+  const userCart = await selectCartByUserId(userId);
+
+  if (!userCart) {
+    throw new Error("failed getting cart");
+  }
+
+  await deleteAllCartItems(userCart.id);
+
+  revalidatePath("/cart");
 }

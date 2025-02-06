@@ -5,10 +5,10 @@ import DropdownMenu from "./dropdown-menu";
 
 import Image from "next/image";
 import tshirt from "../../../../../../public/t-shirt-white.jpeg";
-import { getHeaderCartItems } from "@/use-cases/carts";
+import { getCartItems } from "@/use-cases/carts";
 
 export default async function ShoppingCart() {
-  const { products, count } = await getHeaderCartItems();
+  const { products, count } = await getCartItems();
 
   const cartItems = [
     products.map((item) => (
