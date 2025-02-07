@@ -502,7 +502,7 @@ export type NewCart = typeof carts.$inferInsert;
 
 export type CartItem = typeof cartItems.$inferSelect;
 export type NewCartItem = typeof cartItems.$inferInsert;
-export type UpdatedCartItem = Partial<Omit<NewCartItem, "id">>;
+export type UpdatedCartItem = NewCartItem;
 
 export type Wishlist = typeof wishlists.$inferSelect;
 export type NewWishlist = typeof wishlists.$inferInsert;

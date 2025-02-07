@@ -1,5 +1,10 @@
 import { db } from "@/db";
-import { NewWishlist, wishlistItems, wishlists } from "@/db/schema";
+import {
+  NewWishlist,
+  NewWishlistItem,
+  wishlistItems,
+  wishlists,
+} from "@/db/schema";
 import { ProductVariantId, UserId, WishlistId } from "@/lib/types";
 import { and, eq } from "drizzle-orm";
 
@@ -40,14 +45,8 @@ export async function selectWishlistItemByProductAndId(
   });
 }
 
-export async function insertWishlistItem(
-  productId: ProductVariantId,
-  wishlistId: WishlistId
-) {
-  return await db
-    .insert(wishlistItems)
-    .values({ productVariantId: productId, wishlistId })
-    .returning();
+export async function insertWishlistItem(newWishlistItem: NewWishlistItem) {
+  return await db.insert(wishlistItems).values(newWishlistItem).returning();
 }
 
 export async function deleteWishlistItem(

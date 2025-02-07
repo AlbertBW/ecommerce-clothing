@@ -8,17 +8,17 @@ import tshirt from "../../../../../../public/t-shirt-white.jpeg";
 import { getCartItems } from "@/use-cases/carts";
 
 export default async function ShoppingCart() {
-  const { products, count } = await getCartItems(3);
+  const { products, count, cart } = await getCartItems(3);
 
   const cartItems = [
     products.map((item) => (
       <div
         key={item.id}
-        className="flex justify-between dark:bg-black bg-white md:m-0 md:px-5 md:p-4 rounded-lg"
+        className="flex justify-between dark:bg-black bg-white md:m-0 md:p-2 rounded-lg min-w-72 text-sm"
       >
         <div className="w-full">
-          <div className="flex flex-row w-full">
-            <div className="w-24 h-24">
+          <div className="flex flex-row w-full gap-2">
+            <div className="w-20 h-20">
               <Image src={tshirt} alt={"Product image"} width={0} height={0} />
             </div>
 
@@ -29,15 +29,15 @@ export default async function ShoppingCart() {
               >
                 {item.product.name}
               </Link>
-              <div className="text-zinc-500 text-sm dark:text-zinc-400">
+              <p>
                 {item.size?.name} {item.colour?.name}
-              </div>
-            </div>
-
-            <div className="flex flex-col ml-2 capitalize">
-              <div className="text-zinc-700 text-sm dark:text-zinc-400">
-                £{(item.price / 100).toFixed(2)}
-              </div>
+              </p>
+              <p>£{(item.price / 100).toFixed(2)}</p>
+              <p>
+                Qty:{" "}
+                {cart.find((cartItem) => cartItem.productVariantId === item.id)
+                  ?.quantity || 0}
+              </p>
             </div>
           </div>
         </div>
@@ -48,7 +48,7 @@ export default async function ShoppingCart() {
         ? "Your cart is empty"
         : `Viewing ${products.length} of ${count} items`}
     </p>,
-    <Link href={"/cart"} key={"LinkToCart"}>
+    <Link className="text-blue-500" href={"/cart"} key={"LinkToCart"}>
       Go to cart
     </Link>,
   ];

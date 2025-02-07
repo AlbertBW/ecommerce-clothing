@@ -71,5 +71,15 @@ export async function updateCartItem({
   cartId,
   quantity,
 }: UpdatedCartItem) {
-  return await db.update(cartItems).set({ quantity, productVariantId, cartId });
+  return await db
+    .update(cartItems)
+    .set({ quantity, productVariantId, cartId })
+    .where(
+      and(
+        productVariantId
+          ? eq(cartItems.productVariantId, productVariantId)
+          : undefined,
+        cartId ? eq(cartItems.cartId, cartId) : undefined
+      )
+    );
 }

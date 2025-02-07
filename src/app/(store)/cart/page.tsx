@@ -26,16 +26,16 @@ export default async function CartPage() {
       {count > 0 ? (
         <div className="max-w-screen-md mx-auto">
           <div>
-            <div className="grid grid-cols-3 pt-4 pb-2 justify-between items-center mx-12">
-              <div>
+            <div className="grid grid-cols-3 pt-4 pb-2 justify-between items-center mx-2 md:mx-12">
+              <div className="text-sm md:text-base">
                 <BackButton />
               </div>
-              <h1 className="text-center text-2xl font-bold w-fit mx-auto">
+              <h1 className="text-center md:text-2xl font-bold w-fit mx-auto">
                 Your Cart {count == 0 && " is Empty"}
               </h1>
               <form
                 action={clearCartAction}
-                className="w-fit ml-auto mr-4 md:mr-0"
+                className="w-fit ml-auto mr-4 md:mr-0 text-sm md:text-base"
               >
                 <SubmitButton text="Clear Cart" pendingText="clearing" />
               </form>
@@ -148,7 +148,7 @@ export default async function CartPage() {
                       </div>
                     </div>
                     <div className="flex md:gap-4 gap-6 justify-end items-center">
-                      <div className="flex md:flex-row flex-col justify-end gap-2 mr-2 md:mr-0 items-center transition-colors">
+                      <div className="flex sm:flex-row flex-col justify-end gap-2 mr-2 md:mr-0 items-center transition-colors">
                         <QuantitySelect
                           quantity={
                             cart.find(

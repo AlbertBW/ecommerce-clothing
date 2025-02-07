@@ -27,7 +27,7 @@ export async function getOrCreateWishlist(userId: UserId) {
 }
 
 export async function addToWishlist(
-  productId: ProductVariantId
+  productVariantId: ProductVariantId
 ): Promise<UseCaseReturnType> {
   const session = await auth();
 
@@ -42,7 +42,7 @@ export async function addToWishlist(
   }
 
   const existing = await selectWishlistItemByProductAndId(
-    productId,
+    productVariantId,
     wishlist.id
   );
 
@@ -50,7 +50,10 @@ export async function addToWishlist(
     return { success: false, message: "already in wishlist" };
   }
 
-  const wishlistItem = await insertWishlistItem(productId, wishlist.id);
+  const wishlistItem = await insertWishlistItem({
+    productVariantId,
+    wishlistId: wishlist.id,
+  });
 
   if (!wishlistItem[0]) {
     return { success: false, message: "failed to add to wishlist" };
@@ -136,7 +139,10 @@ export async function moveToWishlist(
   }
   console.log("productVariantId", productVariantId);
 
-  const wishlistItem = await insertWishlistItem(productVariantId, wishlist.id);
+  const wishlistItem = await insertWishlistItem({
+    productVariantId,
+    wishlistId: wishlist.id,
+  });
 
   if (!wishlistItem[0]) {
     return { success: false, message: "failed to add to wishlist" };
