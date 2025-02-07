@@ -41,3 +41,30 @@ export async function clearCartCookies() {
 
   cookieStore.set("cart", JSON.stringify([]));
 }
+
+export async function removeCartItemCookies(
+  productVariantId: ProductVariantId
+) {
+  const cookieStore = await cookies();
+
+  const cart = cookieStore.get("cart");
+
+  if (!cart) {
+    throw new Error("failed getting cart");
+  }
+
+  const cartContents = JSON.parse(cart.value) as Array<{
+    id: number;
+    quantity: number;
+  }>;
+
+  const existingItemIndex = cartContents.findIndex(
+    (item) => item.id === productVariantId
+  );
+
+  if (existingItemIndex !== -1) {
+    cartContents.splice(existingItemIndex, 1);
+  }
+
+  cookieStore.set("cart", JSON.stringify(cartContents));
+}

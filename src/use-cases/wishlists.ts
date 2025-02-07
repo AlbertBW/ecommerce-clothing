@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { deleteCartItem, selectCartByUserId } from "@/data-access/carts.access";
 import {
   deleteWishlistItem,
   insertWishlist,
@@ -101,4 +102,52 @@ export async function getWishlistItems(userId: UserId) {
   }
 
   return wishlist.wishlistItems;
+}
+
+export async function moveToWishlist(
+  productVariantId: ProductVariantId
+): Promise<UseCaseReturnType> {
+  const session = await auth();
+
+  if (!session || !session.user.id) {
+    throw new AuthError("not authenticated");
+  }
+
+  const [wishlist, cart] = await Promise.all([
+    await selectWishlistByUserId(session.user.id),
+    await selectCartByUserId(session.user.id),
+  ]);
+
+  if (!wishlist) {
+    throw new Error("failed to get wishlist");
+  }
+
+  if (!cart) {
+    throw new Error("failed to get cart");
+  }
+
+  const existing = await selectWishlistItemByProductAndId(
+    productVariantId,
+    wishlist.id
+  );
+
+  if (existing) {
+    return { success: false, message: "already in wishlist" };
+  }
+  console.log("productVariantId", productVariantId);
+
+  const wishlistItem = await insertWishlistItem(productVariantId, wishlist.id);
+
+  if (!wishlistItem[0]) {
+    return { success: false, message: "failed to add to wishlist" };
+  }
+
+  const deleted = await deleteCartItem(productVariantId, cart.id);
+
+  if (!deleted[0]) {
+    return { success: false, message: "failed to remove from cart" };
+  }
+
+  revalidatePath("/cart");
+  return { success: true, message: null };
 }

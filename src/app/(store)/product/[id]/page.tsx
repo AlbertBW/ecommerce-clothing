@@ -24,8 +24,6 @@ export default async function ProductPage({
   const wishlistItemIds = wishlistItems.map((item) => item.productVariantId);
   const cartItemIds = cartItems.products.map((item) => item.id);
 
-  console.log("Cart items", cartItemIds);
-
   const colours = [
     ...new Set(
       product.productVariants

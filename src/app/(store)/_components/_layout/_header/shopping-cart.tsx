@@ -44,7 +44,9 @@ export default async function ShoppingCart() {
       </div>
     )),
     <p className="text-sm" key={"CartItemCount"}>
-      Viewing {count} of 3 items
+      {products.length === 0
+        ? "Your cart is empty"
+        : `Viewing ${products.length} of ${count} items`}
     </p>,
     <Link href={"/cart"} key={"LinkToCart"}>
       Go to cart

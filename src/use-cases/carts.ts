@@ -2,6 +2,7 @@ import { addToCartCookies } from "@/actions/cookie.action";
 import { auth } from "@/auth";
 import {
   deleteAllCartItems,
+  deleteCartItem,
   insertCart,
   insertCartItem,
   selectCartByUserId,
@@ -136,6 +137,21 @@ export async function clearCartDb(userId: UserId) {
   }
 
   await deleteAllCartItems(userCart.id);
+
+  revalidatePath("/cart");
+}
+
+export async function removeCartItemDb(
+  userId: UserId,
+  productVariantId: ProductVariantId
+) {
+  const userCart = await selectCartWithCartItems(userId);
+
+  if (!userCart) {
+    throw new Error("failed getting cart");
+  }
+
+  await deleteCartItem(productVariantId, userCart.id);
 
   revalidatePath("/cart");
 }

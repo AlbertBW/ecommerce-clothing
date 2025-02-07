@@ -35,7 +35,7 @@ export default function CollectionBox({
           {category.subcategories.map((sub) => (
             <Link
               key={sub.id}
-              href={`/${collection.collection}/${category.slug}?category=${sub.slug}`}
+              href={`/${collection.collection}/${category.slug}?subcategory=${sub.slug}`}
               className={`dark:hover:text-zinc-400 hover:text-zinc-500 flex my-1 justify-center items-center rounded border sm:border-0 w-full h-16 sm:h-auto hover:bg-zinc-500 sm:hover:bg-transparent ${
                 selectedSubcategory === sub.slug.toLowerCase()
                   ? "text-blue-500"

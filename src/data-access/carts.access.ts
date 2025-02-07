@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { cartItems, carts, NewCart } from "@/db/schema";
-import { CartId, UserId } from "@/lib/types";
-import { eq } from "drizzle-orm";
+import { CartId, ProductVariantId, UserId } from "@/lib/types";
+import { and, eq } from "drizzle-orm";
 
 export async function selectCartById(cartId: CartId) {
   return await db.query.carts.findFirst({
@@ -40,4 +40,19 @@ export async function insertCartItem(productId: number, cartId: CartId) {
 
 export async function deleteAllCartItems(cartId: CartId) {
   return await db.delete(cartItems).where(eq(cartItems.cartId, cartId));
+}
+
+export async function deleteCartItem(
+  productVariantId: ProductVariantId,
+  cartId: CartId
+) {
+  return await db
+    .delete(cartItems)
+    .where(
+      and(
+        eq(cartItems.productVariantId, productVariantId),
+        eq(cartItems.cartId, cartId)
+      )
+    )
+    .returning();
 }

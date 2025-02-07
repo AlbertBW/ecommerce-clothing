@@ -23,7 +23,7 @@ export default async function Header() {
           </MobileNav>
         </div>
         <Link href={"/"}>
-          <h1 className="ml-4 font-bold lg:text-2xl">{COMPANY_NAME}</h1>
+          <h1 className="ml-4 sm:ml-0 font-bold lg:text-2xl">{COMPANY_NAME}</h1>
         </Link>
         <Suspense>
           <SearchBox />

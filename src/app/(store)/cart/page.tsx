@@ -5,9 +5,14 @@ import Link from "next/link";
 import tshirt from "../../../../public/t-shirt-white.jpeg";
 import { clearCartAction } from "@/actions/cart.action";
 import { SubmitButton } from "@/app/_components/_buttons/submit-button";
+import MoveToWishlist from "./_components/move-to-wishlist";
+import { auth } from "@/auth";
+import DeleteButtonForm from "./_components/delete-button";
 
 export default async function CartPage() {
+  const session = await auth();
   const { products, count } = await getCartItems();
+
   return (
     <div>
       {count > 0 ? (
@@ -145,18 +150,11 @@ export default async function CartPage() {
                       <div className="flex md:flex-row flex-col justify-end gap-2 mr-2 md:mr-0 items-center transition-colors">
                         <div className="md:w-16 justify-end flex">£</div>
                         <div className="flex flex-col justify-center items-center gap-4 ml-2">
-                          {true && (
-                            <form>
-                              {/* <MoveToWishlist /> */}
-                              movetowishlist
-                            </form>
+                          {session && (
+                            <MoveToWishlist productVariantId={item.id} />
                           )}
                           <div>
-                            {/* <DeleteButton
-                                handleDeleteCartItem={handleDeleteCartItem}
-                                itemId={item.id}
-                              /> */}
-                            delete
+                            <DeleteButtonForm itemId={item.id} />
                           </div>
                         </div>
                       </div>

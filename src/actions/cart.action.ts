@@ -1,11 +1,24 @@
 "use server";
 
 import { auth } from "@/auth";
-import { addToCart, clearCartDb } from "@/use-cases/carts";
-import { clearCartCookies } from "./cookie.action";
+import { addToCart, clearCartDb, removeCartItemDb } from "@/use-cases/carts";
+import { clearCartCookies, removeCartItemCookies } from "./cookie.action";
+import { ProductVariantId } from "@/lib/types";
 
-export async function addToCartAction(productId: number, quantity: number) {
+export async function addToCartAction(
+  productId: ProductVariantId,
+  quantity: number
+) {
   await addToCart(productId, quantity);
+}
+
+export async function removeCartItemAction(productId: ProductVariantId) {
+  const session = await auth();
+  if (!session || !session.user.id) {
+    await removeCartItemCookies(productId);
+  } else {
+    await removeCartItemDb(session.user.id, productId);
+  }
 }
 
 export async function clearCartAction() {
