@@ -1,4 +1,9 @@
-import { addToCartCookies } from "@/actions/cookie.action";
+import {
+  addToCartCookies,
+  clearCartCookies,
+  removeCartItemCookies,
+  updateCartItemCookies,
+} from "@/actions/cookie.action";
 import { auth } from "@/auth";
 import {
   deleteAllCartItems,
@@ -14,9 +19,11 @@ import {
   deleteWishlistItem,
   selectWishlistByUserId,
 } from "@/data-access/wishlists.access";
+import { cartItemUpdateSchema } from "@/db/schema";
 import { ProductVariantId, UserId } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+import { fromZodError } from "zod-validation-error";
 
 export async function getOrCreateCart(userId: UserId) {
   const userCart = await selectCartByUserId(userId);
@@ -133,6 +140,15 @@ export async function getCartItemsDb(userId: UserId, limit?: number) {
   return { products, count, cart: userCart.cartItems };
 }
 
+export async function clearCart() {
+  const session = await auth();
+  if (!session || !session.user.id) {
+    await clearCartCookies();
+  } else {
+    await clearCartDb(session.user.id);
+  }
+}
+
 export async function clearCartDb(userId: UserId) {
   const userCart = await selectCartByUserId(userId);
 
@@ -143,6 +159,15 @@ export async function clearCartDb(userId: UserId) {
   await deleteAllCartItems(userCart.id);
 
   revalidatePath("/cart");
+}
+
+export async function removeCartItem(productVariantId: ProductVariantId) {
+  const session = await auth();
+  if (!session || !session.user.id) {
+    await removeCartItemCookies(productVariantId);
+  } else {
+    await removeCartItemDb(session.user.id, productVariantId);
+  }
 }
 
 export async function removeCartItemDb(
@@ -158,6 +183,35 @@ export async function removeCartItemDb(
   await deleteCartItem(productVariantId, userCart.id);
 
   revalidatePath("/cart");
+}
+
+export async function updateQuantity({
+  productVariantId,
+  quantity,
+}: {
+  quantity: number;
+  productVariantId: ProductVariantId;
+}) {
+  const session = await auth();
+  const { success, error } = cartItemUpdateSchema.safeParse({
+    productVariantId,
+    quantity,
+  });
+
+  if (!success) {
+    const validationError = fromZodError(error);
+    throw new Error(validationError.message);
+  }
+
+  if (!session || !session.user.id) {
+    await updateCartItemCookies(productVariantId, quantity);
+  } else {
+    await updateCartItemDb({
+      userId: session.user.id,
+      productVariantId,
+      quantity,
+    });
+  }
 }
 
 export async function updateCartItemDb({

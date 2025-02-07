@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import { deleteCartItem, selectCartByUserId } from "@/data-access/carts.access";
+import { selectProductVariantsByProductIdArray } from "@/data-access/product-variants.access";
 import {
   deleteWishlistItem,
   insertWishlist,
@@ -105,6 +106,23 @@ export async function getWishlistItems(userId: UserId) {
   }
 
   return wishlist.wishlistItems;
+}
+
+export async function getWishlistProductDetails(
+  userId: UserId,
+  limit?: number
+) {
+  const wishlistItems = await getWishlistItems(userId);
+
+  const productIds = wishlistItems.map((item) => item.productVariantId);
+  const count = productIds.length;
+
+  const products = await selectProductVariantsByProductIdArray({
+    productIds,
+    limit: limit,
+  });
+
+  return { products, count };
 }
 
 export async function moveToWishlist(

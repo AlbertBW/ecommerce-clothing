@@ -12,8 +12,8 @@ export function SubmitButton({
   const { pending } = useFormStatus();
 
   return (
-    <button disabled={pending} type="submit">
-      {pending ? pendingText : text}
+    <button disabled={pending} type="submit" className="hover:underline">
+      {pending && pendingText ? pendingText : text}
     </button>
   );
 }
