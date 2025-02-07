@@ -8,7 +8,7 @@ import tshirt from "../../../../../../public/t-shirt-white.jpeg";
 import { getCartItems } from "@/use-cases/carts";
 
 export default async function ShoppingCart() {
-  const { products, count } = await getCartItems();
+  const { products, count } = await getCartItems(3);
 
   const cartItems = [
     products.map((item) => (
@@ -56,8 +56,13 @@ export default async function ShoppingCart() {
   return (
     <HoverDropdown
       trigger={
-        <Link href={"/cart"}>
+        <Link href={"/cart"} className="relative">
           <ShoppingBagIcon className="size-9 dark:hover:text-zinc-200/70 hover:text-zinc-600/70 transition-colors group-hover:z-10 drop-shadow-lg" />
+          {count > 0 && (
+            <div className="absolute top-[1.4rem] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-sm w-6 h-6 flex justify-center items-center font-bold dark:text-white">
+              {count}
+            </div>
+          )}
         </Link>
       }
       dropdown={

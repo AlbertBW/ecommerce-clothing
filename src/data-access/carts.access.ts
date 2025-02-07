@@ -1,5 +1,11 @@
 import { db } from "@/db";
-import { cartItems, carts, NewCart } from "@/db/schema";
+import {
+  cartItems,
+  carts,
+  NewCart,
+  NewCartItem,
+  UpdatedCartItem,
+} from "@/db/schema";
 import { CartId, ProductVariantId, UserId } from "@/lib/types";
 import { and, eq } from "drizzle-orm";
 
@@ -27,11 +33,14 @@ export async function selectCartWithCartItems(userId: UserId) {
   });
 }
 
-export async function insertCartItem(productId: number, cartId: CartId) {
+export async function insertCartItem({
+  productVariantId,
+  cartId,
+}: NewCartItem) {
   return await db
     .insert(cartItems)
     .values({
-      productVariantId: productId,
+      productVariantId: productVariantId,
       cartId: cartId.toString(),
       quantity: 1,
     })
@@ -55,4 +64,12 @@ export async function deleteCartItem(
       )
     )
     .returning();
+}
+
+export async function updateCartItem({
+  productVariantId,
+  cartId,
+  quantity,
+}: UpdatedCartItem) {
+  return await db.update(cartItems).set({ quantity, productVariantId, cartId });
 }

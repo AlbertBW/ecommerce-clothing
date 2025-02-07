@@ -51,14 +51,14 @@ export async function insertWishlistItem(
 }
 
 export async function deleteWishlistItem(
-  productId: ProductVariantId,
+  productVariantId: ProductVariantId,
   wishlistId: WishlistId
 ) {
   return await db
     .delete(wishlistItems)
     .where(
       and(
-        eq(wishlistItems.productVariantId, productId),
+        eq(wishlistItems.productVariantId, productVariantId),
         eq(wishlistItems.wishlistId, wishlistId)
       )
     )

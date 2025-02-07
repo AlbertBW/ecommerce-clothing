@@ -7,13 +7,14 @@ import {
   insertCartItem,
   selectCartByUserId,
   selectCartWithCartItems,
+  updateCartItem,
 } from "@/data-access/carts.access";
 import { selectProductVariantsByProductIdArray } from "@/data-access/product-variants.access";
 import {
   deleteWishlistItem,
   selectWishlistByUserId,
 } from "@/data-access/wishlists.access";
-import { ProductId, ProductVariantId, UserId } from "@/lib/types";
+import { ProductVariantId, UserId } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
@@ -41,7 +42,7 @@ export async function getCartCookies() {
   }
 
   const cartContents = JSON.parse(cart.value) as Array<{
-    id: number;
+    productVariantId: number;
     quantity: number;
   }>;
 
@@ -59,7 +60,10 @@ export async function addToCart(productId: ProductVariantId, quantity: number) {
   revalidatePath("/cart");
 }
 
-export async function addToCartDb(productId: ProductId, userId: UserId) {
+export async function addToCartDb(
+  productVariantId: ProductVariantId,
+  userId: UserId
+) {
   const [cart, wishlist] = await Promise.all([
     await selectCartWithCartItems(userId),
     await selectWishlistByUserId(userId),
@@ -70,21 +74,21 @@ export async function addToCartDb(productId: ProductId, userId: UserId) {
   }
 
   const existingItemInCart = cart.cartItems.find(
-    (item) => item.productVariantId === productId
+    (item) => item.productVariantId === productVariantId
   );
 
   const existingItemInWishlist = wishlist?.wishlistItems.find(
-    (item) => item.productVariantId === productId
+    (item) => item.productVariantId === productVariantId
   );
 
   if (existingItemInCart) {
     throw new Error("already in cart");
   }
 
-  await insertCartItem(productId, cart.id);
+  await insertCartItem({ productVariantId, cartId: cart.id, quantity: 1 });
 
   if (existingItemInWishlist && wishlist) {
-    await deleteWishlistItem(productId, wishlist.id);
+    await deleteWishlistItem(productVariantId, wishlist.id);
   }
 }
 
@@ -101,14 +105,14 @@ export async function getCartItems(limit?: number) {
 export async function getCartItemsCookies(limit?: number) {
   const { cart } = await getCartCookies();
 
-  const productIds = cart.map((item) => item.id);
+  const productIds = cart.map((item) => item.productVariantId);
   const count = productIds.length;
 
   const products = await selectProductVariantsByProductIdArray({
     productIds,
     limit: limit,
   });
-  return { products, count };
+  return { products, count, cart };
 }
 
 export async function getCartItemsDb(userId: UserId, limit?: number) {
@@ -126,7 +130,7 @@ export async function getCartItemsDb(userId: UserId, limit?: number) {
     limit: limit,
   });
 
-  return { products, count };
+  return { products, count, cart: userCart.cartItems };
 }
 
 export async function clearCartDb(userId: UserId) {
@@ -152,6 +156,34 @@ export async function removeCartItemDb(
   }
 
   await deleteCartItem(productVariantId, userCart.id);
+
+  revalidatePath("/cart");
+}
+
+export async function updateCartItemDb({
+  userId,
+  productVariantId,
+  quantity,
+}: {
+  userId: UserId;
+  productVariantId: ProductVariantId;
+  quantity: number;
+}) {
+  const userCart = await selectCartWithCartItems(userId);
+
+  if (!userCart) {
+    throw new Error("failed getting cart");
+  }
+
+  const existingItem = userCart.cartItems.find(
+    (item) => item.productVariantId === productVariantId
+  );
+
+  if (!existingItem) {
+    throw new Error("item not in cart");
+  }
+
+  await updateCartItem({ productVariantId, cartId: userCart.id, quantity });
 
   revalidatePath("/cart");
 }

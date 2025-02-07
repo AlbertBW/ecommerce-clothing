@@ -8,17 +8,25 @@ import { SubmitButton } from "@/app/_components/_buttons/submit-button";
 import MoveToWishlist from "./_components/move-to-wishlist";
 import { auth } from "@/auth";
 import DeleteButtonForm from "./_components/delete-button";
+import QuantitySelect from "./_components/quantity-select";
 
 export default async function CartPage() {
   const session = await auth();
-  const { products, count } = await getCartItems();
+  const { products, count, cart } = await getCartItems();
+
+  const totalPrice = products.reduce((acc, item) => {
+    const quantity = cart.find(
+      (cartItem) => cartItem.productVariantId === item.id
+    )?.quantity;
+    return acc + item.price * (quantity || 0);
+  }, 0);
 
   return (
     <div>
       {count > 0 ? (
         <div className="max-w-screen-md mx-auto">
           <div>
-            <div className="grid grid-cols-3 justify-between items-center mt-4">
+            <div className="grid grid-cols-3 pt-4 pb-2 justify-between items-center mx-12">
               <div>
                 <BackButton />
               </div>
@@ -140,15 +148,27 @@ export default async function CartPage() {
                       </div>
                     </div>
                     <div className="flex md:gap-4 gap-6 justify-end items-center">
-                      {/* <QuantitySelector
-                          itemId={item.id}
-                          itemStock={item.stock}
-                          itemQuantity={item.quantity}
-                          handleSetQuantity={handleSetQuantity}
-                          setButtonLoading={setButtonLoading}
-                        /> */}
                       <div className="flex md:flex-row flex-col justify-end gap-2 mr-2 md:mr-0 items-center transition-colors">
-                        <div className="md:w-16 justify-end flex">£</div>
+                        <QuantitySelect
+                          quantity={
+                            cart.find(
+                              (cartItem) =>
+                                cartItem.productVariantId === item.id
+                            )?.quantity || 0
+                          }
+                          productVariantId={item.id}
+                        />
+                        <div className="md:w-16 justify-end flex">
+                          £
+                          {(
+                            (item.price *
+                              (cart.find(
+                                (cartItem) =>
+                                  cartItem.productVariantId === item.id
+                              )?.quantity || 0)) /
+                            100
+                          ).toFixed(2)}
+                        </div>
                         <div className="flex flex-col justify-center items-center gap-4 ml-2">
                           {session && (
                             <MoveToWishlist productVariantId={item.id} />
@@ -164,7 +184,9 @@ export default async function CartPage() {
               </section>
             )}
             <div className="flex justify-end items-center m-6">
-              <div className="mx-4">Total price: £</div>
+              <div className="mx-4">
+                Total: £{(totalPrice / 100).toFixed(2)}
+              </div>
 
               {count > 0 && (
                 <Link
@@ -173,7 +195,7 @@ export default async function CartPage() {
                     false && "pointer-events-none bg-zinc-300"
                   }`}
                 >
-                  Proceed to checkout
+                  Go to checkout
                 </Link>
               )}
             </div>

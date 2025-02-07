@@ -10,7 +10,10 @@ export async function addToCartCookies(
   const cookieStore = await cookies();
 
   if (!cookieStore.has("cart")) {
-    cookieStore.set("cart", JSON.stringify([{ id: productId, quantity }]));
+    cookieStore.set(
+      "cart",
+      JSON.stringify([{ productVariantId: productId, quantity }])
+    );
   }
 
   const cart = cookieStore.get("cart");
@@ -20,18 +23,18 @@ export async function addToCartCookies(
   }
 
   const cartContents = JSON.parse(cart.value) as Array<{
-    id: number;
+    productVariantId: number;
     quantity: number;
   }>;
 
   const existingItemIndex = cartContents.findIndex(
-    (item) => item.id === productId
+    (item) => item.productVariantId === productId
   );
 
   if (existingItemIndex !== -1) {
     cartContents[existingItemIndex].quantity += 1;
   } else {
-    cartContents.push({ id: productId, quantity: quantity || 1 });
+    cartContents.push({ productVariantId: productId, quantity: quantity || 1 });
   }
   cookieStore.set("cart", JSON.stringify(cartContents));
 }
@@ -54,16 +57,44 @@ export async function removeCartItemCookies(
   }
 
   const cartContents = JSON.parse(cart.value) as Array<{
-    id: number;
+    productVariantId: number;
     quantity: number;
   }>;
 
   const existingItemIndex = cartContents.findIndex(
-    (item) => item.id === productVariantId
+    (item) => item.productVariantId === productVariantId
   );
 
   if (existingItemIndex !== -1) {
     cartContents.splice(existingItemIndex, 1);
+  }
+
+  cookieStore.set("cart", JSON.stringify(cartContents));
+}
+
+export async function updateCartItemCookies(
+  productVariantId: ProductVariantId,
+  quantity: number
+) {
+  const cookieStore = await cookies();
+
+  const cart = cookieStore.get("cart");
+
+  if (!cart) {
+    throw new Error("failed getting cart");
+  }
+
+  const cartContents = JSON.parse(cart.value) as Array<{
+    productVariantId: number;
+    quantity: number;
+  }>;
+
+  const existingItemIndex = cartContents.findIndex(
+    (item) => item.productVariantId === productVariantId
+  );
+
+  if (existingItemIndex !== -1) {
+    cartContents[existingItemIndex].quantity = quantity;
   }
 
   cookieStore.set("cart", JSON.stringify(cartContents));
