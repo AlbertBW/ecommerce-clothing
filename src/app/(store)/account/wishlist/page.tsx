@@ -6,6 +6,7 @@ import { auth } from "@/auth";
 import { notFound } from "next/navigation";
 import { getWishlistProductDetails } from "@/use-cases/wishlists";
 import AddToCartForm from "./_components/add-to-cart-form";
+import RemoveFromWishlist from "./_components/remove-from-wishlist";
 
 export default async function WishlistPage() {
   const session = await auth();
@@ -79,8 +80,9 @@ export default async function WishlistPage() {
                     </div>
                   </div>
                 </div>
-                <div className="flex md:gap-4 gap-6 justify-end items-center w-full">
+                <div className="flex flex-col md:gap-4 gap-6 justify-center items-center w-full">
                   <AddToCartForm productVariantId={item.id} />
+                  <RemoveFromWishlist productVariantId={item.id} />
                 </div>
               </div>
             ))}
