@@ -4,6 +4,7 @@ import {
   addToCart,
   clearCart,
   removeCartItem,
+  removeOutOfStockCartItems,
   updateQuantity,
 } from "@/use-cases/carts";
 import { ProductVariantId } from "@/lib/types";
@@ -30,5 +31,11 @@ export async function updateQuantityAction({
   quantity: number;
   productVariantId: ProductVariantId;
 }) {
-  await updateQuantity({ productVariantId, quantity });
+  return await updateQuantity({ productVariantId, quantity });
+}
+
+export async function removeOutOfStockCartItemsAction(
+  productVariantIds: ProductVariantId[]
+) {
+  return await removeOutOfStockCartItems(productVariantIds);
 }

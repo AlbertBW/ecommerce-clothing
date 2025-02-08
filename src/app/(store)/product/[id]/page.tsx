@@ -18,7 +18,7 @@ export default async function ProductPage({
     ? await getWishlistItems(session.user.id)
     : [];
   const cartItems = session?.user.id
-    ? await getCartItemsDb(session.user.id)
+    ? await getCartItemsDb({ userId: session.user.id })
     : await getCartItemsCookies();
 
   const wishlistItemIds = wishlistItems.map((item) => item.productVariantId);
@@ -39,7 +39,7 @@ export default async function ProductPage({
       </div>
       <div className="max-w-screen-xl flex text-center mx-auto">
         <div className="flex lg:flex-row flex-col items-center w-full justify-between">
-          <div className="my-8 md:my-0 ml-4">
+          <div className="my-8 md:my-0 md:ml-4">
             <Image
               src={shirt}
               alt={`Image of ${product.name}`}

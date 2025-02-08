@@ -2,6 +2,7 @@
 
 import { ProductVariantId } from "@/lib/types";
 import {
+  addArrayToWishlist,
   addToWishlist,
   moveToWishlist,
   removeFromWishlist,
@@ -17,4 +18,10 @@ export async function removeFromWishlistAction(productId: ProductVariantId) {
 
 export async function moveToWishlistAction(productVariantId: ProductVariantId) {
   return await moveToWishlist(productVariantId);
+}
+
+export async function addProductsToWishlistAction(
+  productIds: ProductVariantId[]
+) {
+  return await addArrayToWishlist(productIds);
 }

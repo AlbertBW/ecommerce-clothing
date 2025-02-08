@@ -5,13 +5,16 @@ import {
   deleteWishlistItem,
   insertWishlist,
   insertWishlistItem,
+  insertWishlistItemArray,
   selectWishlistByUserId,
   selectWishlistItemByProductAndId,
   selectWishlistWithWishlistItems,
 } from "@/data-access/wishlists.access";
+import { NewWishlistItem } from "@/db/schema";
 import { ProductVariantId, UseCaseReturnType, UserId } from "@/lib/types";
 import { AuthError } from "next-auth";
 import { revalidatePath } from "next/cache";
+import { removeOutOfStockCartItemsDb } from "./carts";
 
 export async function getOrCreateWishlist(userId: UserId) {
   const userWishlist = await selectWishlistByUserId(userId);
@@ -59,6 +62,46 @@ export async function addToWishlist(
   if (!wishlistItem[0]) {
     return { success: false, message: "failed to add to wishlist" };
   }
+
+  revalidatePath("/account/wishlist");
+  return { success: true, message: null };
+}
+
+export async function addArrayToWishlist(
+  productVariantIds: ProductVariantId[]
+): Promise<UseCaseReturnType> {
+  const session = await auth();
+
+  if (!session || !session.user.id) {
+    throw new AuthError("not authenticated");
+  }
+
+  const wishlist = await selectWishlistByUserId(session.user.id);
+
+  if (!wishlist) {
+    throw new Error("failed to get wishlist");
+  }
+
+  const newItems = productVariantIds.filter(
+    (id) =>
+      !wishlist.wishlistItems.map((item) => item.productVariantId).includes(id)
+  );
+
+  if (newItems.length === 0) {
+    return { success: false, message: "items already in wishlist" };
+  }
+
+  const NewWishlistItems: NewWishlistItem[] = newItems.map(
+    (productVariantId) => ({
+      productVariantId,
+      wishlistId: wishlist.id,
+    })
+  );
+
+  await insertWishlistItemArray(NewWishlistItems);
+
+  // Remove from cart
+  await removeOutOfStockCartItemsDb(session.user.id, productVariantIds);
 
   revalidatePath("/account/wishlist");
   return { success: true, message: null };
@@ -155,7 +198,6 @@ export async function moveToWishlist(
   if (existing) {
     return { success: false, message: "already in wishlist" };
   }
-  console.log("productVariantId", productVariantId);
 
   const wishlistItem = await insertWishlistItem({
     productVariantId,
@@ -166,11 +208,7 @@ export async function moveToWishlist(
     return { success: false, message: "failed to add to wishlist" };
   }
 
-  const deleted = await deleteCartItem(productVariantId, cart.id);
-
-  if (!deleted[0]) {
-    return { success: false, message: "failed to remove from cart" };
-  }
+  await deleteCartItem(productVariantId, cart.id);
 
   revalidatePath("/cart");
   return { success: true, message: null };

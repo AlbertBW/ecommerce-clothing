@@ -1,6 +1,7 @@
 "use server";
 
 import { ProductVariantId } from "@/lib/types";
+import { getCartCookies } from "@/use-cases/carts";
 import { cookies } from "next/headers";
 
 export async function addToCartCookies(
@@ -98,4 +99,16 @@ export async function updateCartItemCookies(
   }
 
   cookieStore.set("cart", JSON.stringify(cartContents));
+}
+
+export async function removeOutOfStockCartItemsCookies(
+  productVariantIds: ProductVariantId[]
+) {
+  const { cart, cookieStore } = await getCartCookies();
+
+  const newCart = cart.filter(
+    (item) => !productVariantIds.includes(item.productVariantId)
+  );
+
+  cookieStore.set("cart", JSON.stringify(newCart));
 }

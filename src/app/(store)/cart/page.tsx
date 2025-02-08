@@ -9,10 +9,14 @@ import MoveToWishlist from "./_components/move-to-wishlist";
 import { auth } from "@/auth";
 import DeleteButtonForm from "./_components/delete-button";
 import QuantitySelect from "./_components/quantity-select";
+import AddOutOfStockToWishlistForm from "./_components/out-of-stock-form";
+import UpdateCart from "./_components/update-cart";
 
 export default async function CartPage() {
   const session = await auth();
-  const { products, count, cart } = await getCartItems();
+  const { products, count, cart, outOfStockProducts } = await getCartItems();
+
+  const outOfStockIds = outOfStockProducts.map((item) => item.id);
 
   const totalPrice = products.reduce((acc, item) => {
     const quantity = cart.find(
@@ -42,61 +46,68 @@ export default async function CartPage() {
             </div>
 
             {/* For products in cart that have gone out of stock */}
-            {/* {outOfStockProducts.length > 0 && (
+            {outOfStockProducts.length > 0 && (
               <section className="flex flex-col mb-4 rounded-lg md:border-2 border-red-500 md:p-4 md:dark:bg-zinc-900 md:bg-zinc-200">
-                <h1 className="font-semibold text-lg text-center my-1">
-                  These products are out of stock and have been removed from
-                  your cart
-                </h1>
-                {outOfStockProducts.map((item, index) => {
-                  const image = images.find(
-                    (image) => image.name === item.productColour.image
-                  );
-                  return (
-                    <div
-                      key={item.id}
-                      className="flex justify-between dark:bg-black bg-white my-1 md:m-1 md:px-5 md:p-3 rounded-lg"
-                    >
-                      <div className="w-full">
-                        <div className="flex flex-row w-full">
-                          <Image
-                            src={image?.image || tshirt}
-                            alt={""}
-                            width={100}
-                            height={100}
-                          />
+                <p className="font-semibold text-lg text-center my-1">
+                  These products are out of stock,
+                  {session && " move to wishlist or "}remove from cart to
+                  continue
+                </p>
+                {outOfStockProducts.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex justify-between dark:bg-black bg-white my-1 md:m-1 md:px-5 md:p-3 rounded-lg"
+                  >
+                    <div className="w-full">
+                      <div className="flex flex-row w-full">
+                        <Image src={tshirt} alt={""} width={100} height={100} />
 
-                          <div className="flex flex-col ml-2 capitalize">
-                            <Link
-                              href={`/${
-                                item.productColour.product.gender
-                              }/product/${item.productNumber.slice(0, -6)}`}
-                              className="font-semibold text-blue-600 dark:text-blue-500 hover:underline"
-                            >
-                              {item.productColour.product.name}
-                            </Link>
-                            <div className="text-zinc-500 text-sm dark:text-zinc-400">
-                              {item.productColour.product.brand}
-                            </div>
-                            <div className="text-zinc-500 text-sm dark:text-zinc-400">
-                              {item.productColour.colour} - {item.size}
-                            </div>
-                            <div className="text-zinc-700 text-sm dark:text-zinc-400">
-                              Price: {formattedPrice(item.price)}
-                            </div>
-                            <div>
+                        <div className="flex flex-col ml-2 capitalize">
+                          <Link
+                            className="font-semibold text-blue-600 dark:text-blue-500 hover:underline"
+                            href={`/`}
+                          >
+                            {item.product.name}
+                          </Link>
+                          <div className="text-zinc-500 text-sm dark:text-zinc-400">
+                            {item.product.brand.name}
+                          </div>
+                          <div className="text-zinc-500 text-sm dark:text-zinc-400">
+                            {item.colour?.name} - {item.size?.name}
+                          </div>
+                          <div className="text-zinc-700 text-sm dark:text-zinc-400">
+                            Price: £{(item.price / 100).toFixed(2)}
+                          </div>
+                          <div>
+                            {item.stock > 10 ? (
+                              <p className="text-green-600 text-sm">In stock</p>
+                            ) : item.stock < 1 ? (
                               <p className="text-red-600 text-sm">
                                 Out of stock
                               </p>
-                            </div>
+                            ) : (
+                              <p className="text-yellow-500 text-sm">
+                                Low stock
+                              </p>
+                            )}
                           </div>
                         </div>
                       </div>
                     </div>
-                  );
-                })}
+                  </div>
+                ))}
+                <div className="flex justify-around mt-2">
+                  {session && (
+                    <AddOutOfStockToWishlistForm
+                      outOfStockIds={outOfStockIds}
+                    />
+                  )}
+                  {count > 0 && outOfStockProducts.length > 0 && (
+                    <UpdateCart productVariantIds={outOfStockIds} />
+                  )}
+                </div>
               </section>
-            )} */}
+            )}
 
             {/* For products in cart that are in stock */}
             {count > 0 && (
@@ -188,7 +199,7 @@ export default async function CartPage() {
                 Total: £{(totalPrice / 100).toFixed(2)}
               </div>
 
-              {count > 0 && (
+              {count > 0 && outOfStockProducts.length === 0 && (
                 <Link
                   href={"/checkout"}
                   className={`bg-blue-500 self-center hover:bg-blue-700 text-white font-bold py-2 md:px-4 px-2 rounded ${
@@ -197,6 +208,9 @@ export default async function CartPage() {
                 >
                   Go to checkout
                 </Link>
+              )}
+              {count > 0 && outOfStockProducts.length > 0 && (
+                <UpdateCart productVariantIds={outOfStockIds} />
               )}
             </div>
           </div>

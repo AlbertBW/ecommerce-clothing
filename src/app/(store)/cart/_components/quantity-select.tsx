@@ -3,6 +3,7 @@
 import { updateQuantityAction } from "@/actions/cart.action";
 import { ProductVariantId } from "@/lib/types";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function QuantitySelect({
   quantity,
@@ -12,17 +13,19 @@ export default function QuantitySelect({
   productVariantId: ProductVariantId;
 }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [currentQuantity, setCurrentQuantity] = useState(quantity);
 
   const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newQuantity = parseInt(e.target.value, 10);
     setIsLoading(true);
-    setCurrentQuantity(newQuantity);
 
-    await updateQuantityAction({
+    const { message } = await updateQuantityAction({
       quantity: newQuantity,
       productVariantId,
     });
+
+    if (message) {
+      toast.error(message);
+    }
     setIsLoading(false);
   };
 
@@ -32,7 +35,7 @@ export default function QuantitySelect({
       <select
         className="p-1 rounded-md bg-transparent outline-none"
         disabled={isLoading}
-        value={currentQuantity}
+        value={quantity}
         onChange={handleChange}
       >
         {Array.from({ length: 99 }, (_, i) => (

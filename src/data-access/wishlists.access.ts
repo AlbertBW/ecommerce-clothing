@@ -49,6 +49,12 @@ export async function insertWishlistItem(newWishlistItem: NewWishlistItem) {
   return await db.insert(wishlistItems).values(newWishlistItem).returning();
 }
 
+export async function insertWishlistItemArray(
+  newWishlistItems: NewWishlistItem[]
+) {
+  return await db.insert(wishlistItems).values(newWishlistItems).returning();
+}
+
 export async function deleteWishlistItem(
   productVariantId: ProductVariantId,
   wishlistId: WishlistId
