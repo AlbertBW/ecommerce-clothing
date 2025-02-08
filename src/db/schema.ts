@@ -16,6 +16,7 @@ import {
   createUpdateSchema,
 } from "drizzle-zod";
 import type { AdapterAccountType } from "next-auth/adapters";
+import { z } from "zod";
 
 const pgTable = pgTableCreator((name) => `ec_${name}`);
 
@@ -510,6 +511,10 @@ export type NewWishlist = typeof wishlists.$inferInsert;
 export type WishlistItem = typeof wishlistItems.$inferSelect;
 export type NewWishlistItem = typeof wishlistItems.$inferInsert;
 
+export type Address = typeof addresses.$inferSelect;
+export type NewAddress = typeof addresses.$inferInsert;
+export type UpdatedAddress = Partial<Omit<NewAddress, "id">>;
+
 // Zod Schemas
 export const userSelectSchema = createSelectSchema(users);
 export const userInsertSchema = createInsertSchema(users);
@@ -562,3 +567,20 @@ export const cartUpdateSchema = createUpdateSchema(carts);
 export const cartItemSelectSchema = createSelectSchema(cartItems);
 export const cartItemInsertSchema = createInsertSchema(cartItems);
 export const cartItemUpdateSchema = createUpdateSchema(cartItems);
+
+export const addressSelectSchema = createSelectSchema(addresses);
+export const addressInsertSchema = createInsertSchema(addresses, {
+  userId: z.string().uuid(),
+  name: z.string().min(3).max(255),
+  addressLine1: z.string().min(3).max(255),
+  addressLine2: z.string().min(3).max(255),
+  city: z.string().min(3).max(255),
+  county: z.string().min(3).max(255),
+  country: z.string().min(3).max(255),
+  postcode: z.string().min(5).max(10),
+  phoneNumber: z.string().min(10).max(15),
+});
+export const addressUpdateSchema = createInsertSchema(addresses);
+export type AddressFormErrors = z.inferFormattedError<
+  typeof addressInsertSchema
+>;
