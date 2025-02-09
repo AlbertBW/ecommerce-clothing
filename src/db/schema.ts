@@ -297,10 +297,11 @@ export const orders = pgTable("order", {
     .$defaultFn(() => crypto.randomUUID()),
   orderNumber: text("order_number").notNull().unique(),
   userId: text("user_id").references(() => users.id, { onDelete: "set null" }),
+  email: text("email"),
   status: text("status").notNull().default("pending"),
   price: integer("price").notNull(),
   shippingMethod: text("shipping_method").notNull(),
-  shippingPrice: text("shipping_price").notNull(),
+  shippingPrice: integer("shipping_price").notNull(),
   deliveryAddressId: text("delivery_address_id")
     .notNull()
     .references(() => addresses.id),
@@ -570,10 +571,10 @@ export const cartItemUpdateSchema = createUpdateSchema(cartItems);
 
 export const addressSelectSchema = createSelectSchema(addresses);
 export const addressInsertSchema = createInsertSchema(addresses, {
-  userId: z.string().uuid(),
+  userId: z.string().uuid().nullable(),
   name: z.string().min(3).max(255),
   addressLine1: z.string().min(3).max(255),
-  addressLine2: z.string().min(3).max(255),
+  addressLine2: z.string().max(255).nullable(),
   city: z.string().min(3).max(255),
   county: z.string().min(3).max(255),
   country: z.string().min(3).max(255),
@@ -581,6 +582,12 @@ export const addressInsertSchema = createInsertSchema(addresses, {
   phoneNumber: z.string().min(10).max(15),
 });
 export const addressUpdateSchema = createInsertSchema(addresses);
-export type AddressFormErrors = z.inferFormattedError<
+export type AddressFormFieldErrors = z.inferFlattenedErrors<
   typeof addressInsertSchema
->;
+>["fieldErrors"];
+
+export const emailFormSchema = z.string().email();
+
+export type EmailFormErrors = z.inferFlattenedErrors<
+  typeof emailFormSchema
+>["formErrors"];

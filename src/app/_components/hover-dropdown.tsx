@@ -1,7 +1,6 @@
 "use client";
 
-import useHover from "@/hooks/use-hover";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function HoverDropdown({
   trigger,
@@ -10,18 +9,15 @@ export default function HoverDropdown({
   trigger: React.ReactNode;
   dropdown: React.ReactNode;
 }>) {
-  const [ref, hovering] = useHover();
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  useEffect(() => {
-    setDropdownOpen(hovering);
-  }, [hovering]);
 
   return (
     <div
       data-testid={"hover-trigger"}
-      ref={ref}
       className="relative group z-10"
+      onMouseEnter={() => setDropdownOpen(true)}
+      onMouseLeave={() => setDropdownOpen(false)}
+      onClick={() => setDropdownOpen(false)}
     >
       <div className="group flex justify-center items-center">
         <div className="relative group-hover:z-20">{trigger}</div>

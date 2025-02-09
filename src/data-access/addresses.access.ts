@@ -1,9 +1,20 @@
 import { db } from "@/db";
-import { addresses } from "@/db/schema";
+import { addresses, NewAddress } from "@/db/schema";
+import { AddressId, UserId } from "@/lib/types";
 import { eq } from "drizzle-orm";
 
-export async function selectUserAddresses(userId: string) {
+export async function selectUserAddresses(userId: UserId) {
   return await db.query.addresses.findMany({
     where: eq(addresses.userId, userId),
   });
+}
+
+export async function selectAddressById(addressId: AddressId) {
+  return await db.query.addresses.findFirst({
+    where: eq(addresses.id, addressId),
+  });
+}
+
+export async function insertAddress(address: NewAddress) {
+  return await db.insert(addresses).values(address).returning();
 }

@@ -8,7 +8,7 @@ import AddOutOfStockToWishlistForm from "../cart/_components/out-of-stock-form";
 import UpdateCart from "../cart/_components/update-cart";
 import { redirect } from "next/navigation";
 import { getCheckoutAddresses } from "@/use-cases/addresses";
-import AddressForm from "./_components/address-form";
+import CheckoutForm from "./_components/checkout-form";
 
 export default async function CheckoutPage() {
   const session = await auth();
@@ -184,29 +184,16 @@ export default async function CheckoutPage() {
                 </section>
                 <section className="md:w-1/2 p-4">
                   <h4 className="font-semibold my-2">Shipping Address</h4>
-                  <AddressForm />
+
+                  <CheckoutForm addresses={addresses} price={totalPrice} />
+                  <div className="flex justify-end items-center m-6">
+                    {count > 0 && outOfStockProducts.length > 0 && (
+                      <UpdateCart productVariantIds={outOfStockIds} />
+                    )}
+                  </div>
                 </section>
               </div>
             )}
-            <div className="flex justify-end items-center m-6">
-              <div className="mx-4">
-                Total: £{(totalPrice / 100).toFixed(2)}
-              </div>
-
-              {count > 0 && outOfStockProducts.length === 0 && (
-                <Link
-                  href={"/checkout"}
-                  className={`bg-blue-500 self-center hover:bg-blue-700 text-white font-bold py-2 md:px-4 px-2 rounded ${
-                    false && "pointer-events-none bg-zinc-300"
-                  }`}
-                >
-                  Go to checkout
-                </Link>
-              )}
-              {count > 0 && outOfStockProducts.length > 0 && (
-                <UpdateCart productVariantIds={outOfStockIds} />
-              )}
-            </div>
           </div>
         </div>
       )}

@@ -1,4 +1,5 @@
 import {
+  Address,
   Brand,
   Cart,
   Category,
@@ -10,6 +11,7 @@ import {
   User,
   Wishlist,
 } from "@/db/schema";
+import Stripe from "stripe";
 
 export type ProviderInfo = {
   id: string;
@@ -34,6 +36,8 @@ export type ProductVariantId = ProductVariant["id"];
 export type CartId = Cart["id"];
 
 export type WishlistId = Wishlist["id"];
+
+export type AddressId = Address["id"];
 
 export type ProductDetails = Product & {
   productVariants: (ProductVariant & {
@@ -78,3 +82,7 @@ export type UseCaseReturnType =
       success: false;
       message: string;
     };
+
+export type LineItem = Stripe.Checkout.SessionCreateParams.LineItem;
+
+export type SessionCreate = Stripe.Checkout.SessionCreateParams;
