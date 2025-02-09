@@ -17,10 +17,27 @@ import { selectProductVariantsByProductIdArray } from "@/data-access/product-var
 import { clearCartDb, getCartItemsCookies, getCartItemsDb } from "./carts";
 import { SHIPPING_METHODS } from "@/lib/constants";
 import { generateRandomString } from "@/utils/generate-random-string";
-import { insertOrder, insertOrderItems } from "@/data-access/orders.access";
+import {
+  insertOrder,
+  insertOrderItems,
+  updateOrderStatus,
+} from "@/data-access/orders.access";
 import { clearCartCookies } from "@/actions/cookie.action";
-import { LineItem, SessionCreate } from "@/lib/types";
+import { LineItem, OrderNumber, SessionCreate } from "@/lib/types";
 import { createStripeCheckoutSession } from "@/actions/stripe.action";
+
+export async function updateOrderStatusUseCase({
+  orderNumber,
+  status,
+}: {
+  orderNumber: OrderNumber;
+  status: string;
+}) {
+  return await updateOrderStatus({
+    orderNumber,
+    status,
+  });
+}
 
 export async function createOrder(
   state: CheckoutForm,

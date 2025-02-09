@@ -4,6 +4,7 @@ import {
   Cart,
   Category,
   Colour,
+  Order,
   Product,
   ProductRating,
   ProductVariant,
@@ -38,6 +39,8 @@ export type CartId = Cart["id"];
 export type WishlistId = Wishlist["id"];
 
 export type AddressId = Address["id"];
+
+export type OrderNumber = Order["orderNumber"];
 
 export type ProductDetails = Product & {
   productVariants: (ProductVariant & {
