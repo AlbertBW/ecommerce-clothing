@@ -3,11 +3,12 @@ import { notFound } from "next/navigation";
 import AdminSidebarMenu from "../_components/_sidebar/admin-sidebar";
 import AdminProductList from "./_components/admin-product-list";
 import { Suspense } from "react";
+import { SearchParams } from "@/lib/types";
 
 export default async function ProductsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: Promise<SearchParams>;
 }) {
   const session = await auth();
 

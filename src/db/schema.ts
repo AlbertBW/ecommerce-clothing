@@ -44,6 +44,10 @@ export const userRelations = relations(users, ({ one, many }) => ({
     fields: [users.id],
     references: [wishlists.userId],
   }),
+  carts: one(carts, {
+    fields: [users.id],
+    references: [carts.userId],
+  }),
 }));
 
 export const accounts = pgTable(

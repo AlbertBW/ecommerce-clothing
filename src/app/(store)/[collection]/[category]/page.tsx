@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import ProductList, { ProductListSkeleton } from "./_components/product-list";
 import { Suspense } from "react";
 import SidebarMenu from "./_components/_sidebar/sidebar-menu";
+import { SearchParams } from "@/lib/types";
 
 export async function generateStaticParams() {
   return COLLECTION_PARAMS.map((collection) => ({
@@ -17,7 +18,7 @@ export default async function ProductListPage({
   searchParams,
 }: {
   params: Promise<{ collection: string; category: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: Promise<SearchParams>;
 }) {
   const { collection, category } = await params;
   const { subcategory, sortBy, page, brand, colour, size, price } =

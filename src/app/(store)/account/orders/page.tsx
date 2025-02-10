@@ -4,11 +4,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import tshirt from "../../../../../public/t-shirt-white.jpeg";
+import { SearchParams } from "@/lib/types";
 
 export default async function OrdersPage({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: Promise<SearchParams>;
 }) {
   const { page } = await searchParams;
   const pageNumber = parseInt(page as string, 10);

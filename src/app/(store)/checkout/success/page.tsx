@@ -6,11 +6,12 @@ import PdfDownload from "./_components/pdfDownload";
 import Image from "next/image";
 import tshirt from "../../../../../public/t-shirt-white.jpeg";
 import ClearCartForm from "./_components/clear-cart-form";
+import { SearchParams } from "@/lib/types";
 
 export default async function SuccessPage({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: Promise<SearchParams>;
 }) {
   const { session_id } = await searchParams;
   if (!session_id || typeof session_id !== "string") notFound();

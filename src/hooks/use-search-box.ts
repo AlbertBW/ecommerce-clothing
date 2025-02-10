@@ -19,7 +19,7 @@ export default function useSearchBox(): [
   const [inputOpen, setInputOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const pathname = "/result";
+  const pathname = "/search";
 
   const toggleInput = useCallback(() => {
     document.startViewTransition(() => {

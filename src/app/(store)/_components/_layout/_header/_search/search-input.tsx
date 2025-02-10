@@ -40,6 +40,34 @@ export default function SearchInput({
         aria-required
       />
 
+      <div className="relative flex items-center">
+        {/* Info Icon with unique group name */}
+        <div className="group/info flex items-center justify-center cursor-pointer">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-8"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"
+            />
+          </svg>
+
+          {/* Popup Content - now uses group/info */}
+          <div className="absolute right-2 top-20 transform -translate-y-1/2 hidden group-hover/info:flex w-64 p-4 text-sm text-white bg-gray-800 rounded-xl shadow-lg">
+            <p>
+              You can search by product name, brand, description, colour or
+              product number.
+            </p>
+          </div>
+        </div>
+      </div>
+
       <button
         onClick={() => onSubmit()}
         className="group min-w-10 min-h-10 rounded-md flex justify-center items-center"

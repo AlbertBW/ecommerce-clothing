@@ -99,3 +99,5 @@ export type AddressForm = {
   address: NewAddress;
   errors: AddressFormFieldErrors | null;
 };
+
+export type SearchParams = { [key: string]: string | string[] | undefined };

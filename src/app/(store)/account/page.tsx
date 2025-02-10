@@ -7,7 +7,7 @@ import WishlistHeart from "@/app/_components/_icons/wishlist-heart";
 const accountCategories = [
   { name: "Your Orders", path: "orders" },
   { name: "Your Addresses", path: "addresses" },
-  { name: "Manage Account", path: "manage" },
+  { name: "Account Details", path: "manage" },
 ] as const;
 
 export default async function AccountPage() {
