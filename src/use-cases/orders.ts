@@ -27,18 +27,25 @@ import {
   updateOrderStatus,
 } from "@/data-access/orders.access";
 import { clearCartCookies } from "@/actions/cookie.action";
-import { LineItem, OrderNumber, SessionCreate } from "@/lib/types";
+import { LineItem, SessionCreate } from "@/lib/types";
 import { createStripeCheckoutSession } from "@/actions/stripe.action";
+import { getStripeCheckoutSession } from "./stripe";
 
 export async function updateOrderStatusUseCase({
-  orderNumber,
+  orderId,
   status,
 }: {
-  orderNumber: OrderNumber;
+  orderId: string;
   status: string;
 }) {
+  const orderIdValidation = z.string().uuid().safeParse(orderId);
+
+  if (!orderIdValidation.success) {
+    throw new Error("Invalid order ID");
+  }
+
   return await updateOrderStatus({
-    orderNumber,
+    orderId: orderIdValidation.data,
     status,
   });
 }
@@ -133,50 +140,6 @@ export async function createOrder(
     name: "free",
   };
 
-  const lineItems: LineItem[] = userCart.products.map((item) => {
-    const quantity = userCart.cart.find(
-      (cartItem) => cartItem.productVariantId === item.id
-    )?.quantity;
-    return {
-      price_data: {
-        currency: "gbp",
-        unit_amount: item.price,
-        product_data: {
-          name: `${item.product.name} (ID: ${item.id})`,
-          description: item.product.name,
-          metadata: {
-            product_variant_id: item.id.toString(),
-            product_id: item.product.id?.toString(),
-          },
-        },
-      },
-      quantity: quantity || 0,
-    };
-  });
-
-  const sessionCreate: SessionCreate = {
-    mode: "payment",
-    payment_method_types: ["card"],
-    currency: "gbp",
-    customer_email: email,
-    line_items: lineItems,
-    client_reference_id: orderNumber,
-    shipping_options: [
-      {
-        shipping_rate_data: {
-          type: "fixed_amount",
-          fixed_amount: {
-            amount: shipping.price,
-            currency: "gbp",
-          },
-          display_name: shipping.name,
-        },
-      },
-    ],
-  };
-
-  const { sessionId } = await createStripeCheckoutSession(sessionCreate);
-
   // Address
   let deliveryAddress;
   if (selectedAddressId) {
@@ -239,6 +202,53 @@ export async function createOrder(
     await clearCartDb(session.user.id);
   }
 
+  const lineItems: LineItem[] = userCart.products.map((item) => {
+    const quantity = userCart.cart.find(
+      (cartItem) => cartItem.productVariantId === item.id
+    )?.quantity;
+    return {
+      price_data: {
+        currency: "gbp",
+        unit_amount: item.price,
+        product_data: {
+          name: `${item.product.name} (ID: ${item.id})`,
+          description: item.product.name,
+          metadata: {
+            product_variant_id: item.id.toString(),
+            product_id: item.product.id?.toString(),
+          },
+        },
+      },
+      quantity: quantity || 0,
+    };
+  });
+
+  const sessionCreate: SessionCreate = {
+    mode: "payment",
+    payment_method_types: ["card"],
+    currency: "gbp",
+    customer_email: email,
+    line_items: lineItems,
+    client_reference_id: orderNumber,
+    shipping_options: [
+      {
+        shipping_rate_data: {
+          type: "fixed_amount",
+          fixed_amount: {
+            amount: shipping.price,
+            currency: "gbp",
+          },
+          display_name: shipping.name,
+        },
+      },
+    ],
+    metadata: {
+      order_id: newOrder.id.toString(),
+    },
+  };
+
+  const { sessionId } = await createStripeCheckoutSession(sessionCreate);
+
   return {
     data: {
       addressId: selectedAddressId,
@@ -253,15 +263,15 @@ export async function createOrder(
 }
 
 export async function completeOrder({
-  orderNumber,
+  orderId,
   status,
 }: {
-  orderNumber: OrderNumber;
+  orderId: string;
   status: string;
 }) {
   const orderStatus = (
     await updateOrderStatusUseCase({
-      orderNumber,
+      orderId,
       status,
     })
   )[0];
@@ -282,4 +292,23 @@ export async function completeOrder({
   updatedProductVariants.map(async (productVariant) => {
     await updateProductVariant(productVariant.id, productVariant);
   });
+}
+
+export async function getSuccessfulOrder(sessionId: string) {
+  const stripeSession = await getStripeCheckoutSession(sessionId);
+
+  const orderId = stripeSession.metadata?.order_id;
+  const orderIdValidation = z.string().uuid().safeParse(orderId);
+
+  if (!orderIdValidation.success) {
+    throw new Error("Invalid order ID");
+  }
+
+  const order = await selectOrderById(orderIdValidation.data);
+
+  if (!order) {
+    throw new Error("Order not found");
+  }
+
+  return order;
 }

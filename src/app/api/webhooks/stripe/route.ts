@@ -33,11 +33,10 @@ export async function POST(request: Request) {
     case "checkout.session.completed":
       // Handle successful payment
       const data = event.data.object;
-
-      console.log(data);
+      const orderId = data.metadata?.order_id;
 
       await completeOrder({
-        orderNumber: data.client_reference_id as string,
+        orderId: orderId as string,
         status: data.payment_status,
       });
 

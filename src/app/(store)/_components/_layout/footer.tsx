@@ -5,7 +5,7 @@ import { AUTHOR_GITHUB, PROJECT_REPO } from "@/config";
 
 export default function Footer() {
   return (
-    <footer className="flex justify-around items-center h-10 mb-1 text-xs md:text-sm">
+    <footer className="flex justify-around items-center h-10 mb-1 text-xs md:text-sm no-print">
       <p className="flex gap-1">
         &copy; {new Date().getFullYear()}{" "}
         <a

@@ -15,7 +15,7 @@ export default async function Header() {
     await getHeaderMenuCollectionsWithCategories();
 
   return (
-    <header className="flex flex-col w-full bg-gradient-to-b dark:from-black/90 from-white/90 dark:via-black/60 via-white-60 to-transparent">
+    <header className="flex flex-col w-full bg-gradient-to-b dark:from-black/90 from-white/90 dark:via-black/60 via-white-60 to-transparent no-print">
       <div className="flex w-full pt-2 px-4 md:px-12 lg:px-18 mx-auto justify-between items-center h-14 gap-2 z-50">
         <div className="flex justify-center items-center sm:hidden">
           <MobileNav>

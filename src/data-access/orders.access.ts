@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { NewOrder, NewOrderItem, orderItems, orders } from "@/db/schema";
-import { OrderId, OrderNumber } from "@/lib/types";
+import { OrderId } from "@/lib/types";
 import { eq } from "drizzle-orm";
 
 export async function insertOrder(newOrder: NewOrder) {
@@ -12,22 +12,35 @@ export async function insertOrderItems(newOrderItems: NewOrderItem[]) {
 }
 
 export async function updateOrderStatus({
-  orderNumber,
+  orderId,
   status,
 }: {
-  orderNumber: OrderNumber;
+  orderId: OrderId;
   status: string;
 }) {
   return await db
     .update(orders)
     .set({ status: status })
-    .where(eq(orders.orderNumber, orderNumber))
+    .where(eq(orders.id, orderId))
     .returning();
 }
 
 export async function selectOrderById(id: OrderId) {
   return await db.query.orders.findFirst({
     where: eq(orders.id, id),
-    with: { orderItems: { with: { productVariant: true } } },
+    with: {
+      orderItems: {
+        with: {
+          productVariant: {
+            with: {
+              product: { with: { brand: true } },
+              size: true,
+              colour: true,
+            },
+          },
+        },
+      },
+      deliveryAddress: true,
+    },
   });
 }

@@ -41,3 +41,15 @@ body {
   background-color: transparent;
   border-radius: 6px;
 }
+
+/* PDF print/save when user checks out */
+@layer utilities {
+  @screen print {
+    .print-only {
+      display: block;
+    }
+    .no-print {
+      display: none;
+    }
+  }
+}

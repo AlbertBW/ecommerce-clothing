@@ -8,6 +8,9 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        print: { raw: "print" }, // Define the print screen
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
