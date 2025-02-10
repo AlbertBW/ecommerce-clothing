@@ -1,9 +1,11 @@
 import {
   Address,
+  AddressFormFieldErrors,
   Brand,
   Cart,
   Category,
   Colour,
+  NewAddress,
   Order,
   Product,
   ProductRating,
@@ -91,3 +93,9 @@ export type UseCaseReturnType =
 export type LineItem = Stripe.Checkout.SessionCreateParams.LineItem;
 
 export type SessionCreate = Stripe.Checkout.SessionCreateParams;
+
+export type AddressForm = {
+  success: boolean;
+  address: NewAddress;
+  errors: AddressFormFieldErrors | null;
+};

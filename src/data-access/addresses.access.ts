@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { addresses, NewAddress } from "@/db/schema";
+import { addresses, NewAddress, UpdatedAddress } from "@/db/schema";
 import { AddressId, UserId } from "@/lib/types";
 import { eq } from "drizzle-orm";
 
@@ -17,4 +17,15 @@ export async function selectAddressById(addressId: AddressId) {
 
 export async function insertAddress(address: NewAddress) {
   return await db.insert(addresses).values(address).returning();
+}
+
+export async function updateAddress(
+  addressId: AddressId,
+  address: UpdatedAddress
+) {
+  return await db
+    .update(addresses)
+    .set(address)
+    .where(eq(addresses.id, addressId))
+    .returning();
 }
