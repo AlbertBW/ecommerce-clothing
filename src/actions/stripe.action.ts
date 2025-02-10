@@ -15,6 +15,6 @@ export async function createStripeCheckoutSession(
     success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${origin}/checkout/cancel`,
   });
-  console.log(session);
+
   return { sessionId: session.id, checkoutError: null };
 }

@@ -7,3 +7,13 @@ export async function getStripeCheckoutSession(sessionId: string) {
     expand: ["line_items.data.price.product"],
   });
 }
+
+export async function createStripeRefund({
+  paymentIntentId,
+}: {
+  paymentIntentId: string;
+}) {
+  return await stripe.refunds.create({
+    payment_intent: paymentIntentId,
+  });
+}

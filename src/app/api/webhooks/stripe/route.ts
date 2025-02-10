@@ -37,10 +37,16 @@ export async function POST(request: Request) {
 
       await completeOrder({
         orderId: orderId as string,
+        paymentIntentId: data.payment_intent as string,
         status: data.payment_status,
       });
 
       break;
+
+    // case "charge.refund.updated":
+    //   const refund = event.data.object;
+    //   console.log("Refund updated:", refund);
+    //   break;
 
     // Add more cases for other event types you want to handle
     default:

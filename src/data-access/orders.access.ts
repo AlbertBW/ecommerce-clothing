@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { NewOrder, NewOrderItem, orderItems, orders } from "@/db/schema";
-import { OrderId } from "@/lib/types";
-import { eq } from "drizzle-orm";
+import { OrderId, UserId } from "@/lib/types";
+import { desc, eq } from "drizzle-orm";
 
 export async function insertOrder(newOrder: NewOrder) {
   return await db.insert(orders).values(newOrder).returning();
@@ -13,14 +13,19 @@ export async function insertOrderItems(newOrderItems: NewOrderItem[]) {
 
 export async function updateOrderStatus({
   orderId,
+  paymentIntentId,
   status,
 }: {
   orderId: OrderId;
+  paymentIntentId?: string;
   status: string;
 }) {
   return await db
     .update(orders)
-    .set({ status: status })
+    .set({
+      status,
+      ...(paymentIntentId ? { paymentIntentId } : {}),
+    })
     .where(eq(orders.id, orderId))
     .returning();
 }
@@ -28,6 +33,49 @@ export async function updateOrderStatus({
 export async function selectOrderById(id: OrderId) {
   return await db.query.orders.findFirst({
     where: eq(orders.id, id),
+    with: {
+      orderItems: {
+        with: {
+          productVariant: {
+            with: {
+              product: { with: { brand: true } },
+              size: true,
+              colour: true,
+            },
+          },
+        },
+      },
+      deliveryAddress: true,
+    },
+  });
+}
+
+export async function selectOrdersByUserId(userId: UserId, page: number) {
+  return await db.query.orders.findMany({
+    where: eq(orders.userId, userId),
+    with: {
+      orderItems: {
+        with: {
+          productVariant: {
+            with: {
+              product: { with: { brand: true } },
+              size: true,
+              colour: true,
+            },
+          },
+        },
+      },
+      deliveryAddress: true,
+    },
+    limit: 10,
+    offset: (page - 1) * 10,
+    orderBy: desc(orders.createdAt),
+  });
+}
+
+export async function selectUserOrderByOrderId(orderId: OrderId) {
+  return await db.query.orders.findFirst({
+    where: eq(orders.id, orderId),
     with: {
       orderItems: {
         with: {

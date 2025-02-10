@@ -296,6 +296,7 @@ export const orders = pgTable("order", {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   orderNumber: text("order_number").notNull().unique(),
+  paymentIntentId: text("payment_intent_id"),
   userId: text("user_id").references(() => users.id, { onDelete: "set null" }),
   email: text("email"),
   status: text("status").notNull().default("pending"),

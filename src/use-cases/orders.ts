@@ -25,17 +25,22 @@ import {
   insertOrder,
   insertOrderItems,
   selectOrderById,
+  selectOrdersByUserId,
+  selectUserOrderByOrderId,
   updateOrderStatus,
 } from "@/data-access/orders.access";
-import { LineItem, SessionCreate } from "@/lib/types";
+import { LineItem, OrderId, SessionCreate } from "@/lib/types";
 import { createStripeCheckoutSession } from "@/actions/stripe.action";
-import { getStripeCheckoutSession } from "./stripe";
+import { createStripeRefund, getStripeCheckoutSession } from "./stripe";
+import { revalidatePath } from "next/cache";
 
 export async function updateOrderStatusUseCase({
   orderId,
+  paymentIntentId,
   status,
 }: {
   orderId: string;
+  paymentIntentId?: string;
   status: string;
 }) {
   const orderIdValidation = z.string().uuid().safeParse(orderId);
@@ -46,6 +51,7 @@ export async function updateOrderStatusUseCase({
 
   return await updateOrderStatus({
     orderId: orderIdValidation.data,
+    paymentIntentId,
     status,
   });
 }
@@ -141,8 +147,6 @@ export async function createOrder(
     price: 0,
     name: "free",
   };
-
-  // Address
 
   if (!userAddress && selectedAddressId) {
     userAddress = await selectAddressById(selectedAddressId);
@@ -259,14 +263,17 @@ export async function createOrder(
 
 export async function completeOrder({
   orderId,
+  paymentIntentId,
   status,
 }: {
   orderId: string;
+  paymentIntentId: string;
   status: string;
 }) {
   const orderStatus = (
     await updateOrderStatusUseCase({
       orderId,
+      paymentIntentId,
       status,
     })
   )[0];
@@ -306,4 +313,69 @@ export async function getSuccessfulOrder(sessionId: string) {
   }
 
   return order;
+}
+
+export async function getOrders(page: number) {
+  const session = await auth();
+
+  if (!session || !session.user.id) {
+    throw new Error("User not found");
+  }
+
+  return await selectOrdersByUserId(session.user.id, page);
+}
+
+export async function getOrderById(orderId: OrderId) {
+  const session = await auth();
+
+  if (!session) {
+    throw new Error("User not found");
+  }
+
+  const order = await selectUserOrderByOrderId(orderId);
+
+  return order;
+}
+
+export async function cancelOrder(orderId: OrderId) {
+  const session = await auth();
+
+  if (!session) {
+    throw new Error("User not found");
+  }
+
+  const order = await selectUserOrderByOrderId(orderId);
+
+  if (!order || !order.paymentIntentId) {
+    throw new Error("Order not found");
+  }
+
+  const refund = await createStripeRefund({
+    paymentIntentId: order.paymentIntentId,
+  });
+
+  console.log(refund);
+
+  const updatedOrder = await updateOrderStatus({
+    orderId,
+    status: "cancelled",
+  });
+
+  if (!updatedOrder[0]) {
+    throw new Error("Failed to cancel order");
+  }
+
+  const updatedProductVariants = order.orderItems.map((item) => {
+    return {
+      id: item.productVariant.id,
+      stock: item.productVariant.stock + item.quantity,
+    };
+  });
+
+  updatedProductVariants.map(async (productVariant) => {
+    await updateProductVariant(productVariant.id, productVariant);
+  });
+
+  revalidatePath(`/account/orders/${orderId}`);
+  return orderId;
 }
