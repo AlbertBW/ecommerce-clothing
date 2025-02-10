@@ -17,7 +17,7 @@ import {
   selectProductVariantsByProductIdArray,
   updateProductVariant,
 } from "@/data-access/product-variants.access";
-import { clearCartDb, getCartItemsCookies, getCartItemsDb } from "./carts";
+import { getCartItemsCookies, getCartItemsDb } from "./carts";
 import { SHIPPING_METHODS } from "@/lib/constants";
 import { generateRandomString } from "@/utils/generate-random-string";
 import {
@@ -26,7 +26,6 @@ import {
   selectOrderById,
   updateOrderStatus,
 } from "@/data-access/orders.access";
-import { clearCartCookies } from "@/actions/cookie.action";
 import { LineItem, SessionCreate } from "@/lib/types";
 import { createStripeCheckoutSession } from "@/actions/stripe.action";
 import { getStripeCheckoutSession } from "./stripe";
@@ -194,12 +193,6 @@ export async function createOrder(
 
   if (newOrderItems.length === 0) {
     throw new Error("Failed to create order items");
-  }
-
-  if (session?.user.id === null) {
-    await clearCartCookies();
-  } else if (session?.user.id) {
-    await clearCartDb(session.user.id);
   }
 
   const lineItems: LineItem[] = userCart.products.map((item) => {

@@ -5,6 +5,7 @@ import Link from "next/link";
 import PdfDownload from "./_components/pdfDownload";
 import Image from "next/image";
 import tshirt from "../../../../../public/t-shirt-white.jpeg";
+import ClearCartForm from "./_components/clear-cart-form";
 
 export default async function SuccessPage({
   searchParams,
@@ -20,8 +21,9 @@ export default async function SuccessPage({
   return (
     <div
       id="pdf-content"
-      className="flex flex-col items-center justify-center min-h-[calc(100vh-190px)] rounded-lg max-w-screen-lg mx-auto"
+      className="flex flex-col items-center min-h-[calc(100vh-190px)] rounded-lg max-w-screen-lg mx-auto"
     >
+      <ClearCartForm />
       <div className="p-8 flex flex-col justify-center items-center w-full">
         <h3 className="text-2xl font-bold mb-4">Thank you for your order!</h3>
         <div className="flex md:flex-row flex-col border rounded-lg p-1 md:w-2/3 justify-between">
