@@ -13,13 +13,17 @@ import {
   orderInsertSchema,
 } from "@/db/schema";
 import { z } from "zod";
-import { selectProductVariantsByProductIdArray } from "@/data-access/product-variants.access";
+import {
+  selectProductVariantsByProductIdArray,
+  updateProductVariant,
+} from "@/data-access/product-variants.access";
 import { clearCartDb, getCartItemsCookies, getCartItemsDb } from "./carts";
 import { SHIPPING_METHODS } from "@/lib/constants";
 import { generateRandomString } from "@/utils/generate-random-string";
 import {
   insertOrder,
   insertOrderItems,
+  selectOrderById,
   updateOrderStatus,
 } from "@/data-access/orders.access";
 import { clearCartCookies } from "@/actions/cookie.action";
@@ -43,8 +47,6 @@ export async function createOrder(
   state: CheckoutForm,
   formData: FormData
 ): Promise<CheckoutForm> {
-  console.log(formData);
-
   const session = await auth();
 
   const shippingMethod = z.string().parse(formData.get("shippingMethod"));
@@ -124,6 +126,13 @@ export async function createOrder(
     }
   });
 
+  const shipping = SHIPPING_METHODS.find(
+    (method) => method.name === shippingMethod
+  ) ?? {
+    price: 0,
+    name: "free",
+  };
+
   const lineItems: LineItem[] = userCart.products.map((item) => {
     const quantity = userCart.cart.find(
       (cartItem) => cartItem.productVariantId === item.id
@@ -144,13 +153,6 @@ export async function createOrder(
       quantity: quantity || 0,
     };
   });
-
-  const shipping = SHIPPING_METHODS.find(
-    (method) => method.name === shippingMethod
-  ) ?? {
-    price: 0,
-    name: "standard",
-  };
 
   const sessionCreate: SessionCreate = {
     mode: "payment",
@@ -199,7 +201,7 @@ export async function createOrder(
     deliveryAddressId: deliveryAddress.id,
     shippingMethod,
     orderNumber: orderNumber,
-    status: "awaiting_payment",
+    status: "unpaid",
     price: price,
     shippingPrice: shipping.price,
     customerNote: formData.get("customerNote") as string,
@@ -248,4 +250,36 @@ export async function createOrder(
     errors: null,
     emailError: null,
   };
+}
+
+export async function completeOrder({
+  orderNumber,
+  status,
+}: {
+  orderNumber: OrderNumber;
+  status: string;
+}) {
+  const orderStatus = (
+    await updateOrderStatusUseCase({
+      orderNumber,
+      status,
+    })
+  )[0];
+
+  const customerOrder = await selectOrderById(orderStatus.id);
+
+  if (!customerOrder) {
+    throw new Error("Order not found");
+  }
+
+  const updatedProductVariants = customerOrder.orderItems.map((item) => {
+    return {
+      id: item.productVariant.id,
+      stock: item.productVariant.stock - item.quantity,
+    };
+  });
+
+  updatedProductVariants.map(async (productVariant) => {
+    await updateProductVariant(productVariant.id, productVariant);
+  });
 }

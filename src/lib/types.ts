@@ -42,6 +42,8 @@ export type AddressId = Address["id"];
 
 export type OrderNumber = Order["orderNumber"];
 
+export type OrderId = Order["id"];
+
 export type ProductDetails = Product & {
   productVariants: (ProductVariant & {
     colour: Colour | null;

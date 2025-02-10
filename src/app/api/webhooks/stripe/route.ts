@@ -1,4 +1,4 @@
-import { updateOrderStatusUseCase } from "@/use-cases/orders";
+import { completeOrder } from "@/use-cases/orders";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
@@ -32,26 +32,15 @@ export async function POST(request: Request) {
   switch (event.type) {
     case "checkout.session.completed":
       // Handle successful payment
-      console.log("Payment was successful!", event.data.object);
       const data = event.data.object;
 
-      if (!data.client_reference_id) {
-        console.error("No order number found in event data");
-        return new NextResponse(JSON.stringify({ received: false }), {
-          status: 400,
-        });
-      }
-      const order = await updateOrderStatusUseCase({
-        orderNumber: data.client_reference_id,
-        status: "paid",
+      console.log(data);
+
+      await completeOrder({
+        orderNumber: data.client_reference_id as string,
+        status: data.payment_status,
       });
 
-      if (!order[0]) {
-        console.error("Order not found");
-        return new NextResponse(JSON.stringify({ received: false }), {
-          status: 400,
-        });
-      }
       break;
 
     // Add more cases for other event types you want to handle

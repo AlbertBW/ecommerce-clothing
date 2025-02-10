@@ -19,7 +19,7 @@ export async function insertProductVariant(
   return await db.insert(productVariants).values(newProductVariant).returning();
 }
 
-export async function updateProduct(
+export async function updateProductVariant(
   productVariantId: ProductVariantId,
   updatedProductVariant: UpdatedProductVariant
 ) {
