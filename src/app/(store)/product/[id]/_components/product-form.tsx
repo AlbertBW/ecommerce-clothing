@@ -6,6 +6,7 @@ import {
   removeFromWishlistAction,
 } from "@/actions/wishlist.action";
 import LoadingSpinner from "@/app/_components/loading-spinner";
+import { LOW_STOCK_THRESHOLD } from "@/lib/constants";
 import { ProductDetails, ProductVariantId } from "@/lib/types";
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
@@ -44,6 +45,7 @@ export default function ProductForm({
     setSelectedColour((prev) => {
       if (prev === colour) {
         setSelectedProductVariants([]);
+        setSelectedProductVariant(undefined);
         return null;
       }
       return colour;
@@ -58,6 +60,7 @@ export default function ProductForm({
   const handleSetSelectedSize = (size: string) => {
     setSelectedSize((prev) => {
       if (prev === size) {
+        setSelectedProductVariant(undefined);
         return null;
       }
       return size;
@@ -68,11 +71,6 @@ export default function ProductForm({
     );
 
     setSelectedProductVariant(productVariant);
-    if (productVariant?.stock === 0) {
-      setOutOfStock(true);
-      return;
-    }
-    setOutOfStock(false);
   };
 
   const handleAddToCart = async () => {
@@ -135,7 +133,17 @@ export default function ProductForm({
         ? cartItemIds.includes(selectedProductVariant.id)
         : false
     );
+
+    setOutOfStock(
+      selectedProductVariant ? selectedProductVariant.stock <= 0 : false
+    );
   }, [cartItemIds, selectedProductVariant, wishlistItemIds]);
+
+  const lowStock = selectedProductVariant
+    ? selectedProductVariant.stock <= LOW_STOCK_THRESHOLD
+    : false;
+
+  console.log(selectedProductVariant);
 
   return (
     <div className="flex flex-col justify-between gap-4 md:w-2/5 text-xl md:mx-auto">
@@ -184,7 +192,26 @@ export default function ProductForm({
           </div>
         </div>
 
-        <div className="grid grid-cols-3 my-12">
+        <div className="min-h-8 my-3 flex justify-center items-center">
+          <span
+            className={`${
+              outOfStock
+                ? "text-red-500"
+                : lowStock
+                ? "text-orange-500"
+                : "text-green-500"
+            }`}
+          >
+            {selectedProductVariant &&
+              (outOfStock
+                ? "Out of Stock"
+                : lowStock
+                ? "Low stock"
+                : "In Stock")}
+          </span>
+        </div>
+
+        <div className="grid grid-cols-3 my-3">
           <div className="flex justify-end mr-4">
             <button
               aria-label="Add to wishlist"

@@ -1,6 +1,6 @@
 import { Collection } from "@/db/schema";
 
-export const LOW_STOCK_THRESHOLD = 50;
+export const LOW_STOCK_THRESHOLD = 5;
 
 export const COLLECTION_PARAMS = ["men", "women"];
 
