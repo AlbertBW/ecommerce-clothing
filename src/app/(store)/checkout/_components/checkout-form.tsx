@@ -69,6 +69,7 @@ export default function CheckoutForm({
       setNewAddress(true);
     } else if (e.target.value === "") {
       setNewAddress(false);
+      setSelectedAddress(null);
     } else {
       setSelectedAddress(e.target.value ? (e.target.value as AddressId) : null);
       setNewAddress(false);

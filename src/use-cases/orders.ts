@@ -5,6 +5,7 @@ import {
   selectAddressById,
 } from "@/data-access/addresses.access";
 import {
+  Address,
   NewAddress,
   NewOrder,
   NewOrderItem,
@@ -54,12 +55,11 @@ export async function createOrder(
   formData: FormData
 ): Promise<CheckoutForm> {
   const session = await auth();
-
   const shippingMethod = z.string().parse(formData.get("shippingMethod"));
   const selectedAddressId = z
     .string()
     .nullable()
-    .parse(formData.get("selectedAddressId"));
+    .parse(formData.get("addressId"));
 
   const emailValidation = emailFormSchema.safeParse(
     session?.user.email ?? formData.get("email") ?? ""
@@ -77,26 +77,31 @@ export async function createOrder(
     phoneNumber: formData.get("phone") as string,
   };
 
-  const validatedAddress = addressInsertSchema.safeParse(address);
+  let userAddress: Address | undefined = undefined;
 
-  if (!selectedAddressId && !validatedAddress.success) {
-    return {
-      data: {
-        addressId: selectedAddressId,
-        email: session?.user.email ?? (formData.get("email") as string),
-        address,
-        shippingMethod,
-        sessionId: null,
-      },
-      errors: !validatedAddress.success
-        ? validatedAddress.error?.flatten().fieldErrors
-        : null,
-      emailError: !emailValidation.success
-        ? emailValidation.error?.flatten().formErrors
-        : null,
-    };
+  if (!selectedAddressId) {
+    const validatedAddress = addressInsertSchema.safeParse(address);
+
+    if (!validatedAddress.success || !emailValidation.success) {
+      return {
+        data: {
+          addressId: selectedAddressId,
+          email: session?.user.email ?? (formData.get("email") as string),
+          address,
+          shippingMethod,
+          sessionId: null,
+        },
+        errors: !validatedAddress.success
+          ? validatedAddress.error?.flatten().fieldErrors
+          : null,
+        emailError: !emailValidation.success
+          ? emailValidation.error?.flatten().formErrors
+          : null,
+      };
+    }
+
+    userAddress = (await insertAddress(validatedAddress.data))[0];
   }
-
   if (!emailValidation.success) {
     return {
       data: {
@@ -106,9 +111,7 @@ export async function createOrder(
         shippingMethod,
         sessionId: null,
       },
-      errors: !validatedAddress.success
-        ? validatedAddress.error?.flatten().fieldErrors
-        : null,
+      errors: null,
       emailError: emailValidation.error?.flatten().formErrors,
     };
   }
@@ -140,13 +143,12 @@ export async function createOrder(
   };
 
   // Address
-  let deliveryAddress;
-  if (selectedAddressId) {
-    deliveryAddress = await selectAddressById(selectedAddressId);
-  } else if (validatedAddress.success) {
-    [deliveryAddress] = await insertAddress(validatedAddress.data);
+
+  if (!userAddress && selectedAddressId) {
+    userAddress = await selectAddressById(selectedAddressId);
   }
-  if (!deliveryAddress) {
+
+  if (!userAddress) {
     throw new Error("Failed to create address");
   }
 
@@ -160,7 +162,7 @@ export async function createOrder(
   const order: NewOrder = {
     userId: session?.user.id ?? null,
     email,
-    deliveryAddressId: deliveryAddress.id,
+    deliveryAddressId: userAddress.id,
     shippingMethod,
     orderNumber: orderNumber,
     status: "unpaid",
@@ -246,7 +248,7 @@ export async function createOrder(
     data: {
       addressId: selectedAddressId,
       email,
-      address: deliveryAddress,
+      address: userAddress,
       shippingMethod,
       sessionId,
     },
