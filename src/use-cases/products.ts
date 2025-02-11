@@ -1,6 +1,7 @@
 import {
   selectLatestProductDetails,
   selectProductDetails,
+  selectProductDetailsBySearch,
   selectProductListDetails,
 } from "@/data-access/products.access";
 import { allCollections } from "@/db/schema";
@@ -118,4 +119,27 @@ export async function getProductListDetails({
   });
 
   return products;
+}
+
+export async function getProductDetailsBySearch({
+  search,
+  page = "1",
+}: {
+  search: string | string[];
+  page: string;
+}) {
+  const searchArray =
+    typeof search === "string"
+      ? search.split(" ").filter(Boolean)
+      : Array.isArray(search)
+      ? search
+      : [];
+
+  const pageNumber = parseInt(page);
+
+  if (isNaN(pageNumber)) {
+    throw new ValidationError("Invalid page number");
+  }
+
+  return selectProductDetailsBySearch(searchArray, pageNumber);
 }

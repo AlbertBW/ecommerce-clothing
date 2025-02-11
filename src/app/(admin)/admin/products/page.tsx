@@ -8,7 +8,7 @@ import { SearchParams } from "@/lib/types";
 export default async function ProductsPage({
   searchParams,
 }: {
-  searchParams: Promise<SearchParams>;
+  searchParams: SearchParams;
 }) {
   const session = await auth();
 

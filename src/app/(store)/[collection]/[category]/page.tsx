@@ -18,7 +18,7 @@ export default async function ProductListPage({
   searchParams,
 }: {
   params: Promise<{ collection: string; category: string }>;
-  searchParams: Promise<SearchParams>;
+  searchParams: SearchParams;
 }) {
   const { collection, category } = await params;
   const { subcategory, sortBy, page, brand, colour, size, price } =

@@ -4,7 +4,7 @@ import LoadingSpinner from "@/app/_components/loading-spinner";
 import ProductCard from "@/app/_components/product-card";
 import { PRODUCTS_PER_PAGE } from "@/lib/constants";
 import { ProductDetails } from "@/lib/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ProductCardList({
   initialProducts,
@@ -31,6 +31,12 @@ export default function ProductCardList({
       setHasMore(false);
     }
   };
+
+  useEffect(() => {
+    if (initialProducts.length < PRODUCTS_PER_PAGE) {
+      setHasMore(false);
+    }
+  }, [initialProducts.length]);
 
   return (
     <>

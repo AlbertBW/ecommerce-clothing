@@ -100,4 +100,6 @@ export type AddressForm = {
   errors: AddressFormFieldErrors | null;
 };
 
-export type SearchParams = { [key: string]: string | string[] | undefined };
+export type SearchParams = Promise<{
+  [key: string]: string | string[] | undefined;
+}>;

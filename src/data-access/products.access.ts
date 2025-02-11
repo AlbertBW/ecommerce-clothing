@@ -1,7 +1,9 @@
 import { db } from "@/db";
 import {
+  brands,
   categories,
   Collection,
+  colours,
   NewProduct,
   products,
   productVariants,
@@ -220,4 +222,77 @@ export async function updateProduct(
     .set(updatedProduct)
     .where(eq(products.id, productId))
     .returning();
+}
+
+export async function selectProductDetailsBySearch(
+  search: string[],
+  page: number
+) {
+  const productsPerPage = PRODUCTS_PER_PAGE;
+  const offset = (page - 1) * productsPerPage;
+
+  console.log("SEARCH", search);
+
+  return await db.query.products.findMany({
+    where: (products, { or, and, like, exists, sql }) =>
+      or(
+        ...search.map((term) =>
+          or(
+            like(sql`LOWER(${products.name})`, `%${term.toLowerCase()}%`),
+            like(
+              sql`LOWER(${products.description})`,
+              `%${term.toLowerCase()}%`
+            ),
+            exists(
+              db
+                .select()
+                .from(productVariants)
+                .where(
+                  and(
+                    eq(productVariants.productId, products.id),
+                    exists(
+                      db
+                        .select()
+                        .from(colours)
+                        .where(
+                          and(
+                            eq(colours.id, productVariants.colourId),
+                            like(
+                              sql`LOWER(${colours.name})`,
+                              `%${term.toLowerCase()}%`
+                            )
+                          )
+                        )
+                    )
+                  )
+                )
+            ),
+            exists(
+              db
+                .select()
+                .from(brands)
+                .where(
+                  and(
+                    eq(brands.id, products.brandId),
+                    like(sql`LOWER(${brands.name})`, `%${term.toLowerCase()}%`)
+                  )
+                )
+            )
+          )
+        )
+      ),
+    with: {
+      productVariants: {
+        with: {
+          colour: true,
+          size: true,
+        },
+      },
+      productRating: true,
+      brand: true,
+      category: { with: { parentCategory: true } },
+    },
+    limit: productsPerPage,
+    offset: offset,
+  });
 }

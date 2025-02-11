@@ -11,7 +11,7 @@ import { SearchParams } from "@/lib/types";
 export default async function SuccessPage({
   searchParams,
 }: {
-  searchParams: Promise<SearchParams>;
+  searchParams: SearchParams;
 }) {
   const { session_id } = await searchParams;
   if (!session_id || typeof session_id !== "string") notFound();

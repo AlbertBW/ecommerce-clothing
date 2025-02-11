@@ -68,7 +68,7 @@ export default function useSearchBox(): [
       }
       toggleInput();
 
-      const queryString = createSearchParam({ product: inputValue });
+      const queryString = createSearchParam({ result: inputValue });
       router.push(pathname + "?" + queryString);
     }
   }

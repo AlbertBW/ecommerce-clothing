@@ -9,7 +9,7 @@ import { SearchParams } from "@/lib/types";
 export default async function OrdersPage({
   searchParams,
 }: {
-  searchParams: Promise<SearchParams>;
+  searchParams: SearchParams;
 }) {
   const { page } = await searchParams;
   const pageNumber = parseInt(page as string, 10);
