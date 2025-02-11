@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistMono.variable} ${geistSans.variable} h-screen overflow-y-scroll`}
+      className={`${geistMono.variable} ${geistSans.variable} h-screen`}
     >
       <body className={`font-mono min-h-dvh h-screen`}>
         {children}

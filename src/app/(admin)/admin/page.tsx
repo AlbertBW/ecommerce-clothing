@@ -8,7 +8,7 @@ export default async function AdminHomePage() {
     return notFound();
   }
 
-  if (session.user.role !== "admin") {
+  if (session.user.role !== "admin" && session.user.role !== "owner") {
     return notFound();
   }
 

@@ -36,7 +36,7 @@ export default async function ProductListPage({
   return (
     <div className="flex max-w-screen-2xl mx-auto">
       <SidebarMenu category={category} collection={collection} />
-      <section className="flex flex-col w-full max-w-screen-2xl mx-auto overflow-y-visible">
+      <section className="flex flex-col max-w-screen-2xl mx-auto overflow-y-visible">
         <Suspense key={suspenseKey} fallback={<ProductListSkeleton />}>
           <ProductList
             collection={collection}

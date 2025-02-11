@@ -14,9 +14,8 @@ export default function Footer() {
           rel="noopener noreferrer"
           className="hover:underline"
         >
-          Albert Wales.
-        </a>{" "}
-        <span className="hidden md:block">All rights reserved.</span>
+          Albert Wales
+        </a>
       </p>
       <a
         href={PROJECT_REPO}

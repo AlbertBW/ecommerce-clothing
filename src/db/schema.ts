@@ -20,7 +20,7 @@ import { z } from "zod";
 
 const pgTable = pgTableCreator((name) => `ec_${name}`);
 
-export const roles = pgEnum("roles", ["admin", "customer"]);
+export const roles = pgEnum("roles", ["owner", "admin", "customer"]);
 
 export const collectionEnum = pgEnum("collection", ["men", "women", "unisex"]);
 export type Collection = (typeof collectionEnum.enumValues)[number];

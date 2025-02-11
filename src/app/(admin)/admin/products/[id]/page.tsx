@@ -5,12 +5,24 @@ import tshirt from "../../../../../../public/t-shirt-white.jpeg";
 import BackButton from "@/app/_components/back-button";
 import EditModal from "./_components/edit-modal";
 import { getAllCategories, getAllSubcategories } from "@/use-cases/categories";
+import { auth } from "@/auth";
+import { notFound } from "next/navigation";
 
 export default async function ProductPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const session = await auth();
+
+  if (!session) {
+    return notFound();
+  }
+
+  if (session.user.role !== "admin" && session.user.role !== "owner") {
+    return notFound();
+  }
+
   const { id } = await params;
 
   const product = await getProductDetailsById(id);

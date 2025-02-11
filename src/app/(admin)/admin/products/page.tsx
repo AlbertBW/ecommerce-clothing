@@ -16,7 +16,7 @@ export default async function ProductsPage({
     return notFound();
   }
 
-  if (session.user.role !== "admin") {
+  if (session.user.role !== "admin" && session.user.role !== "owner") {
     return notFound();
   }
 

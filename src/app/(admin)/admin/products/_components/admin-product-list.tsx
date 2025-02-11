@@ -53,7 +53,7 @@ export default async function AdminProductList({
       {products.map((product) => (
         <div
           key={product.id}
-          className="flex items-center justify-between border-b border-zinc-500 py-2 text-sm"
+          className="flex items-center justify-between border-b border-zinc-500 py-2 text-sm pr-4"
         >
           <div className="flex items-center">
             <Image
@@ -62,12 +62,12 @@ export default async function AdminProductList({
               className="w-12 h-12 object-cover"
               quality={10}
             />
-            <p className="ml-2 min-w-32 border-r">{product.brand.name}</p>
-            <p className="ml-2 min-w-40 border-r">{product.name}</p>
-            <p className="ml-2 min-w-32 border-r">
+            <p className="ml-2 min-w-32">{product.brand.name}</p>
+            <p className="ml-2 min-w-40">{product.name}</p>
+            <p className="ml-2 min-w-32">
               Variants: {product.productVariants.length}
             </p>
-            <p className="ml-2 min-w-40 border-r">
+            <p className="ml-2 min-w-40">
               Total stock:{" "}
               {product.productVariants.reduce(
                 (total, variant) => total + variant.stock,
