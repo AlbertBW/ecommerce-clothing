@@ -1,6 +1,7 @@
 import { getProductListDetails } from "@/use-cases/products";
 import ProductCardList from "./product-card-list";
 import { ProductCardSkeleton } from "@/app/_components/product-card";
+import { PRODUCTS_PER_PAGE_STORE } from "@/lib/constants";
 
 type ProductListProps = {
   collection: string;
@@ -35,6 +36,7 @@ export default async function ProductList({
     colourSlug: colour,
     sizeSlug: size,
     price,
+    productsPerPage: PRODUCTS_PER_PAGE_STORE,
   });
 
   if (initialProducts.length === 0) {
@@ -59,6 +61,7 @@ export default async function ProductList({
       colourSlug: colour,
       sizeSlug: size,
       price,
+      productsPerPage: PRODUCTS_PER_PAGE_STORE,
     });
   };
 

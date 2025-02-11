@@ -26,7 +26,7 @@ export default async function AdminSidebarMenu({
   const allCollections = COLLECTION_COMBINATIONS;
 
   return (
-    <nav className="mx-3 sm:px-4 pb-4 min-w-fit overflow-y-scroll border-r rounded h-[calc(100vh-53px)] border-zinc-700">
+    <nav className="sm:px-4 pb-4 min-w-fit overflow-y-scroll border-r rounded h-[calc(100vh-53px)] border-zinc-700">
       <div>
         <h4 className="font-bold my-2">Collections</h4>
         <ul className="flex flex-col gap-2 font-light text-sm">

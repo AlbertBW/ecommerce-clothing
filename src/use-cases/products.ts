@@ -5,7 +5,10 @@ import {
   selectProductListDetails,
 } from "@/data-access/products.access";
 import { allCollections } from "@/db/schema";
-import { COLLECTION_COMBINATIONS } from "@/lib/constants";
+import {
+  COLLECTION_COMBINATIONS,
+  PRODUCTS_PER_PAGE_STORE,
+} from "@/lib/constants";
 import { selectSizeArrayBySlugArray } from "@/data-access/sizes.access";
 import { normaliseArrayParam } from "@/utils/normalise-array-param";
 import { selectColoursBySlugArray } from "@/data-access/colours.access";
@@ -56,6 +59,7 @@ export async function getProductListDetails({
   colourSlug,
   sizeSlug,
   price,
+  productsPerPage,
 }: {
   collection: string | string[] | undefined;
   categorySlug: string | string[] | undefined;
@@ -66,6 +70,7 @@ export async function getProductListDetails({
   colourSlug: string | string[] | undefined;
   sizeSlug: string | string[] | undefined;
   price: string | string[] | undefined;
+  productsPerPage: number;
 }) {
   const collectionCombo =
     COLLECTION_COMBINATIONS[`${collection}` as "men" | "women"];
@@ -116,6 +121,7 @@ export async function getProductListDetails({
     maxPrice,
     sizeIdArray,
     subcategoryIdArray,
+    productsPerPage,
   });
 
   return products;
@@ -141,5 +147,9 @@ export async function getProductDetailsBySearch({
     throw new ValidationError("Invalid page number");
   }
 
-  return selectProductDetailsBySearch(searchArray, pageNumber);
+  return selectProductDetailsBySearch(
+    searchArray,
+    pageNumber,
+    PRODUCTS_PER_PAGE_STORE
+  );
 }

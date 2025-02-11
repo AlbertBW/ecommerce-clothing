@@ -2,6 +2,7 @@ import { getProductListDetails } from "@/use-cases/products";
 import Image from "next/image";
 import tshirt from "../../../../../../public/t-shirt-white.jpeg";
 import Link from "next/link";
+import { PRODUCTS_PER_PAGE_ADMIN } from "@/lib/constants";
 
 type ProductListProps = {
   collection: string;
@@ -36,6 +37,7 @@ export default async function AdminProductList({
     colourSlug: colour,
     sizeSlug: size,
     price,
+    productsPerPage: PRODUCTS_PER_PAGE_ADMIN,
   });
 
   if (products.length === 0) {
@@ -53,7 +55,7 @@ export default async function AdminProductList({
       {products.map((product) => (
         <div
           key={product.id}
-          className="flex items-center justify-between border-b border-zinc-500 py-2 text-sm pr-4"
+          className="flex items-center justify-between border-b border-zinc-500 py-2 text-sm px-4"
         >
           <div className="flex items-center">
             <Image

@@ -9,7 +9,6 @@ import {
   productVariants,
   UpdatedProduct,
 } from "@/db/schema";
-import { PRODUCTS_PER_PAGE } from "@/lib/constants";
 import { ProductId } from "@/lib/types";
 import { asc, desc, eq, gte, lte, sql } from "drizzle-orm";
 
@@ -85,6 +84,7 @@ export async function selectProductListDetails({
   sortBy,
   minPrice,
   maxPrice,
+  productsPerPage,
 }: {
   collection: Collection[];
   subcategoryIdArray: number[] | null;
@@ -95,8 +95,8 @@ export async function selectProductListDetails({
   sortBy: string | string[] | undefined;
   minPrice: number | null;
   maxPrice: number | null;
+  productsPerPage: number;
 }) {
-  const productsPerPage = PRODUCTS_PER_PAGE;
   const offset = (page - 1) * productsPerPage;
 
   const allProducts = await db.query.products.findMany({
@@ -226,9 +226,9 @@ export async function updateProduct(
 
 export async function selectProductDetailsBySearch(
   search: string[],
-  page: number
+  page: number,
+  productsPerPage: number
 ) {
-  const productsPerPage = PRODUCTS_PER_PAGE;
   const offset = (page - 1) * productsPerPage;
 
   console.log("SEARCH", search);

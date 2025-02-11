@@ -22,7 +22,8 @@ export type OrderBy = (typeof ORDER_BY)[number];
 
 export const ORDER_BY_DEFAULT = "new" as const;
 
-export const PRODUCTS_PER_PAGE = 12;
+export const PRODUCTS_PER_PAGE_STORE = 12;
+export const PRODUCTS_PER_PAGE_ADMIN = 24;
 
 export const SHIPPING_METHODS = [
   { name: "standard", price: 399 },
