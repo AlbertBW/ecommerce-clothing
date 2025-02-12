@@ -7,6 +7,7 @@ import {
   Colour,
   NewAddress,
   Order,
+  orderStatusSchema,
   Product,
   ProductRating,
   ProductVariant,
@@ -15,6 +16,7 @@ import {
   Wishlist,
 } from "@/db/schema";
 import Stripe from "stripe";
+import { z } from "zod";
 
 export type ProviderInfo = {
   id: string;
@@ -103,3 +105,5 @@ export type AddressForm = {
 export type SearchParams = Promise<{
   [key: string]: string | string[] | undefined;
 }>;
+
+export type OrderStatus = z.infer<typeof orderStatusSchema>;

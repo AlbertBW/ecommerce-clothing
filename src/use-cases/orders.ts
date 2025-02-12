@@ -12,6 +12,7 @@ import {
   addressInsertSchema,
   emailFormSchema,
   orderInsertSchema,
+  orderStatusSchema,
 } from "@/db/schema";
 import { z } from "zod";
 import {
@@ -50,10 +51,12 @@ export async function updateOrderStatusUseCase({
     throw new Error("Invalid order ID");
   }
 
+  const statusValidation = orderStatusSchema.parse(status);
+
   return await updateOrderStatus({
     orderId: orderIdValidation.data,
     paymentIntentId,
-    status,
+    status: statusValidation,
   });
 }
 
@@ -396,9 +399,9 @@ export async function getAllOrders({
 }) {
   const pageNumber = parseInt(page);
 
-  const statusValidation = z.string().optional().parse(status);
-  const sortByValidation = z.string().optional().parse(sortBy);
+  const statusValidation = orderStatusSchema.parse(status);
 
+  const sortByValidation = z.string().optional().parse(sortBy);
   const searchValidation = z
     .string()
     .optional()

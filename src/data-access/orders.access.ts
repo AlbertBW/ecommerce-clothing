@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { NewOrder, NewOrderItem, orderItems, orders } from "@/db/schema";
-import { OrderId, UserId } from "@/lib/types";
+import { OrderId, OrderStatus, UserId } from "@/lib/types";
 import { asc, desc, eq, or } from "drizzle-orm";
 
 export async function insertOrder(newOrder: NewOrder) {
@@ -18,7 +18,7 @@ export async function updateOrderStatus({
 }: {
   orderId: OrderId;
   paymentIntentId?: string;
-  status: string;
+  status: OrderStatus;
 }) {
   return await db
     .update(orders)
@@ -101,7 +101,7 @@ export async function selectAllOrders({
   page,
   productsPerPage,
 }: {
-  status?: string;
+  status?: OrderStatus;
   sortBy?: string;
   email?: string;
   orderNumber?: string;

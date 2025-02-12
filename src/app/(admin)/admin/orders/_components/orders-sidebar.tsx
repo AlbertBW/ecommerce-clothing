@@ -7,7 +7,7 @@ const status = [
   { name: "Cancelled", slug: "cancelled" },
   { name: "Return requested", slug: "return-requested" },
   { name: "Returned", slug: "returned" },
-  { name: "Delivered", slug: "delivered" },
+  { name: "fulfilled", slug: "fulfilled" },
 ] as const;
 
 export default function OrdersSidebar() {
