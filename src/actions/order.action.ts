@@ -11,6 +11,6 @@ export async function createOrderAction(
   return await createOrder(state, formData);
 }
 
-export async function cancelOrderAction(state: OrderId) {
-  return await cancelOrder(state);
+export async function cancelOrderAction(orderId: OrderId) {
+  await cancelOrder(orderId);
 }

@@ -57,7 +57,7 @@ export default async function AdminOrderList({
             </div>
             <div className="ml-2 min-w-52">
               <Link
-                href={`/admin/customers/${order.userId}`}
+                href={`/admin/customers/${order.userId ?? order.email}`}
                 className="text-blue-500"
               >
                 {order.email}

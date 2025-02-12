@@ -49,6 +49,7 @@ export async function selectOrderById(id: OrderId) {
     },
   });
 }
+export type OrderWithDetails = Awaited<ReturnType<typeof selectOrderById>>;
 
 export async function selectOrdersByUserId(userId: UserId, page: number) {
   return await db.query.orders.findMany({
@@ -89,6 +90,8 @@ export async function selectUserOrderByOrderId(orderId: OrderId) {
         },
       },
       deliveryAddress: true,
+      user: true,
+      shipments: true,
     },
   });
 }

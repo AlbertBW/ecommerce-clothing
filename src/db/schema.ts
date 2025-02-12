@@ -331,6 +331,7 @@ export const orderRelations = relations(orders, ({ many, one }) => ({
     references: [addresses.id],
     relationName: "deliveryAddress",
   }),
+  shipments: many(shipments),
 }));
 
 export const orderItems = pgTable("order_item", {
@@ -351,6 +352,37 @@ export const orderItemRelations = relations(orderItems, ({ one }) => ({
   }),
   order: one(orders, {
     fields: [orderItems.orderId],
+    references: [orders.id],
+  }),
+}));
+
+export const shipments = pgTable("shipment", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  orderId: text("order_id")
+    .notNull()
+    .references(() => orders.id),
+  carrier: text("carrier").notNull(),
+  shippingMethod: text("shipping_method").notNull(),
+  weight: integer("weight").notNull(),
+  dimensions: text("dimensions").notNull(),
+  estimatedDeliveryDate: timestamp("estimated_delivery_date", {
+    mode: "date",
+  }).notNull(),
+  createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { mode: "date" })
+    .notNull()
+    .$onUpdate(() => new Date())
+    .defaultNow(),
+  trackingNumber: text("tracking_number").notNull(),
+  status: text("status").notNull().default("pending"),
+  shippingCost: integer("shipping_cost").notNull(),
+});
+
+export const shipmentsRelations = relations(shipments, ({ one }) => ({
+  order: one(orders, {
+    fields: [shipments.orderId],
     references: [orders.id],
   }),
 }));
@@ -523,6 +555,9 @@ export type Address = typeof addresses.$inferSelect;
 export type NewAddress = typeof addresses.$inferInsert;
 export type UpdatedAddress = Partial<Omit<NewAddress, "id">>;
 
+export type Shipment = typeof shipments.$inferSelect;
+export type NewShipment = typeof shipments.$inferInsert;
+
 // Zod Schemas
 export const userSelectSchema = createSelectSchema(users);
 export const userInsertSchema = createInsertSchema(users);
@@ -575,6 +610,10 @@ export const cartUpdateSchema = createUpdateSchema(carts);
 export const cartItemSelectSchema = createSelectSchema(cartItems);
 export const cartItemInsertSchema = createInsertSchema(cartItems);
 export const cartItemUpdateSchema = createUpdateSchema(cartItems);
+
+export const shipmentSelectSchema = createSelectSchema(shipments);
+export const shipmentInsertSchema = createInsertSchema(shipments);
+export const shipmentUpdateSchema = createUpdateSchema(shipments);
 
 export const addressSelectSchema = createSelectSchema(addresses);
 export const addressInsertSchema = createInsertSchema(addresses, {
