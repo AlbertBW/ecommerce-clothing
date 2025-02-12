@@ -3,9 +3,11 @@
 import { useState } from "react";
 
 export default function HoverDropdown({
+  preventOpen = false,
   trigger,
   dropdown,
 }: Readonly<{
+  preventOpen?: boolean;
   trigger: React.ReactNode;
   dropdown: React.ReactNode;
 }>) {
@@ -17,7 +19,9 @@ export default function HoverDropdown({
       className="relative group z-10"
       onMouseEnter={() => setDropdownOpen(true)}
       onMouseLeave={() => setDropdownOpen(false)}
-      onClick={() => setDropdownOpen(false)}
+      onClick={() => {
+        if (preventOpen) setDropdownOpen(false);
+      }}
     >
       <div className="group flex justify-center items-center">
         <div className="relative group-hover:z-20">{trigger}</div>

@@ -55,6 +55,7 @@ export default async function ShoppingCart() {
 
   return (
     <HoverDropdown
+      preventOpen={true}
       trigger={
         <Link href={"/cart"} className="relative">
           <ShoppingBagIcon className="size-9 dark:hover:text-zinc-200/70 hover:text-zinc-600/70 transition-colors group-hover:z-10 drop-shadow-lg" />

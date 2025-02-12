@@ -31,9 +31,9 @@ export default async function OrdersPage({
       {orders.map((order) => (
         <div className="w-full my-4 " key={order.id}>
           <section className="flex flex-row border-t-2 border-x-2 dark:border-white text-sm border-black p-4 justify-between items-center rounded-t-md dark:bg-slate-800 bg-slate-300">
-            <div className="">
+            <div className="hidden sm:block">
               <div>Order Date</div>
-              <div>{order.createdAt.toLocaleString()}</div>
+              <div>{order.createdAt.toLocaleDateString()}</div>
             </div>
             <div className="flex gap-6">
               <div className="hidden md:block">
@@ -54,14 +54,14 @@ export default async function OrdersPage({
               </div>
             </div>
             <div>
-              <div>Order #{order.orderNumber}</div>
+              <div className="hidden sm:block">Order #{order.orderNumber}</div>
               <div
                 className={`${
                   order.status == "paid"
                     ? "text-green-500"
                     : order.status == "unpaid"
                     ? "text-red-500"
-                    : order.status == "delivered"
+                    : order.status == "fulfilled"
                     ? "text-green-500"
                     : ""
                 }`}
@@ -72,7 +72,7 @@ export default async function OrdersPage({
             <div className="text-center">
               <Link
                 href={`/account/orders/${order.id}`}
-                className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 sm:py-2 sm:px-4 rounded"
               >
                 View Order
               </Link>
@@ -86,7 +86,7 @@ export default async function OrdersPage({
                   alt={"Product image"}
                   width={100}
                   height={100}
-                ></Image>
+                />
                 <div className="flex flex-col m-2 gap-2 capitalize">
                   <p>{item.productVariant.product.brand.name}</p>
                   <Link
@@ -95,7 +95,9 @@ export default async function OrdersPage({
                   >
                     <p>{item.productVariant.product.name}</p>
                   </Link>
-                  <div>Price at purchase: {item.productPrice}</div>
+                  <div>
+                    Price at purchase: £{(item.productPrice / 100).toFixed(2)}
+                  </div>
                 </div>
               </div>
             ))}

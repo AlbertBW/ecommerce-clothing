@@ -9,9 +9,7 @@ export default function DropdownMenu({
 }) {
   return (
     <div
-      className={`absolute transition-opacity group-hover:z-0 duration-300 ${
-        true ? "opacity-100" : "opacity-0"
-      } -top-2 -right-2`}
+      className={`absolute transition-opacity group-hover:z-0 duration-300 -top-2 -right-2`}
     >
       <div
         className={`flex flex-col border border-zinc-600 shadow-lg dark:bg-zinc-900 bg-zinc-100 min-w-52 p-4 rounded-xl`}
