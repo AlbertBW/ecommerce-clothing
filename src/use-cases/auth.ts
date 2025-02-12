@@ -1,10 +1,13 @@
-import { signIn } from "@/auth";
+import { auth, signIn } from "@/auth";
 import { SIGNIN_ERROR_URL } from "@/config";
 import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
 import type { ProviderForm, UserId } from "@/lib/types";
 import { getOrCreateWishlist } from "./wishlists";
 import { getOrCreateCart } from "./carts";
+import { deleteUser } from "@/data-access/users.access";
+import { updateOrdersAnonymize } from "@/data-access/orders.access";
+import { revalidatePath } from "next/cache";
 
 export async function signInWithCredentials(formData: FormData) {
   try {
@@ -42,4 +45,21 @@ export async function signInWithProvider(state: ProviderForm) {
 export async function createCartAndWishlist(userId: UserId) {
   await getOrCreateCart(userId);
   await getOrCreateWishlist(userId);
+}
+
+export async function deleteAccount(userId: UserId) {
+  const session = await auth();
+
+  if (!session || !session.user || session.user.id !== userId) {
+    throw new Error("Unauthorized");
+  }
+
+  if (session.user.email) {
+    await updateOrdersAnonymize(userId, session.user.email);
+  }
+
+  await deleteUser(userId);
+
+  revalidatePath("/account/manage");
+  revalidatePath("/");
 }

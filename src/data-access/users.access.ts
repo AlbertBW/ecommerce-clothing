@@ -22,3 +22,7 @@ export async function selectUserByEmail(email: string) {
 export async function updateUser(userId: UserId, updatedUser: UpdatedUser) {
   await db.update(users).set(updatedUser).where(eq(users.id, userId));
 }
+
+export async function deleteUser(userId: UserId) {
+  await db.delete(users).where(eq(users.id, userId));
+}

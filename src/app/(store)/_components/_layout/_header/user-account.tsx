@@ -23,9 +23,6 @@ const menuItems = [
     <WishlistHeart />
     Wishlist
   </Link>,
-  <Link key="settings" className="hover:opacity-75" href={"/account/settings"}>
-    Settings
-  </Link>,
   <Link key={"signout"} className="hover:opacity-75" href={"/logout"}>
     Sign Out
   </Link>,

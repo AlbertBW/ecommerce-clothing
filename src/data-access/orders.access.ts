@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { NewOrder, NewOrderItem, orderItems, orders } from "@/db/schema";
 import { OrderId, OrderStatus, UserId } from "@/lib/types";
-import { asc, desc, eq, or } from "drizzle-orm";
+import { and, asc, desc, eq, or } from "drizzle-orm";
 
 export async function insertOrder(newOrder: NewOrder) {
   return await db.insert(orders).values(newOrder).returning();
@@ -147,4 +147,11 @@ export async function selectOrdersByEmail(email: string) {
       },
     },
   });
+}
+
+export async function updateOrdersAnonymize(userId: UserId, email: string) {
+  await db
+    .update(orders)
+    .set({ email: null })
+    .where(and(eq(orders.email, email), eq(orders.userId, userId)));
 }

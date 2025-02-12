@@ -394,7 +394,7 @@ export const carts = pgTable("cart", {
   userId: text("user_id")
     .notNull()
     .unique()
-    .references(() => users.id),
+    .references(() => users.id, { onDelete: "cascade" }),
 });
 
 export const cartRelations = relations(carts, ({ many, one }) => ({

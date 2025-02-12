@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import { notFound } from "next/navigation";
+import DeleteAccount from "./_components/delete-account";
 
 export default async function ManagePage() {
   const session = await auth();
@@ -22,6 +23,17 @@ export default async function ManagePage() {
           <div>
             <div className="font-bold mb-2">Email</div>
             <div>{session.user.email}</div>
+          </div>
+        </div>
+
+        <div className="mb-2 flex justify-between border-b p-6 dark:border-white border-black">
+          <div>
+            <div className="font-bold mb-2">Delete Account?</div>
+            <div className="text-sm text-red-600 mb-2">
+              Warning: This action is irreversible. Your account and data will
+              be permanently deleted, though some data may be anonymized.
+            </div>
+            <DeleteAccount userId={session.user.id} />
           </div>
         </div>
       </div>
