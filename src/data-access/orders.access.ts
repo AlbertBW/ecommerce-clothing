@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { NewOrder, NewOrderItem, orderItems, orders } from "@/db/schema";
 import { OrderId, UserId } from "@/lib/types";
-import { desc, eq } from "drizzle-orm";
+import { asc, desc, eq, or } from "drizzle-orm";
 
 export async function insertOrder(newOrder: NewOrder) {
   return await db.insert(orders).values(newOrder).returning();
@@ -90,5 +90,39 @@ export async function selectUserOrderByOrderId(orderId: OrderId) {
       },
       deliveryAddress: true,
     },
+  });
+}
+
+export async function selectAllOrders({
+  status,
+  sortBy,
+  email,
+  orderNumber,
+  page,
+  productsPerPage,
+}: {
+  status?: string;
+  sortBy?: string;
+  email?: string;
+  orderNumber?: string;
+  page: number;
+  productsPerPage: number;
+}) {
+  const offset = (page - 1) * productsPerPage;
+
+  return await db.query.orders.findMany({
+    where: or(
+      status ? eq(orders.status, status) : undefined,
+      email ? eq(orders.email, email) : undefined,
+      orderNumber ? eq(orders.orderNumber, orderNumber) : undefined
+    ),
+    with: {
+      deliveryAddress: true,
+      orderItems: true,
+      user: true,
+    },
+    orderBy: sortBy === "new" ? asc(orders.createdAt) : desc(orders.createdAt),
+    limit: productsPerPage,
+    offset,
   });
 }

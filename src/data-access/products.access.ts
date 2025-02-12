@@ -231,8 +231,6 @@ export async function selectProductDetailsBySearch(
 ) {
   const offset = (page - 1) * productsPerPage;
 
-  console.log("SEARCH", search);
-
   return await db.query.products.findMany({
     where: (products, { or, and, like, exists, sql }) =>
       or(

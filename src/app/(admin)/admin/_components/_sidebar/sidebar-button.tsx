@@ -8,11 +8,15 @@ export default function SidebarButton({
   value,
   text,
   paramType = "string",
+  disabled = false,
+  disableColour = false,
 }: {
   filter: string;
   value: string;
   text?: string;
   paramType?: "string" | "array" | "clear";
+  disabled?: boolean;
+  disableColour?: boolean;
 }) {
   const {
     createSearchParam,
@@ -61,7 +65,12 @@ export default function SidebarButton({
 
   return (
     <button
-      className={`${isSelectedValue ? "text-blue-500" : "hover:text-blue-400"}`}
+      disabled={disabled}
+      className={`pointer-events-auto ${disabled && "text-white/50"} ${
+        !disableColour && isSelectedValue
+          ? "text-blue-500"
+          : !disableColour && "hover:text-blue-400"
+      }`}
       onClick={handleFilterChange}
     >
       {text || value}

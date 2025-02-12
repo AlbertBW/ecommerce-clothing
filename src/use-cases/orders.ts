@@ -24,6 +24,7 @@ import { generateRandomString } from "@/utils/generate-random-string";
 import {
   insertOrder,
   insertOrderItems,
+  selectAllOrders,
   selectOrderById,
   selectOrdersByUserId,
   selectUserOrderByOrderId,
@@ -378,4 +379,54 @@ export async function cancelOrder(orderId: OrderId) {
 
   revalidatePath(`/account/orders/${orderId}`);
   return orderId;
+}
+
+export async function getAllOrders({
+  status,
+  sortBy,
+  search,
+  page = "1",
+  productsPerPage,
+}: {
+  status?: string;
+  sortBy?: string;
+  search?: string;
+  page?: string;
+  productsPerPage: number;
+}) {
+  const pageNumber = parseInt(page);
+
+  const statusValidation = z.string().optional().parse(status);
+  const sortByValidation = z.string().optional().parse(sortBy);
+
+  const searchValidation = z
+    .string()
+    .optional()
+    .transform((val) => {
+      if (!val) return undefined;
+      if (z.string().email().safeParse(val).success) return { email: val };
+      if (val.length === 10 && /^[A-Za-z0-9]+$/.test(val))
+        return { orderNumber: val };
+      return undefined;
+    })
+    .parse(search);
+
+  console.log(
+    searchValidation?.email,
+    searchValidation?.orderNumber,
+    "Order Number"
+  );
+
+  if (isNaN(pageNumber)) {
+    throw new Error("Invalid page number");
+  }
+
+  return await selectAllOrders({
+    status: statusValidation,
+    sortBy: sortByValidation,
+    email: searchValidation?.email,
+    orderNumber: searchValidation?.orderNumber,
+    page: pageNumber,
+    productsPerPage,
+  });
 }

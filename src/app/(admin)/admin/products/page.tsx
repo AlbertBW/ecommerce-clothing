@@ -1,9 +1,10 @@
 import { auth } from "@/auth";
 import { notFound } from "next/navigation";
-import AdminSidebarMenu from "../_components/_sidebar/admin-sidebar";
 import AdminProductList from "./_components/admin-product-list";
 import { Suspense } from "react";
 import { SearchParams } from "@/lib/types";
+import ProductsSidebar from "./_components/products-sidebar";
+import AdminContentLayout from "../_components/admin-content-layout";
 
 export default async function ProductsPage({
   searchParams,
@@ -35,12 +36,14 @@ export default async function ProductsPage({
   const suspenseKey = `${collection}-${category}-${subcategory}-${sortBy}-${page}-${brand}-${colour}-${size}-${price}`;
 
   return (
-    <div className="flex">
-      <AdminSidebarMenu
-        collection={collection as string}
-        category={category as string}
-      />
-      <section className="flex flex-col w-full max-w-screen-2xl mx-auto overflow-y-visible">
+    <AdminContentLayout
+      sidebar={
+        <ProductsSidebar
+          collection={collection as string}
+          category={category as string}
+        />
+      }
+      content={
         <Suspense key={suspenseKey} fallback={<div>Loading...</div>}>
           <AdminProductList
             collection={collection as string}
@@ -54,8 +57,7 @@ export default async function ProductsPage({
             price={price}
           />
         </Suspense>
-      </section>
-      {/* <Pagination /> */}
-    </div>
+      }
+    />
   );
 }
