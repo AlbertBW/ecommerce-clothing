@@ -1,3 +1,4 @@
+import { ORDER_STATUS } from "@/lib/constants";
 import { relations } from "drizzle-orm";
 import {
   boolean,
@@ -21,30 +22,7 @@ import { z } from "zod";
 const pgTable = pgTableCreator((name) => `ec_${name}`);
 
 export const roles = pgEnum("roles", ["owner", "admin", "customer"]);
-export const orderStatus = pgEnum("order_status", [
-  "unpaid",
-  "paid",
-  "fulfilled",
-  "cancelled",
-  "return requested",
-  "returned",
-]);
-export const orderStatusSchema = z
-  .string()
-  .optional()
-  .transform((val) => val?.replace("-", " ") as typeof val)
-  .pipe(
-    z
-      .enum([
-        "unpaid",
-        "paid",
-        "fulfilled",
-        "cancelled",
-        "return requested",
-        "returned",
-      ])
-      .optional()
-  );
+export const orderStatus = pgEnum("order_status", ORDER_STATUS);
 
 export const collectionEnum = pgEnum("collection", ["men", "women", "unisex"]);
 export type Collection = (typeof collectionEnum.enumValues)[number];
@@ -620,3 +598,9 @@ export const emailFormSchema = z.string().email();
 export type EmailFormErrors = z.inferFlattenedErrors<
   typeof emailFormSchema
 >["formErrors"];
+
+export const orderStatusSchema = z
+  .string()
+  .optional()
+  .transform((val) => val?.replace("-", " ") as typeof val)
+  .pipe(z.enum(orderStatus.enumValues).optional());

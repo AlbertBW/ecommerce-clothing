@@ -414,11 +414,7 @@ export async function getAllOrders({
     })
     .parse(search);
 
-  console.log(
-    searchValidation?.email,
-    searchValidation?.orderNumber,
-    "Order Number"
-  );
+  console.log(statusValidation, "Order Number");
 
   if (isNaN(pageNumber)) {
     throw new Error("Invalid page number");

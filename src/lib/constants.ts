@@ -29,3 +29,12 @@ export const SHIPPING_METHODS = [
   { name: "standard", price: 399 },
   { name: "express", price: 899 },
 ] as const;
+
+export const ORDER_STATUS = [
+  "unpaid",
+  "paid",
+  "fulfilled",
+  "cancelled",
+  "return requested",
+  "returned",
+] as const;
