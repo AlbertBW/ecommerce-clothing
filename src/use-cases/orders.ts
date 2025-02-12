@@ -27,6 +27,7 @@ import {
   insertOrderItems,
   selectAllOrders,
   selectOrderById,
+  selectOrdersByEmail,
   selectOrdersByUserId,
   selectUserOrderByOrderId,
   updateOrderStatus,
@@ -428,4 +429,12 @@ export async function getAllOrders({
     page: pageNumber,
     productsPerPage,
   });
+}
+
+export async function getGuestOrders(email: string) {
+  const validatedEmail = z.string().email().parse(email.replace("%40", "@"));
+
+  const orders = await selectOrdersByEmail(validatedEmail);
+
+  return orders;
 }

@@ -129,3 +129,22 @@ export async function selectAllOrders({
     offset,
   });
 }
+
+export async function selectOrdersByEmail(email: string) {
+  return await db.query.orders.findMany({
+    where: eq(orders.email, email),
+    with: {
+      orderItems: {
+        with: {
+          productVariant: {
+            with: {
+              product: { with: { brand: true } },
+              size: true,
+              colour: true,
+            },
+          },
+        },
+      },
+    },
+  });
+}

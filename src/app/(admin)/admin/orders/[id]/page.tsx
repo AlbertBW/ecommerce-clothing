@@ -62,7 +62,9 @@ export default async function OrderPage({
               <span className="w-40 font-medium">Customer:</span>
               <span>
                 <Link
-                  href={`/admin/customers/${order.user?.id ?? order.email}`}
+                  href={`/admin/customers/${
+                    order.user?.id ?? "guest/" + order.email
+                  }`}
                 >
                   {order.email}
                 </Link>
