@@ -5,10 +5,11 @@ import {
   selectUserAddresses,
   updateAddress,
 } from "@/data-access/addresses.access";
-import { Address, addressInsertSchema } from "@/db/schema";
+import { Address, addressInsertSchema, NewAddress } from "@/db/schema";
 import { AddressForm } from "@/lib/types";
 import { AuthError } from "next-auth";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 export async function getCheckoutAddresses() {
   const session = await auth();
@@ -42,8 +43,9 @@ export async function createOrUpdateAddress(
     throw new AuthError("Not authenticated");
   }
 
-  const address: Address = {
-    id: formData.get("id") as string,
+  const addressId = formData.get("id") as string | undefined;
+
+  const address: NewAddress = {
     userId: session?.user.id ?? null,
     name: formData.get("name") as string,
     addressLine1: formData.get("address1") as string,
@@ -65,21 +67,21 @@ export async function createOrUpdateAddress(
     };
   }
 
-  let updatedAddress: Address;
-
-  if (address.id === "") {
-    updatedAddress = (await insertAddress(validatedAddress.data))[0];
-  } else {
-    updatedAddress = (
-      await updateAddress(address.id, validatedAddress.data)
+  let newAddress: Address;
+  if (addressId) {
+    const validatedAddressId = z.string().uuid().parse(addressId);
+    newAddress = (
+      await updateAddress(validatedAddressId, validatedAddress.data)
     )[0];
+  } else {
+    newAddress = (await insertAddress(validatedAddress.data))[0];
   }
 
   revalidatePath("/account/addresses");
 
   return {
     success: true,
-    address: updatedAddress,
+    address: newAddress,
     errors: null,
   };
 }

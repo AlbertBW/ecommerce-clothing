@@ -31,7 +31,9 @@ export default function AddressForm({
       action={formAction}
       className="border rounded-lg p-6 shadow-sm max-w-sm space-y-4"
     >
-      <input type="hidden" name="id" value={state.address?.id || ""} />
+      {state.address.id && (
+        <input type="hidden" name="id" value={state.address?.id} />
+      )}
       <div>
         <div className="flex items-center gap-2">
           <label htmlFor="name" className="block text-sm font-medium mb-1">

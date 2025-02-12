@@ -410,10 +410,10 @@ export const cartItems = pgTable(
   {
     cartId: text("cart_id")
       .notNull()
-      .references(() => carts.id),
+      .references(() => carts.id, { onDelete: "cascade" }),
     productVariantId: integer("product_variant_id")
       .notNull()
-      .references(() => productVariants.id),
+      .references(() => productVariants.id, { onDelete: "cascade" }),
     quantity: integer("quantity").notNull(),
   },
   (table) => {
