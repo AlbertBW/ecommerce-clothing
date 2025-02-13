@@ -14,11 +14,10 @@ export default async function OrdersPage({
   const { page, status, sortBy, search } = await searchParams;
   const session = await auth();
 
-  if (!session) {
-    return notFound();
-  }
-
-  if (session.user.role !== "admin" && session.user.role !== "owner") {
+  if (
+    !session ||
+    (session.user.role !== "admin" && session.user.role !== "owner")
+  ) {
     return notFound();
   }
 

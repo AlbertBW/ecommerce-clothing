@@ -1,6 +1,6 @@
 import AdminSidebarMenu from "../../_components/_sidebar/admin-sidebar";
 import SidebarButton from "../../_components/_sidebar/sidebar-button";
-import SearchInput from "./search-input";
+import SearchInput from "../../_components/search-input";
 
 const status = [
   { name: "Awaiting delivery", slug: "paid" },
@@ -13,7 +13,7 @@ const status = [
 export default function OrdersSidebar() {
   return (
     <AdminSidebarMenu>
-      <SearchInput />
+      <SearchInput popupText="You can search by order number, email address or User ID." />
       <div className="mt-6">
         <h4 className="font-bold my-2">Status</h4>
         <ul className="flex flex-col gap-2 font-light text-sm">

@@ -35,9 +35,7 @@ export default async function AdminOrderList({
     <div>
       <div className="flex items-center justify-between border-b py-2 text-sm px-4">
         <div className="flex items-center">
-          <div className="ml-2 min-w-32">
-            <Link href={`/admin/orders/`}>Order Number</Link>
-          </div>
+          <div className="ml-2 min-w-32">Order Number</div>
           <p className="ml-2 min-w-52">Email</p>
           <p className="ml-2 min-w-24">Price</p>
           <p className="ml-2 min-w-40">Status</p>
@@ -56,14 +54,18 @@ export default async function AdminOrderList({
               </Link>
             </div>
             <div className="ml-2 min-w-52">
-              <Link
-                href={`/admin/customers/${
-                  order.userId ?? "guest/" + order.email
-                }`}
-                className="text-blue-500"
-              >
-                {order.email}
-              </Link>
+              {order.email === "deleted" ? (
+                "Deleted"
+              ) : (
+                <Link
+                  href={`/admin/customers/${
+                    order.userId ?? "guest/" + order.email
+                  }`}
+                  className="text-blue-500"
+                >
+                  {order.email}
+                </Link>
+              )}
             </div>
             <p className="ml-2 min-w-24">£{(order.price / 100).toFixed(2)}</p>
             <p className="ml-2 min-w-40">{order.status}</p>

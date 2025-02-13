@@ -411,6 +411,7 @@ export async function getAllOrders({
       if (z.string().email().safeParse(val).success) return { email: val };
       if (val.length === 10 && /^[A-Za-z0-9]+$/.test(val))
         return { orderNumber: val };
+      if (z.string().uuid().safeParse(val).success) return { userId: val };
       return undefined;
     })
     .parse(search);
@@ -426,6 +427,7 @@ export async function getAllOrders({
     sortBy: sortByValidation,
     email: searchValidation?.email,
     orderNumber: searchValidation?.orderNumber,
+    userId: searchValidation?.userId,
     page: pageNumber,
     productsPerPage,
   });

@@ -101,6 +101,7 @@ export async function selectAllOrders({
   sortBy,
   email,
   orderNumber,
+  userId,
   page,
   productsPerPage,
 }: {
@@ -108,6 +109,7 @@ export async function selectAllOrders({
   sortBy?: string;
   email?: string;
   orderNumber?: string;
+  userId?: UserId;
   page: number;
   productsPerPage: number;
 }) {
@@ -117,7 +119,8 @@ export async function selectAllOrders({
     where: or(
       status ? eq(orders.status, status) : undefined,
       email ? eq(orders.email, email) : undefined,
-      orderNumber ? eq(orders.orderNumber, orderNumber) : undefined
+      orderNumber ? eq(orders.orderNumber, orderNumber) : undefined,
+      userId ? eq(orders.userId, userId) : undefined
     ),
     with: {
       deliveryAddress: true,
@@ -152,6 +155,6 @@ export async function selectOrdersByEmail(email: string) {
 export async function updateOrdersAnonymize(userId: UserId, email: string) {
   await db
     .update(orders)
-    .set({ email: null })
+    .set({ email: "deleted" })
     .where(and(eq(orders.email, email), eq(orders.userId, userId)));
 }

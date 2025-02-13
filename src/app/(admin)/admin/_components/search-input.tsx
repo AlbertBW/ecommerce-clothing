@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import SidebarButton from "../../_components/_sidebar/sidebar-button";
+import SidebarButton from "./_sidebar/sidebar-button";
 
-export default function SearchInput() {
+export default function SearchInput({ popupText }: { popupText: string }) {
   const [value, setValue] = useState("");
 
   return (
@@ -30,7 +30,7 @@ export default function SearchInput() {
 
             {/* Popup Content - now uses group/info */}
             <div className="fixed left-24 top-20 transform -translate-y-1/2 hidden group-hover/info:flex w-64 p-4 text-sm text-white bg-gray-800 rounded-xl shadow-lg z-50">
-              <p>You can search by order number or email address.</p>
+              <p>{popupText}</p>
             </div>
           </div>
         </div>

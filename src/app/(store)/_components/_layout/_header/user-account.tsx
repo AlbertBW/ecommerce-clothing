@@ -47,15 +47,20 @@ export default function UserAccount() {
         <DropdownMenu
           title={
             `${session.user?.name} ${
-              session.user.role === "admin" ? "(admin)" : ""
+              session.user.role === "admin"
+                ? "(admin)"
+                : session.user.role === "owner"
+                ? "(owner)"
+                : ""
             }` || "Your account"
           }
           listItems={[
-            session.user.role === "admin" && (
-              <Link key="admin" className="hover:opacity-75" href={"/admin"}>
-                Admin Dashboard
-              </Link>
-            ),
+            session.user.role === "admin" ||
+              (session.user.role === "owner" && (
+                <Link key="admin" className="hover:opacity-75" href={"/admin"}>
+                  Admin Dashboard
+                </Link>
+              )),
             ...menuItems,
           ]}
           listClassName="flex flex-col text-right gap-2"
