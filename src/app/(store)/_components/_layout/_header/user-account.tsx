@@ -55,12 +55,12 @@ export default function UserAccount() {
             }` || "Your account"
           }
           listItems={[
-            session.user.role === "admin" ||
-              (session.user.role === "owner" && (
-                <Link key="admin" className="hover:opacity-75" href={"/admin"}>
-                  Admin Dashboard
-                </Link>
-              )),
+            (session.user.role === "admin" ||
+              session.user.role === "owner") && (
+              <Link key="admin" className="hover:opacity-75" href={"/admin"}>
+                Admin Dashboard
+              </Link>
+            ),
             ...menuItems,
           ]}
           listClassName="flex flex-col text-right gap-2"

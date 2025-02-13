@@ -16,8 +16,8 @@ export default function Header() {
   const isStaff = pathname === "/admin/staff";
 
   return (
-    <header className="border-b p-2 mx-4 border-zinc-800 text-zinc-400">
-      <nav className="flex justify-between items-center text-sm">
+    <header className="border-b px-0 mx-0 sm:p-2 sm:mx-4 border-zinc-800 text-zinc-400">
+      <nav className="flex justify-between items-center text-sm overflow-x-auto">
         <div className="flex w-full gap-1">
           <Link
             className={`hover:bg-zinc-800 hover:text-white ${
@@ -62,7 +62,7 @@ export default function Header() {
             </Link>
           )}
         </div>
-        <div className="h-fit flex items-center justify-end">
+        <div className="h-fit flex items-center justify-end pl-12 pr-6 sm:pl-0 sm:pr-0">
           <Link
             href={"/"}
             className="w-32 flex items-center justify-center hover:text-white"
@@ -71,7 +71,7 @@ export default function Header() {
           </Link>
           <Link
             href={"/account"}
-            className="w-24 flex justify-end items-center"
+            className="w-12 flex justify-end items-center"
           >
             <UserAccount />
           </Link>

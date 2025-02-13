@@ -2,6 +2,7 @@ import "dotenv/config";
 import { db } from "..";
 import {
   brands,
+  carts,
   categories,
   colours,
   NewProductRating,
@@ -10,6 +11,8 @@ import {
   products,
   productVariants,
   sizes,
+  users,
+  wishlists,
 } from "../schema";
 import {
   brandSeedData,
@@ -17,6 +20,7 @@ import {
   colourSeedData,
   productSeedData,
   sizeSeedData,
+  usersSeedData,
 } from "./seed-data";
 import { createProductSlug } from "@/utils/create-product-slug";
 import { generateCode } from "@/utils/generate-code";
@@ -24,9 +28,22 @@ import { generateSKU } from "@/utils/generate-sku";
 import { getRandomInt } from "./utils/get-random-int";
 import { getRandomPrice } from "./utils/get-random-price";
 import { getRandomFloatAsString } from "./utils/get-random-float";
+import bcrypt from "bcrypt";
 
 async function seed() {
-  // Script to seed the database
+  usersSeedData.map(async (user) => {
+    if (!user.password) throw new Error("No password");
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(user.password, salt);
+    const newUser = await db
+      .insert(users)
+      .values({ ...user, password: hashedPassword })
+      .returning();
+
+    await db.insert(wishlists).values({ userId: newUser[0].id }).returning();
+    await db.insert(carts).values({ userId: newUser[0].id }).returning();
+  });
+
   await db.insert(categories).values(categorySeedData).returning();
 
   const allColours = await db

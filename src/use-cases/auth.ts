@@ -11,9 +11,12 @@ import { revalidatePath } from "next/cache";
 
 export async function signInWithCredentials(formData: FormData) {
   try {
-    // TODO: Validate formData
-
-    await signIn("credentials", formData);
+    await signIn("credentials", {
+      email: formData.get("email"),
+      password: formData.get("password"),
+      redirect: true,
+      redirectTo: "/",
+    });
   } catch (error) {
     if (error instanceof AuthError) {
       return redirect(`${SIGNIN_ERROR_URL}?error=${error.type}`);

@@ -17,7 +17,7 @@ import {
   createUpdateSchema,
 } from "drizzle-zod";
 import type { AdapterAccountType } from "next-auth/adapters";
-import { z } from "zod";
+import { object, string, z } from "zod";
 
 const pgTable = pgTableCreator((name) => `ec_${name}`);
 
@@ -35,6 +35,7 @@ export const users = pgTable("user", {
     .$defaultFn(() => crypto.randomUUID()),
   name: text("name"),
   email: text("email").unique(),
+  password: text("password"),
   emailVerified: timestamp("email_verified", { mode: "date" }),
   image: text("image"),
   role: roles("role").default("customer"),
@@ -644,3 +645,13 @@ export const orderStatusSchema = z
   .optional()
   .transform((val) => val?.replace("-", " ") as typeof val)
   .pipe(z.enum(orderStatus.enumValues).optional());
+
+export const signInSchema = object({
+  email: string({ required_error: "Email is required" })
+    .min(1, "Email is required")
+    .email("Invalid email"),
+  password: string({ required_error: "Password is required" })
+    .min(1, "Password is required")
+    .min(8, "Password must be more than 8 characters")
+    .max(32, "Password must be less than 32 characters"),
+});

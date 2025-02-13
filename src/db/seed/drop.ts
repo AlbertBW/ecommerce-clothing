@@ -21,6 +21,7 @@ import {
   orderItems,
   wishlistItems,
   wishlists,
+  shipments,
 } from "../schema";
 
 async function drop() {
@@ -43,6 +44,7 @@ async function drop() {
   await db.execute(sql`DROP TABLE IF EXISTS ${orderItems} CASCADE`);
   await db.execute(sql`DROP TABLE IF EXISTS ${wishlistItems} CASCADE`);
   await db.execute(sql`DROP TABLE IF EXISTS ${wishlists} CASCADE`);
+  await db.execute(sql`DROP TABLE IF EXISTS ${shipments} CASCADE`);
 }
 
 drop();

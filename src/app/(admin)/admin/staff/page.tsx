@@ -11,21 +11,22 @@ export default async function StaffPage() {
 
   const { owners, admins } = await getStaff();
   return (
-    <div className="p-6 max-w-screen-lg mx-auto">
+    <div className="p-2 sm:p-6 max-w-screen-lg mx-auto">
       <div className="mb-8">
-        <div className="w-full flex justify-between">
-          <h2 className="text-2xl font-bold mb-4">Owners</h2>
+        <div className="w-full flex justify-between items-center mb-4">
+          <h2 className="text-lg sm:text-2xl font-bold">Owners</h2>
           <AddUserToRole role={"owner"} />
         </div>
-        <ul className="space-y-2">
+        <ul className="space-y-2 text-sm sm:text-base">
           {owners.map((owner) => (
             <li
               key={owner.id}
               className="p-4 dark:bg-zinc-800 bg-zinc-200 rounded shadow flex justify-between items-center"
             >
-              <span>
-                <span className="font-semibold">{owner.name}</span> -{" "}
-                {owner.email}
+              <span className="flex flex-col sm:flex-row">
+                <span className="font-semibold">{owner.name}</span>
+                <span className="hidden sm:block">&nbsp;-&nbsp;</span>
+                <span>{owner.email}</span>
               </span>
               {session.user.id !== owner.id && (
                 <ChangeRole
@@ -39,19 +40,20 @@ export default async function StaffPage() {
         </ul>
       </div>
       <div>
-        <div className="w-full flex justify-between">
-          <h2 className="text-2xl font-bold mb-4">Admins</h2>
+        <div className="w-full flex justify-between items-center mb-4">
+          <h2 className="text-lg sm:text-2xl font-bold">Admins</h2>
           <AddUserToRole role={"admin"} />
         </div>
-        <ul className="space-y-2">
+        <ul className="space-y-2 text-sm sm:text-base">
           {admins.map((admin) => (
             <li
               key={admin.id}
               className="p-4 dark:bg-zinc-800 bg-zinc-200 rounded shadow flex justify-between items-center"
             >
-              <span>
-                <span className="font-semibold">{admin.name}</span> -{" "}
-                {admin.email}
+              <span className="flex flex-col sm:flex-row">
+                <span className="font-semibold">{admin.name}</span>
+                <span className="hidden sm:block">&nbsp;-&nbsp;</span>
+                <span>{admin.email}</span>
               </span>
               {session.user.id !== admin.id && (
                 <ChangeRole

@@ -44,7 +44,7 @@ export default function ChangeRole({
         onClick={openModal}
         className="ml-4 p-2 bg-blue-500 text-white rounded"
       >
-        Change Role
+        Edit
       </button>
 
       {isOpen && (

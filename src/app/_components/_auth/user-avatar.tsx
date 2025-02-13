@@ -34,11 +34,12 @@ export default function UserAvatar({
 }
 
 export function UserAvatarSkeleton({ size }: { size?: number }) {
-  const containerWidth = size ? size * 1.2 : 48;
+  const containerWidth = size ? size * 1.2 : 40;
   const containerHeight = size ? size * 1.075 : 43;
 
   return (
     <div
+      className="bg-gray-200/30 rounded-full animate-pulse"
       style={{
         width: `${containerWidth}px`,
         height: `${containerHeight}px`,

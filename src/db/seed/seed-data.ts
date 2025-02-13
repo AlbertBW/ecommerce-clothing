@@ -6,6 +6,7 @@ import {
   NewSize,
   NewProductRating,
   NewBrand,
+  NewUser,
 } from "../schema";
 
 export const categorySeedData: NewCategory[] = [
@@ -328,5 +329,20 @@ export const productRatingSeedData: NewProductRating[] = [
     productId: 0,
     rate: "",
     count: 0,
+  },
+];
+
+export const usersSeedData: NewUser[] = [
+  {
+    email: "admin@dapperwear.com",
+    role: "admin",
+    name: "Admin",
+    password: "Admin123",
+  },
+  {
+    email: "owner@dapperwear.com",
+    role: "owner",
+    name: "Owner",
+    password: "Owner123",
   },
 ];
