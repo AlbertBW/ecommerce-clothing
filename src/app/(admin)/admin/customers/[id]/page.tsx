@@ -68,57 +68,64 @@ export default async function CustomersPage({
         </div>
       </div>
 
-      <div className="border p-8 rounded-lg mt-4 dark:border-zinc-400 border-zinc-300 shadow-md bg-white dark:bg-gray-800 w-full max-w-4xl">
-        <div className="flex justify-between items-center">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-            5 Most Recent Orders
-          </h3>
+      {customer.orders.length > 0 ? (
+        <div className="border p-8 rounded-lg mt-4 dark:border-zinc-400 border-zinc-300 shadow-md bg-white dark:bg-gray-800 w-full max-w-4xl">
+          <div className="flex justify-between items-center">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+              5 Most Recent Orders
+            </h3>
 
-          <Link
-            href={`/admin/orders?search=${customer.id}`}
-            className="text-blue-500 hover:underline dark:text-blue-400"
-          >
-            View all orders
-          </Link>
-        </div>
-
-        <div className="space-y-4">
-          {customer.orders.map((order) => (
-            <div
-              key={order.id}
-              className="flex flex-col md:flex-row justify-between items-start md:items-center p-4 border-b dark:border-zinc-400 border-zinc-300 bg-gray-50 dark:bg-gray-700 rounded-lg"
+            <Link
+              href={`/admin/orders?search=${customer.id}`}
+              className="text-blue-500 hover:underline dark:text-blue-400"
             >
-              <div className="flex flex-col justify-between w-full md:flex-row md:items-center md:space-x-4">
-                <p className="flex flex-col text-gray-700 dark:text-gray-300">
-                  <span className="font-semibold">Date:</span>{" "}
-                  {order.createdAt.toLocaleDateString()}
-                </p>
-                <p className="flex flex-col text-gray-700 dark:text-gray-300">
-                  <span className="font-semibold">Order #:</span>{" "}
-                  {order.orderNumber}
-                </p>
-                <p className="flex flex-col text-gray-700 dark:text-gray-300">
-                  <span className="font-semibold">Items:</span>{" "}
-                  {order.orderItems.length}
-                </p>
-                <p className="flex flex-col text-gray-700 dark:text-gray-300">
-                  <span className="font-semibold">Status:</span> {order.status}
-                </p>
-                <p className="flex flex-col text-gray-700 dark:text-gray-300">
-                  <span className="font-semibold">Total:</span> £
-                  {(order.price / 100).toFixed(2)}
-                </p>
-              </div>
-              <Link
-                href={`/admin/orders/${order.id}`}
-                className="text-blue-500 hover:underline px-6 dark:text-blue-400 mt-2 md:mt-0"
+              View all orders
+            </Link>
+          </div>
+
+          <div className="space-y-4">
+            {customer.orders.map((order) => (
+              <div
+                key={order.id}
+                className="flex flex-col md:flex-row justify-between items-start md:items-center p-4 border-b dark:border-zinc-400 border-zinc-300 bg-gray-50 dark:bg-gray-700 rounded-lg"
               >
-                View
-              </Link>
-            </div>
-          ))}
+                <div className="flex flex-col justify-between w-full md:flex-row md:items-center md:space-x-4">
+                  <p className="flex flex-col text-gray-700 dark:text-gray-300">
+                    <span className="font-semibold">Date:</span>{" "}
+                    {order.createdAt.toLocaleDateString()}
+                  </p>
+                  <p className="flex flex-col text-gray-700 dark:text-gray-300">
+                    <span className="font-semibold">Order #:</span>{" "}
+                    {order.orderNumber}
+                  </p>
+                  <p className="flex flex-col text-gray-700 dark:text-gray-300">
+                    <span className="font-semibold">Items:</span>{" "}
+                    {order.orderItems.length}
+                  </p>
+                  <p className="flex flex-col text-gray-700 dark:text-gray-300">
+                    <span className="font-semibold">Status:</span>{" "}
+                    {order.status}
+                  </p>
+                  <p className="flex flex-col text-gray-700 dark:text-gray-300">
+                    <span className="font-semibold">Total:</span> £
+                    {(order.price / 100).toFixed(2)}
+                  </p>
+                </div>
+                <Link
+                  href={`/admin/orders/${order.id}`}
+                  className="text-blue-500 hover:underline px-6 dark:text-blue-400 mt-2 md:mt-0"
+                >
+                  View
+                </Link>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      ) : (
+        <p className="text-gray-700 dark:text-gray-300 text-center mt-12">
+          This user has no orders
+        </p>
+      )}
     </div>
   );
 }
