@@ -33,12 +33,12 @@ export async function deleteUser(userId: UserId) {
 export async function selectUsersByRole({
   role,
   search,
-  page,
+  page = 1,
   limit = 10,
 }: {
   role: UserRole;
   search?: string;
-  page: number;
+  page?: number;
   limit?: number;
 }) {
   const offset = (page - 1) * limit;
@@ -66,4 +66,8 @@ export async function selectUserAndSessionCountByRole(role: UserRole) {
     .from(users)
     .leftJoin(sessions, eq(users.id, sessions.userId))
     .where(eq(users.role, role));
+}
+
+export async function updateUserRole(userId: UserId, role: UserRole) {
+  await db.update(users).set({ role }).where(eq(users.id, userId));
 }

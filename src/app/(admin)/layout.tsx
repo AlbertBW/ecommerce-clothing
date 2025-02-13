@@ -1,3 +1,4 @@
+import { SessionProvider } from "next-auth/react";
 import Header from "./_components/_layout/header";
 
 export default function RootLayout({
@@ -7,7 +8,9 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <Header />
+      <SessionProvider>
+        <Header />
+      </SessionProvider>
       <main className="min-h-main">{children}</main>
     </>
   );

@@ -2,16 +2,18 @@
 
 import Link from "next/link";
 import UserAccount from "./user-account";
-import { SessionProvider } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
 export default function Header() {
   const pathname = usePathname();
+  const session = useSession();
 
   const isRoot = pathname === "/admin";
   const isProducts = pathname === "/admin/products";
   const isOrders = pathname === "/admin/orders";
   const isCustomers = pathname === "/admin/customers";
+  const isStaff = pathname === "/admin/staff";
 
   return (
     <header className="border-b p-2 mx-4 border-zinc-800 text-zinc-400">
@@ -49,6 +51,16 @@ export default function Header() {
           >
             Customers
           </Link>
+          {session.data?.user.role === "owner" && (
+            <Link
+              className={`hover:bg-zinc-800 hover:text-white ${
+                isStaff && "text-white"
+              } p-2 rounded transition-colors`}
+              href={"/admin/staff"}
+            >
+              Staff
+            </Link>
+          )}
         </div>
         <div className="h-fit flex items-center justify-end">
           <Link
@@ -61,9 +73,7 @@ export default function Header() {
             href={"/account"}
             className="w-24 flex justify-end items-center"
           >
-            <SessionProvider>
-              <UserAccount />
-            </SessionProvider>
+            <UserAccount />
           </Link>
         </div>
       </nav>
