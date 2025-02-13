@@ -34,7 +34,7 @@ export default function EditModal({
       </button>
       {showModal && product ? (
         <form className="fixed inset-0 bg-black/50 flex items-center justify-center">
-          <div className="dark:bg-black bg-white p-8 rounded-lg w-96">
+          <div className="dark:bg-black bg-white p-8 rounded-lg w-96 border">
             <h2 className="text-2xl font-bold mb-4">Edit Product</h2>
             <div className="space-y-4">
               <div>
@@ -159,7 +159,7 @@ export default function EditModal({
         </form>
       ) : showModal && variant ? (
         <form className="fixed inset-0 bg-black/50 flex items-center justify-center">
-          <div className="dark:bg-black bg-white p-8 rounded-lg w-96">
+          <div className="dark:bg-black bg-white p-8 rounded-lg w-96 border">
             <h2 className="text-2xl font-bold mb-4">Edit Variant</h2>
             <div className="space-y-4">
               <div>

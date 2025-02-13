@@ -46,11 +46,16 @@ export default async function ProductPage({
         </h1>
       </div>
 
-      <Link href={`/product/${product.id}`} className="text-blue-500 mb-4">
+      <Link
+        href={`/product/${product.id}`}
+        className="text-blue-500 mb-4 underline"
+      >
         View in store
       </Link>
 
-      <Image src={tshirt} alt="Product name" width={0} height={0} />
+      <div className="flex justify-center mb-4">
+        <Image src={tshirt} alt="Product name" width={300} height={300} />
+      </div>
 
       <div className="my-4 flex flex-row justify-between items-center px-4 gap-2">
         <h2 className="text-lg font-bold">Product Details</h2>
@@ -62,96 +67,99 @@ export default async function ProductPage({
         />
       </div>
 
-      <p>
-        <strong>Brand - </strong>
-        {product.brand.name}
-      </p>
-      <p>
-        <strong>Name - </strong>
-        {product.name}
-      </p>
-      <p>
-        <strong>Description - </strong>
-        {product.description}
-      </p>
-      <p>
-        <strong>Collection - </strong>
-        {product.category.collection}
-      </p>
-      <p>
-        <strong>Colours - </strong>
-        {colours.join(", ")}
-      </p>
-      <p>
-        <strong>Category - </strong>
-        {product.category.parentCategory?.name}
-      </p>
-      <p>
-        <strong>Subcategory - </strong>
-        {product.category.name}
-      </p>
-      <p>
-        <strong>Create at - </strong> {product.createdAt.toLocaleDateString()}
-      </p>
-      <p>
-        <strong>Total Sold - </strong>
-        {product.productVariants.reduce(
-          (total, variant) => total + variant.sold,
-          0
-        )}
-      </p>
-      <p>
-        <strong>Total Stock - </strong>
-        {product.productVariants.reduce(
-          (total, variant) => total + variant.stock,
-          0
-        )}
-      </p>
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full max-w-screen-sm">
+        <p className="text-gray-900 dark:text-gray-100 mb-2">
+          <strong>Brand:</strong> {product.brand.name}
+        </p>
+        <p className="text-gray-900 dark:text-gray-100 mb-2">
+          <strong>Name:</strong> {product.name}
+        </p>
+        <p className="text-gray-900 dark:text-gray-100 mb-2">
+          <strong>Description:</strong> {product.description}
+        </p>
+        <p className="text-gray-900 dark:text-gray-100 mb-2">
+          <strong>Collection:</strong> {product.category.collection}
+        </p>
+        <p className="text-gray-900 dark:text-gray-100 mb-2">
+          <strong>Colours:</strong> {colours.join(", ")}
+        </p>
+        <p className="text-gray-900 dark:text-gray-100 mb-2">
+          <strong>Category:</strong> {product.category.parentCategory?.name}
+        </p>
+        <p className="text-gray-900 dark:text-gray-100 mb-2">
+          <strong>Subcategory:</strong> {product.category.name}
+        </p>
+        <p className="text-gray-900 dark:text-gray-100 mb-2">
+          <strong>Created at:</strong> {product.createdAt.toLocaleDateString()}
+        </p>
+        <p className="text-gray-900 dark:text-gray-100 mb-2">
+          <strong>Total Sold:</strong>{" "}
+          {product.productVariants.reduce(
+            (total, variant) => total + variant.sold,
+            0
+          )}
+        </p>
+        <p className="text-gray-900 dark:text-gray-100 mb-2">
+          <strong>Total Stock:</strong>{" "}
+          {product.productVariants.reduce(
+            (total, variant) => total + variant.stock,
+            0
+          )}
+        </p>
+        <p className="text-gray-900 dark:text-gray-100 mb-2">
+          <strong>Total Variants:</strong> {product.productVariants.length}
+        </p>
+      </div>
 
-      <p>
-        <strong>Total Variants - </strong>
-        {product.productVariants.length}
-      </p>
+      <div className="w-full mt-4 border overflow-x-auto">
+        <h3 className="text-center font-bold p-2">Variants</h3>
 
-      <div className="w-full mt-4 border">
-        <h3 className="text-center font-bold">Variants</h3>
-
-        <div className="flex flex-row items-center justify-between border-b border-zinc-500 py-2 text-sm">
-          <div className="flex items-center">
-            <p className="ml-2 w-40 border-r text-sm">SKU</p>
-            <p className="ml-2 min-w-32 border-r">Colour</p>
-            <p className="ml-2 min-w-40 border-r">Size</p>
-            <p className="ml-2 min-w-32 border-r">Stock</p>
-            <p className="ml-2 min-w-40 border-r">Sold</p>
-            <p className="ml-2 min-w-40">Price</p>
+        <div className="min-w-52">
+          <div className="flex flex-row items-center justify-between border-b border-zinc-500 py-2 text-sm">
+            <div className="flex items-center flex-1"></div>
+            <div className="flex items-center flex-1">
+              <p className="ml-2 w-64 lg:w-40 border-r text-sm">SKU</p>
+              <p className="ml-2 w-32 lg:min-w-32 border-r">Colour</p>
+              <p className="ml-2 w-32 lg:min-w-40 border-r">Size</p>
+              <p className="ml-2 w-24 lg:min-w-32 border-r">Stock</p>
+              <p className="ml-2 w-24 lg:min-w-40 border-r">Sold</p>
+              <p className="ml-2 w-24 lg:min-w-40">Price</p>
+            </div>
+            <div className="w-16"></div>
           </div>
-          <div></div>
+          {product.productVariants.map((variant) => (
+            <div
+              key={variant.id}
+              className="flex flex-row items-center justify-between border-b border-zinc-500 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
+            >
+              <div className="flex items-center flex-1">
+                <p className="ml-2 w-64 lg:w-40 border-r truncate">
+                  {variant.sku}
+                </p>
+                <p className="ml-2 w-32 lg:min-w-32 border-r truncate">
+                  {variant.colour?.name}
+                </p>
+                <p className="ml-2 w-32 lg:min-w-40 border-r truncate">
+                  {variant.size?.name}
+                </p>
+                <p className="ml-2 w-24 lg:min-w-32 border-r">
+                  {variant.stock}
+                </p>
+                <p className="ml-2 w-24 lg:min-w-40 border-r">{variant.sold}</p>
+                <p className="ml-2 w-24 lg:min-w-40">
+                  £{(variant.price / 100).toFixed(2)}
+                </p>
+              </div>
+              <div className="w-16 flex justify-center">
+                <EditModal
+                  variant={variant}
+                  categories={categories}
+                  subcategories={subcategories}
+                />
+              </div>
+            </div>
+          ))}
         </div>
-
-        {product.productVariants.map((variant) => (
-          <div
-            key={variant.id}
-            className="flex flex-row items-center justify-between border-b border-zinc-500 py-2 text-sm"
-          >
-            <div className="flex items-center">
-              <p className="ml-2 w-40 border-r text-sm">{variant.sku}</p>
-              <p className="ml-2 min-w-32 border-r">{variant.colour?.name}</p>
-              <p className="ml-2 min-w-40 border-r">{variant.size?.name}</p>
-              <p className="ml-2 min-w-32 border-r">{variant.stock}</p>
-              <p className="ml-2 min-w-40 border-r">{variant.sold}</p>
-              <p className="ml-2 min-w-40">
-                £{(variant.price / 100).toFixed(2)}
-              </p>
-            </div>
-            <div className="mr-6">
-              <EditModal
-                variant={variant}
-                categories={categories}
-                subcategories={subcategories}
-              />
-            </div>
-          </div>
-        ))}
       </div>
     </div>
   );

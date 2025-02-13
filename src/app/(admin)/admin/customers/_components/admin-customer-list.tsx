@@ -44,12 +44,8 @@ export default async function AdminCustomerList({
                 <UserCircleIcon width={48} height={43} />
               )}
             </div>
-            <p className="ml-2 w-40 overflow-hidden text-ellipsis pr-1">
-              {customer.name}
-            </p>
-            <p className="ml-2 w-40 overflow-hidden text-ellipsis pr-1">
-              {customer.email}
-            </p>
+            <p className="ml-2 w-40 truncate pr-1">{customer.name}</p>
+            <p className="ml-2 w-40 truncate pr-1">{customer.email}</p>
             <p className="ml-2 min-w-32 text-center">
               {customer.orders.length}
             </p>
