@@ -8,13 +8,7 @@ export default function UserAvatar({
   image?: string | null;
   size?: number;
 }) {
-  if (!image)
-    return (
-      <UserCircleIcon
-        width={size ? size * 1.2 : 48}
-        height={size ? size * 1.075 : 43}
-      />
-    );
+  if (!image) return <UserCircleIcon width={size ? size * 1.2 : 40} />;
 
   return (
     <div

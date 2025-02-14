@@ -1,6 +1,8 @@
+import { Suspense } from "react";
 import AdminSidebarMenu from "../../_components/_sidebar/admin-sidebar";
 import SidebarButton from "../../_components/_sidebar/sidebar-button";
 import SearchInput from "../../_components/search-input";
+import OrdersDetails from "./orders-details";
 
 const status = [
   { name: "Awaiting delivery", slug: "paid" },
@@ -13,6 +15,9 @@ const status = [
 export default function OrdersSidebar() {
   return (
     <AdminSidebarMenu>
+      <Suspense fallback={<div>Loading...</div>}>
+        <OrdersDetails />
+      </Suspense>
       <SearchInput popupText="You can search by order number, email address or User ID." />
       <div className="mt-6">
         <h4 className="font-bold my-2">Status</h4>

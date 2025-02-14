@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { NewOrder, NewOrderItem, orderItems, orders } from "@/db/schema";
 import { OrderId, OrderStatus, UserId } from "@/lib/types";
-import { and, asc, desc, eq, or } from "drizzle-orm";
+import { and, asc, count, desc, eq, gt, or } from "drizzle-orm";
 
 export async function insertOrder(newOrder: NewOrder) {
   return await db.insert(orders).values(newOrder).returning();
@@ -157,4 +157,11 @@ export async function updateOrdersAnonymize(userId: UserId, email: string) {
     .update(orders)
     .set({ email: "deleted" })
     .where(and(eq(orders.email, email), eq(orders.userId, userId)));
+}
+
+export async function selectOrdersCount(date?: Date) {
+  return await db
+    .select({ count: count() })
+    .from(orders)
+    .where(date ? gt(orders.createdAt, date) : undefined);
 }

@@ -29,6 +29,7 @@ import {
   selectOrderById,
   selectOrdersByEmail,
   selectOrdersByUserId,
+  selectOrdersCount,
   selectUserOrderByOrderId,
   updateOrderStatus,
 } from "@/data-access/orders.access";
@@ -439,4 +440,20 @@ export async function getGuestOrders(email: string) {
   const orders = await selectOrdersByEmail(validatedEmail);
 
   return orders;
+}
+
+export async function getAdminSidebarOrdersData() {
+  const DAYS_IN_MS = 24 * 60 * 60 * 1000;
+  const sevenDaysAgo = new Date(Date.now() - 7 * DAYS_IN_MS);
+  const thirtyDaysAgo = new Date(Date.now() - 30 * DAYS_IN_MS);
+
+  const totalOrders = await selectOrdersCount();
+  const ordersLast30Days = await selectOrdersCount(thirtyDaysAgo);
+  const ordersLast7Days = await selectOrdersCount(sevenDaysAgo);
+
+  return {
+    totalOrders: totalOrders[0].count,
+    ordersLast30Days: ordersLast30Days[0].count,
+    ordersLast7Days: ordersLast7Days[0].count,
+  };
 }
