@@ -77,7 +77,7 @@ export default async function OrderId({
                     ? "text-green-500"
                     : order.status == "unpaid"
                     ? "text-red-500"
-                    : order.status == "delivered"
+                    : order.status == "fulfilled"
                     ? "text-green-500"
                     : ""
                 }`}
